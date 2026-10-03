@@ -1,0 +1,16 @@
+
+> @sh/nextjs@0.1.0 start
+> next start --hostname 127.0.0.1 --port 3185
+
+▲ Next.js 16.3.8
+- Local:         http://127.0.0.1:3185
+- Network:       http://127.0.0.1:3185
+✓ Ready in 83ms
+✓ Running next.config.ts took 19ms
+npm error Lifecycle script `start` failed with error:
+npm error code 143
+npm error path /private/var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-release-external-dkgld8u4/project/packages/nextjs
+npm error workspace @sh/nextjs@0.1.0
+npm error location /private/var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-release-external-dkgld8u4/project/packages/nextjs
+npm error command failed
+npm error command sh -c next start --hostname 127.0.0.1 --port 3185

@@ -1,0 +1,43 @@
+
+$ workbench doctor
+[?25l[90m│[39m
+[35m◒[39m  Checking workspace and endpoint[1G[J[35m◐[39m  Checking workspace and endpoint[1G[J[35m◓[39m  Checking workspace and endpoint[1G[J[35m◑[39m  Checking workspace and endpoint[1G[J[35m◒[39m  Checking workspace and endpoint[1G[J[35m◐[39m  Checking workspace and endpoint[1G[J[35m◓[39m  Checking workspace and endpoint[1G[J[35m◑[39m  Checking workspace and endpoint[1G[J[32m◇[39m  Ready
+[?25h[1m
+Contract Workbench[22m
+[32m✓[39m runtime: Node 24.19.0; Node 24 LTS recommended
+[32m✓[39m network: Hedera testnet (296)
+[32m✓[39m registry: Local imports and bundled examples are readable
+[2mOptional: configure a provider key and WORKBENCH_AI_MODEL; forms and CLI work without them.[22m
+
+$ workbench contracts list
+[1mSaucerSwap V1 router[22m  [2mtestnet[22m
+  [36msaucerswap-testnet[39m · 0x0000000000000000000000000000000000004b40
+[1mSAUCE token[22m  [2mtestnet[22m
+  [36msauce-testnet[39m · 0x0000000000000000000000000000000000120f46
+[1mSaucerSwap V1 router[22m  [2mmainnet[22m
+  [36msaucerswap-mainnet[39m · 0x00000000000000000000000000000000002E7A5D
+[1mSAUCE token[22m  [2mmainnet[22m
+  [36msauce-mainnet[39m · 0x00000000000000000000000000000000000b2aD5
+[1mSaucerSwap factory[22m  [2mtestnet[22m
+  [36mcontract-296-00000000000000000000000000000000000026e7[39m · 0x00000000000000000000000000000000000026E7
+
+$ workbench tools list --contract saucerswap-testnet
+[1mgetAmountsOut(uint256,address[])[22m  [2mread[22m
+  [36mread_getAmountsOut_093c902fde71ee4f[39m
+[1mgetAmountsIn(uint256,address[])[22m  [2mread[22m
+  [36mread_getAmountsIn_cf0db674422ef38b[39m
+[1mswapExactETHForTokens(uint256,address[],address,uint256)[22m  [2mprepare[22m
+  [36mprepare_swapExactETHForTokens_6ae3341ee4f94e40[39m
+[1mfactory()[22m  [2mread[22m
+  [36mread_factory_c5d171ab56a811f2[39m
+[1mWETH()[22m  [2mread[22m
+  [36mread_WETH_4186b1380667e60a[39m
+
+$ workbench tools call read_factory_c5d171ab56a811f2 --args-file /Users/abu/dev/hackathon/hedera-bounties/workbench/docs/examples/empty-arguments.json
+[?25l[90m│[39m
+[35m◒[39m  Reading contract[1G[J[35m◐[39m  Reading contract[1G[J[35m◓[39m  Reading contract[1G[J[35m◑[39m  Reading contract[1G[J[35m◒[39m  Reading contract[1G[J[35m◐[39m  Reading contract[1G[J[35m◓[39m  Reading contract[1G[J[35m◑[39m  Reading contract[1G[J[35m◒[39m  Reading contract.[1G[J[35m◐[39m  Reading contract.[1G[J[35m◓[39m  Reading contract.[1G[J[35m◑[39m  Reading contract.[1G[J[35m◒[39m  Reading contract.[1G[J[35m◐[39m  Reading contract.[1G[J[35m◓[39m  Reading contract.[1G[J[35m◑[39m  Reading contract.[1G[J[35m◒[39m  Reading contract..[1G[J[32m◇[39m  Ready
+[?25h[32m
+✓ factory()[39m
+[2mtestnet · 0x0000000000000000000000000000000000004b40[22m
+"0x00000000000000000000000000000000000026E7"
+[2mObserved 2026-10-03T20:42:00.556Z[22m

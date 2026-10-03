@@ -1,0 +1,26 @@
+
+> hedera-contract-workbench@0.1.0 verify:local
+> npm run build:runtime && npm run compile -w @sh/hardhat && node scripts/verify-local.mjs
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/hardhat@0.1.0 compile
+> hardhat compile
+
+Nothing to compile
+{"observedAt":"2026-10-03T21:05:16.828Z","scope":"Isolated Hardhat RPC fixture with chain ID 296. No Hedera transaction or real funds.","checks":["core/CLI/MCP equivalent unsigned calldata and caller","typed nested tuple roundtrip with integer above Number precision","caller-specific custom revert agrees with direct RPC","MCP simulation","live catalog notification and removal","stale plan rejected","documented CLI command groups and error envelopes"],"catalogNotifications":6}

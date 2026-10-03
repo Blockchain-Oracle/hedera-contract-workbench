@@ -1,0 +1,31 @@
+name: Workbench checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm install --global npm@10.9.3
+      - run: npm ci
+      - run: npm ls --all
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run verify:local
+      - run: npm run build
+        env:
+          WORKBENCH_RPC_TESTNET_URL: http://127.0.0.1:9
+          WORKBENCH_RPC_MAINNET_URL: http://127.0.0.1:9
+          OPENAI_API_KEY: ""
+          ANTHROPIC_API_KEY: ""

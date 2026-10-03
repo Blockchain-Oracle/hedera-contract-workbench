@@ -1,0 +1,47 @@
+{
+  "observedAt": "2026-10-03T20:36:37.156Z",
+  "network": "testnet",
+  "caller": "0x00000000000000000000000000000000000026E7",
+  "revert": "Error([\"UniswapV2Router: EXPIRED\"])",
+  "directRpcError": 3,
+  "associationSimulations": [
+    {
+      "caller": "0x00000000000000000000000000000000000026E7",
+      "value": "22"
+    },
+    {
+      "caller": "0x0000000000000000000000000000000000004b40",
+      "value": "22"
+    }
+  ],
+  "mainnetRead": {
+    "schemaVersion": 1,
+    "contractId": "saucerswap-mainnet",
+    "network": "mainnet",
+    "chainId": 295,
+    "address": "0x00000000000000000000000000000000002E7A5D",
+    "toolId": "read_factory_a81f069bc3403805",
+    "revision": "0x91bf6ca2f54cfe09fa377b8c7ded9a74efc807906d193d62c18f2d602c8a45d3",
+    "signature": "factory()",
+    "value": "0x0000000000000000000000000000000000103780",
+    "observedAt": "2026-10-03T20:36:36.509Z"
+  },
+  "quote": {
+    "network": "testnet",
+    "chainId": 296,
+    "amountHbar": "1",
+    "amountInTinybar": "100000000",
+    "amountOutRaw": "54082017",
+    "amountOutDisplay": "54.082017",
+    "minimumOutRaw": "53811606",
+    "slippageBps": 50,
+    "quotedAt": "2026-10-03T20:36:37.156Z",
+    "expiresAt": "2026-10-03T20:37:07.156Z",
+    "path": [
+      "0x0000000000000000000000000000000000003aD2",
+      "0x0000000000000000000000000000000000120f46"
+    ],
+    "contractId": "saucerswap-testnet"
+  },
+  "submitted": false
+}

@@ -1,0 +1,19 @@
+{
+  "observedAt": "2026-10-03T20:46:55.062Z",
+  "protocol": "MCP SDK 2.3.0 client/server stdio",
+  "checks": [
+    {
+      "signature": "factory()",
+      "value": "0x00000000000000000000000000000000000026E7",
+      "interfaces": ["core", "CLI", "MCP"]
+    },
+    {
+      "signature": "symbol()",
+      "value": "SAUCE",
+      "interfaces": ["core", "CLI", "MCP"]
+    }
+  ],
+  "toolCount": 27,
+  "invalidInputRejected": true,
+  "diagnostics": ""
+}

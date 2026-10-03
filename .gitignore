@@ -1,0 +1,14 @@
+node_modules/
+.next/
+dist/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.workbench/
+workbench.config.local.json
+workbench.config.local.json.*.tmp
+artifacts/
+cache/
+coverage/
+.DS_Store

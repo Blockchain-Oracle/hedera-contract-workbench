@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-10-03T20:53:31.824Z",
+  "scope": "Isolated Hardhat RPC fixture with chain ID 296. No Hedera transaction or real funds.",
+  "checks": [
+    "core/CLI/MCP equivalent unsigned calldata and caller",
+    "typed nested tuple roundtrip with integer above Number precision",
+    "caller-specific custom revert agrees with direct RPC",
+    "MCP simulation",
+    "live catalog notification and removal",
+    "stale plan rejected",
+    "documented CLI command groups and error envelopes"
+  ],
+  "catalogNotifications": 6
+}

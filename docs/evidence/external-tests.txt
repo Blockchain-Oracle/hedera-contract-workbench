@@ -1,0 +1,56 @@
+
+> hedera-contract-workbench@0.1.0 test
+> npm run build:runtime && npm run test -w @sh/core && npm run test -w @sh/hardhat
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/core@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ decimal-string integers preserve precision and reject invalid bounds (1.278792ms)
+✔ nested tuples and arrays retain positional mappings for duplicate/unnamed fields (0.239958ms)
+✔ overloads have independent identity and unsupported types are visible (0.521709ms)
+✔ HBAR, tinybar, and RPC weibar are distinct exact units (0.271333ms)
+✔ receipt polling settings retain defaults, accept bounded overrides, and reject unbounded polling (11.591583ms)
+✔ concurrent registry edits preserve imports; stale refresh and corrupt JSON preserve state (40.812292ms)
+✔ preparation binds calldata, caller, network, revision, expiry, and value (18.242917ms)
+✔ tuple results never lose duplicate or unnamed positions (0.822333ms)
+✔ mainnet plans require exact context without any submission (5.994166ms)
+✔ invalid native value types and oversized values fail before RPC (0.237625ms)
+✔ plan expiry and metadata changes require renewed preparation (8.172916ms)
+✔ malformed imports preserve the registry without requesting RPC (8.174209ms)
+✔ abandoned reads cancel the underlying RPC and leave other reads usable (49.988208ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 693.040834
+
+> @sh/hardhat@0.1.0 test
+> hardhat test
+
+
+
+  Observation
+    ✔ keeps tuples caller-scoped and exposes independent overloads (437ms)
+
+
+  1 passing (439ms)

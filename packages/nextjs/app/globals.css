@@ -1,0 +1,97 @@
+@import "tailwindcss";
+@custom-variant dark (&:is(.dark *));
+:root {
+  --background: #f7f8fa;
+  --foreground: #20242b;
+  --card: #fff;
+  --card-foreground: #20242b;
+  --popover: #fff;
+  --popover-foreground: #20242b;
+  --primary: #176c54;
+  --primary-foreground: #fff;
+  --secondary: #edf0f3;
+  --secondary-foreground: #313840;
+  --muted: #edf0f3;
+  --muted-foreground: #59636f;
+  --accent: #e5f1ed;
+  --accent-foreground: #176c54;
+  --destructive: #b42318;
+  --border: #dbe0e5;
+  --input: #dbe0e5;
+  --ring: #248567;
+  --radius: 0.625rem;
+}
+.dark {
+  --background: #111419;
+  --foreground: #e6e9ed;
+  --card: #191d23;
+  --card-foreground: #e6e9ed;
+  --popover: #191d23;
+  --popover-foreground: #e6e9ed;
+  --primary: #69c7a6;
+  --primary-foreground: #13281f;
+  --secondary: #242a32;
+  --secondary-foreground: #e6e9ed;
+  --muted: #242a32;
+  --muted-foreground: #a0abb8;
+  --accent: #1c352d;
+  --accent-foreground: #8ad8bc;
+  --destructive: #fb8e87;
+  --border: #303844;
+  --input: #303844;
+  --ring: #69c7a6;
+}
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
+}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+  button:not(:disabled),
+  a {
+    cursor: pointer;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

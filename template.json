@@ -1,0 +1,39 @@
+{
+  "name": "hedera-contract-workbench",
+  "description": "Bring a deployed Hedera contract to typed forms, CLI, MCP, and optional AI chat.",
+  "version": "0.1.0",
+  "create-scaffold-hbar": {
+    "capabilities": {
+      "frontend": ["nextjs-app"],
+      "solidityFramework": ["hardhat"],
+      "packageManager": ["npm"]
+    },
+    "defaults": {
+      "frontend": "nextjs-app",
+      "solidityFramework": "hardhat",
+      "packageManager": "npm"
+    },
+    "requirements": {
+      "node": "Node 24 LTS recommended; minimum 22.12"
+    },
+    "outro": {
+      "sections": [
+        {
+          "title": "Open the workbench",
+          "steps": [
+            {
+              "text": "Enter your new project directory."
+            },
+            {
+              "command": "npm run dev"
+            },
+            {
+              "text": "Read the testnet demo without a wallet or API key. Connect your own deployed contract from the browser."
+            }
+          ]
+        }
+      ],
+      "installCommand": "npm install"
+    }
+  }
+}

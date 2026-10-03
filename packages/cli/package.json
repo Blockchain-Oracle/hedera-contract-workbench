@@ -1,0 +1,22 @@
+{
+  "name": "@sh/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@sh/core": "0.1.0",
+    "commander": "15.0.0",
+    "@clack/prompts": "1.8.1",
+    "picocolors": "1.1.1"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "observedAt": "2026-10-03T21:08:58Z",
+  "installer": "create-scaffold-hbar@0.4.1",
+  "templateSource": "local final source via official installer local-template seam; public download unverified",
+  "node": "24.19.0",
+  "npm": "10.9.3",
+  "ordinaryInstall": true,
+  "installExit": 0,
+  "installSeconds": 36.597,
+  "conditions": "macOS arm64; warm npm cache; one observation; no general performance claim",
+  "workspaces": [
+    "packages/core",
+    "packages/cli",
+    "packages/mcp",
+    "packages/nextjs",
+    "packages/hardhat"
+  ],
+  "checks": {
+    "dependencies": {
+      "exit": 0,
+      "seconds": 2.313
+    },
+    "lint": {
+      "exit": 0,
+      "seconds": 1.119,
+      "finalPollingSource": true
+    },
+    "typecheck": {
+      "exit": 0,
+      "seconds": 7.849,
+      "finalPollingSource": true
+    },
+    "tests": {
+      "exit": 0,
+      "seconds": 5.222,
+      "finalPollingSource": true
+    },
+    "build": {
+      "exit": 0,
+      "seconds": 10.38,
+      "finalPollingSource": true,
+      "rpcEndpointsDisabled": true,
+      "providerKeysEmpty": true
+    },
+    "local-adapters": {
+      "exit": 0,
+      "seconds": 7.546
+    },
+    "boot": {
+      "http": 200,
+      "defaultNetwork": "testnet",
+      "modelConfigured": false,
+      "noWalletOrSecretsRequired": true,
+      "polling": {
+        "intervalMs": 3000,
+        "budgetMs": 120000
+      },
+      "finalSource": true
+    },
+    "first-read": {
+      "exit": 0,
+      "signature": "factory()",
+      "value": "0x00000000000000000000000000000000000026E7"
+    },
+    "local-state-exclusion": {
+      "trackedForbiddenFiles": [],
+      "freshUserImports": false,
+      "fiveWorkspacesPreserved": true
+    }
+  },
+  "bootSeconds": 0.475,
+  "firstUsefulReadSecondsFromCatalogDiscovery": 1.574,
+  "harnessCorrection": "Initial smoke call omitted required --args-file. Corrected to the documented argument file; product checks passed.",
+  "finalSourceRefresh": {
+    "files": [
+      "packages/core/src/store.ts",
+      "packages/core/test/engine.test.ts",
+      "packages/nextjs/app/api/workbench/[...path]/route.ts",
+      "packages/nextjs/components/workbench.tsx",
+      "packages/nextjs/components/receipt.tsx",
+      "workbench.config.json",
+      "docs/CONFIGURATION.md"
+    ],
+    "reason": "Configurable bounded receipt polling added after initial transformed install; package manifests and lockfile unchanged",
+    "lockfileSha256": "33ff4011426a9b784a39a8f26aa9e3748080c650dc1ebc6ab7593e474a13bfca"
+  }
+}

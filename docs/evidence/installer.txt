@@ -1,0 +1,39 @@
+┌   create-scaffold-hbar
+
+
+❯ 📁 Create project directory /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-release-external-dkgld8u4/project
+✔ 📁 Create project directory /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-release-external-dkgld8u4/project
+❯ 🚀 Creating a new Scaffold-HBAR app in /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-release-external-dkgld8u4/project
+✔ 🚀 Creating a new Scaffold-HBAR app in /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-release-external-dkgld8u4/project
+❯ 📦 Installing dependencies with npm
+↓ 📦 Installing dependencies with npm [SKIPPED: Manually skipped, since `--skip-install` flag was passed]
+❯ 📚 Installing Hedera Skills
+↓ 📚 Installing Hedera Skills [SKIPPED: Skipped — install Hedera Skills was not selected]
+❯ 🪄 Formatting files
+↓ 🪄 Formatting files [SKIPPED: Can't use source prettier, since dependency installation was skipped]
+❯ 📡 Initializing Git repository
+› Creating initial commit…
+✔ 📡 Initializing Git repository
+
+Congratulations! Your project has been scaffolded! 🎉
+
+Next steps
+   cd /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-release-external-dkgld8u4/project
+
+Install dependencies & format files
+   npm install
+
+Optional: Hedera agent skills
+  Add the official marketplace for Cursor / Claude Code (non-interactive):
+   npx skills add hedera-dev/hedera-skills --all
+
+Open the workbench
+  Enter your new project directory.
+
+   npm run dev
+
+  Read the testnet demo without a wallet or API key. Connect your own deployed
+  contract from the browser.
+
+│
+└  Thanks for using Scaffold-HBAR — happy building!

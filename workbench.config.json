@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "defaultNetwork": "testnet",
+  "rpcConcurrency": 4,
+  "requestTimeoutMs": 15000,
+  "planExpiryMs": 300000,
+  "receiptPollMs": 3000,
+  "receiptPollBudgetMs": 120000,
+  "contracts": []
+}

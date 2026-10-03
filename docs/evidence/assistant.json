@@ -1,0 +1,12 @@
+{
+  "observedAt": "2026-10-03T20:53:37.761Z",
+  "scope": "Official AI SDK 7 mock model stream with a live core RPC tool. No paid/provider inference claimed.",
+  "value": "0x00000000000000000000000000000000000026E7",
+  "checks": [
+    "streamed tool call agrees with forms/CLI/MCP core",
+    "stream continuation",
+    "selected contract scope",
+    "cancellation",
+    "six-execution budget"
+  ]
+}

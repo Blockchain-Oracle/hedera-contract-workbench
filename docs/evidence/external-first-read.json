@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "data": {
+    "schemaVersion": 1,
+    "contractId": "saucerswap-testnet",
+    "network": "testnet",
+    "chainId": 296,
+    "address": "0x0000000000000000000000000000000000004b40",
+    "toolId": "read_factory_c5d171ab56a811f2",
+    "revision": "0x91bf6ca2f54cfe09fa377b8c7ded9a74efc807906d193d62c18f2d602c8a45d3",
+    "signature": "factory()",
+    "value": "0x00000000000000000000000000000000000026E7",
+    "observedAt": "2026-10-03T21:08:58.375Z"
+  }
+}

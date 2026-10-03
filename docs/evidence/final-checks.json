@@ -1,0 +1,46 @@
+{
+  "observedAt": "2026-10-03T21:09:51.293223+00:00",
+  "runtime": "Node 24.19.0 / npm 10.9.3",
+  "sourceChecks": {
+    "lint": 0,
+    "typecheck": 0,
+    "coreTests": {
+      "passed": 13,
+      "failed": 0
+    },
+    "solidityTests": {
+      "passed": 1,
+      "failed": 0
+    },
+    "productionBuild": {
+      "exit": 0,
+      "rpcEndpointsDisabled": true,
+      "providerKeysEmpty": true,
+      "verifiedOn": "Final source locally and in officially transformed scaffold"
+    },
+    "dependencyTree": {
+      "npm": "10.9.3",
+      "exit": 0
+    },
+    "pollingConfiguration": {
+      "defaults": {
+        "intervalMs": 3000,
+        "budgetMs": 120000
+      },
+      "boundedOverridesTested": true
+    }
+  },
+  "browser": {
+    "finalLiveRead": "factory()",
+    "network": "testnet",
+    "value": "0x00000000000000000000000000000000000026E7",
+    "capture": "desktop-final-read.jpg",
+    "otherAcceptance": "desktop/mobile light/dark; browser ABI import and restart; slippage invalidation; missing-provider fallback"
+  },
+  "remaining": "Funded browser-wallet acceptance/receipt, configured provider acceptance, unfamiliar human walkthrough, public-template/release/full video/submission.",
+  "credentialAndStateScan": {
+    "forbiddenFiles": [],
+    "strongCredentialMatches": [],
+    "scope": "Git intended source/evidence files; excludes ignored local credentials/state"
+  }
+}
