@@ -1,0 +1,21 @@
+
+> hedera-contract-workbench@0.1.0 verify:receipts
+> npm run build:runtime && tsx --tsconfig packages/nextjs/tsconfig.json scripts/verify-receipt-adapters.mts
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+{"observedAt":"2026-10-04T06:18:44.931Z","scope":"Real local RPC HTTP cancellation; production Next route handlers, assistant tools and official MCP stdio client. No Hedera submission.","checks":["HTTP route: receipt abort closes RPC connection and subsequent request succeeds","assistant: receipt abort closes RPC connection and subsequent request succeeds","MCP stdio: receipt abort closes RPC connection and subsequent request succeeds","HTTP removal requires revision, rejects stale deletion, and accepts the current revision"],"diagnostics":""}

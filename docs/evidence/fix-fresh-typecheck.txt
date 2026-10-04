@@ -1,0 +1,28 @@
+
+> hedera-contract-workbench@0.1.0 typecheck
+> npm run build:runtime && npm run typecheck -w @sh/nextjs && npm run typecheck -w @sh/hardhat
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/nextjs@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @sh/hardhat@0.1.0 typecheck
+> tsc --noEmit
+

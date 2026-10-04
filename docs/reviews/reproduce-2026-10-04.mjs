@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Runtime } from "../../packages/core/dist/runtime.js";
 import { toolsFor } from "../../packages/core/dist/abi.js";
+import assert from "node:assert/strict";
 
 const root = await mkdtemp(join(tmpdir(), "workbench-review-"));
 try {
@@ -33,19 +34,29 @@ try {
     await runtime.store.saveContract(refreshed, contract.revision);
     return simulation;
   };
-  const validated = await runtime.validatePlan(plan, from, 296);
+  let validated, validationError;
+  try {
+    validated = await runtime.validatePlan(plan, from, 296);
+  } catch (error) {
+    validationError = error.code;
+  }
   const revisionRace = {
-    validationSucceeded: true,
-    returnedRevision: validated.plan.revision,
+    validationSucceeded: !!validated,
+    rejectedWith: validationError,
+    returnedRevision: validated?.plan.revision,
     currentRevision: (await runtime.contract(contract.id)).revision,
   };
-  // A removal initiated from the old snapshot has no revision parameter.
-  await runtime.store.removeContract(contract.id);
+  let removalError;
+  try {
+    await runtime.store.removeContract(contract.id, contract.revision);
+  } catch (error) {
+    removalError = error.code;
+  }
   const staleRemoval = {
     refreshedContractRemoved: !(await runtime.store.contracts()).some(
       (c) => c.id === contract.id,
     ),
-    expectedRevisionParameterMissing: true,
+    rejectedWith: removalError,
   };
 
   let active = 0;
@@ -78,6 +89,10 @@ try {
       submittedAt: new Date().toISOString(),
     });
   await Promise.all(hashes.map((hash) => runtime.status("testnet", hash)));
+  assert.equal(validationError, "STALE_REVISION");
+  assert.equal(removalError, "STALE_REVISION");
+  assert.equal(staleRemoval.refreshedContractRemoved, false);
+  assert.equal(peak, 4);
   console.log(
     JSON.stringify(
       {

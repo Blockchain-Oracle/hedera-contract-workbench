@@ -226,12 +226,20 @@ export class Store {
       return record;
     });
   }
-  async removeContract(id: string) {
+  async removeContract(id: string, expectedRevision: string) {
+    assert(
+      typeof expectedRevision === "string" && expectedRevision.length > 0,
+      "INPUT",
+      "Removal needs the inspected contract revision. Reload before trying again.",
+      "revision",
+    );
     return this.locked(async () => {
+      const current = (await this.contracts()).find((x) => x.id === id);
+      assert(current, "NOT_FOUND", "Contract was not found.");
       assert(
-        (await this.contracts()).some((x) => x.id === id),
-        "NOT_FOUND",
-        "Contract was not found.",
+        current.revision === expectedRevision,
+        "STALE_REVISION",
+        "The contract changed before removal. Reload and confirm the current contract.",
       );
       const local = await readJson<Record<string, any>>(this.localPath, {});
       await atomicJson(this.localPath, {

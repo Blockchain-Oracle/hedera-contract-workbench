@@ -1,6 +1,6 @@
 # Typed arguments
 
-Planning specification: the actual output from `tools inspect` is authoritative once the CLI exists.
+The current output from `tools inspect` is authoritative; imported contracts can expose different schemas.
 
 - ABI integers use decimal strings, including small integers. Never convert large values to JavaScript floating-point numbers.
 - Addresses are validated EVM addresses. Resolve Hedera contract IDs through the workbench importer; do not pad every ID into an address.

@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-10-04T06:18:15.674Z",
+  "kind": "isolated deterministic review probes; no Hedera submission",
+  "revisionRace": {
+    "validationSucceeded": false,
+    "rejectedWith": "STALE_REVISION",
+    "currentRevision": "review-refreshed-interface"
+  },
+  "staleRemoval": {
+    "refreshedContractRemoved": false,
+    "rejectedWith": "STALE_REVISION"
+  },
+  "receiptConcurrency": {
+    "configured": 4,
+    "observedGetTransactionPeak": 4
+  }
+}

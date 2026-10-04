@@ -105,7 +105,9 @@ export function assistantTools(
       required: ["hash"],
       additionalProperties: false,
     }),
-    execute: bounded((args) => engine.status(contract.network, args.hash)),
+    execute: bounded((args) =>
+      engine.status(contract.network, args.hash, signal),
+    ),
   });
   for (const definition of catalog.tools) {
     tools[definition.id] = tool({

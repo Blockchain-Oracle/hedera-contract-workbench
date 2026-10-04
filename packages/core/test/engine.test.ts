@@ -211,7 +211,7 @@ test("preparation binds calldata, caller, network, revision, expiry, and value",
       /account/,
     );
     await assert.rejects(runtime.validatePlan(plan, from, 295), /networks/);
-    await runtime.store.removeContract(record.id);
+    await runtime.store.removeContract(record.id, record.revision);
     await assert.rejects(runtime.validatePlan(plan, from, 296), /not found/);
   } finally {
     await rm(root, { recursive: true, force: true });

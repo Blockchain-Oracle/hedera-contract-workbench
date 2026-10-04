@@ -16,6 +16,16 @@ export function cleanMessage(message: string): string {
 export function asError(error: unknown): WorkbenchError {
   if (error instanceof WorkbenchError) return error;
   const e = error as any;
+  // viem's outer shortMessage can hide Hedera's actionable RPC cause.
+  const causes: string[] = [];
+  const seen = new Set<unknown>();
+  let cause = e;
+  while (cause && !seen.has(cause) && seen.size < 16) {
+    seen.add(cause);
+    for (const value of [cause.message, cause.shortMessage, cause.details])
+      if (typeof value === "string") causes.push(value);
+    cause = cause.cause;
+  }
   const revert =
     typeof e?.walk === "function"
       ? e.walk((x: any) => x.name === "ContractFunctionRevertedError")
@@ -32,6 +42,26 @@ export function asError(error: unknown): WorkbenchError {
       "Check the arguments and caller permissions.",
     );
   }
+  if (/sender account not found/i.test(causes.join("\n")))
+    return new WorkbenchError(
+      "PRECONDITION",
+      "The sender account does not exist on the selected Hedera network.",
+      "from",
+      false,
+      "Check the network and wallet address. Create or fund the account on that network, then simulate again.",
+    );
+  if (
+    /insufficient (?:funds|balance)|insufficient_account_balance/i.test(
+      causes.join("\n"),
+    )
+  )
+    return new WorkbenchError(
+      "PRECONDITION",
+      "The sender has insufficient funds for this operation on the selected network.",
+      "from",
+      false,
+      "Check the transaction value and fund the intended account for value and network fees, then simulate again.",
+    );
   const message = cleanMessage(
     e?.shortMessage ?? e?.message ?? "The operation failed.",
   );

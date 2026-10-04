@@ -4,6 +4,8 @@ The non-visual implementation is largely present, but **the project does not yet
 
 Reviewed source: local `main`, `a1a58ff` (implementation `64e0b65` plus generated Next declarations). Application source was not changed during this review. Evidence and trackers were updated. Appearance, layout, visual polish and visual acceptance are excluded at the user's request. Browser signing, transaction integrity and protocol correctness remain part of functional acceptance.
 
+Follow-up: the user subsequently authorized repairs. See [repair and end-to-end verification](2026-10-04-fixes-and-e2e.md) for current dispositions. This document and the original probe JSON preserve the review baseline; the reproduction script now asserts the repaired behavior.
+
 ## Confirmed findings
 
 ### F1 — P1: Interface changes during simulation can leave validation successful
@@ -55,7 +57,7 @@ Voice, hosted multi-user infrastructure, remote MCP, independently published CLI
 
 ## Verification performed during this review
 
-Node 24.19.0 with the pinned npm 10.9.3 toolchain:
+Node 24.19.0; this review's `npm run` commands used bundled npm 11.17.0. The earlier ordinary-install evidence uses the project's pinned npm 10.9.3 installer.
 
 - `npm run lint`, `npm test`, `npm run typecheck`: passed; **13 core tests and 1 Solidity test**.
 - `npm run verify:local`: passed on an isolated Hardhat fixture. Typed tuple precision, caller-specific custom revert, unsigned core/CLI/MCP parity, eight catalog notifications, stale-plan-before-validation rejection and command/error envelopes. These local transactions are not Hedera transaction evidence.
