@@ -23,4 +23,3 @@
 > tsx --test test/*.test.ts
 
 ✔ one agent context handles nested proposals and NFT overloads without categories (120.937958ms)
-

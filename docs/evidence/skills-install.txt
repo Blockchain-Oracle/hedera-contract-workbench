@@ -33,4 +33,3 @@
 
 │
 └  Done!  Review skills before use; they run with full agent permissions.
-

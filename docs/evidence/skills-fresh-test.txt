@@ -64,5 +64,3 @@ Compiled 1 Solidity file successfully (evm target: paris).
 
 
   1 passing (2s)
-
-

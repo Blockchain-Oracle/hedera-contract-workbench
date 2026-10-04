@@ -36,9 +36,9 @@ Nothing to compile
   Finished TypeScript in 2.2s ...
   Collecting page data using 6 workers ...
   Generating static pages using 6 workers (0/4) ...
-  Generating static pages using 6 workers (1/4) 
-  Generating static pages using 6 workers (2/4) 
-  Generating static pages using 6 workers (3/4) 
+  Generating static pages using 6 workers (1/4)
+  Generating static pages using 6 workers (2/4)
+  Generating static pages using 6 workers (3/4)
 ✓ Generating static pages using 6 workers (4/4) in 364ms
   Finalizing page optimization ...
 
@@ -104,5 +104,3 @@ Import trace:
   App Route:
     ./packages/core/dist/agents.js
     ./packages/nextjs/app/api/workbench/[...path]/route.ts
-
-

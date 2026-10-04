@@ -1,5 +1,5 @@
 """Record real CLI PTY output in asciicast v2 format (no scripted/fake results)."""
-import json, os, pty, select, subprocess, time, struct, fcntl, termios, sys
+import json, os, pty, select, subprocess, time, struct, fcntl, termios, sys, re
 from pathlib import Path
 root=Path(__file__).resolve().parent.parent
 started=time.monotonic()
@@ -30,5 +30,10 @@ with recording.open('w') as output:
             elif process.poll() is not None: break
         os.close(master)
         if process.wait()!=0: raise RuntimeError('CLI recording command failed')
-(root/('docs/evidence/skills-terminal.txt' if skills_only else 'docs/evidence/terminal.txt')).write_text(''.join(plain))
+transcript=''.join(plain)
+if skills_only:
+    # The cast above preserves raw bytes/timing; this is its readable transcript.
+    transcript=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]', '', transcript)
+    transcript='\n'.join(line.rstrip() for line in transcript.splitlines()).rstrip()+'\n'
+(root/('docs/evidence/skills-terminal.txt' if skills_only else 'docs/evidence/terminal.txt')).write_text(transcript)
 print(recording)
