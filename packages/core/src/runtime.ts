@@ -96,12 +96,29 @@ export class Runtime {
     );
     return response.json();
   }
-  private async limited<T>(fn: () => Promise<T>): Promise<T> {
+  private async limited<T>(
+    fn: () => Promise<T>,
+    signal?: AbortSignal,
+  ): Promise<T> {
     const { rpcConcurrency } = await this.store.settings();
+    assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
     if (this.active >= rpcConcurrency)
-      await new Promise<void>((r) => this.queue.push(r));
+      await new Promise<void>((resolve, reject) => {
+        const ready = () => {
+          signal?.removeEventListener("abort", cancel);
+          resolve();
+        };
+        const cancel = () => {
+          const index = this.queue.indexOf(ready);
+          if (index !== -1) this.queue.splice(index, 1);
+          reject(new WorkbenchError("CANCELLED", "Request cancelled."));
+        };
+        this.queue.push(ready);
+        signal?.addEventListener("abort", cancel, { once: true });
+      });
     else this.active++;
     try {
+      assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
       return await fn();
     } finally {
       const next = this.queue.shift();
@@ -125,7 +142,7 @@ export class Runtime {
         fetchOptions: signal ? { signal } : undefined,
       }),
     });
-    const chainId = await this.limited(() => client.getChainId());
+    const chainId = await this.limited(() => client.getChainId(), signal);
     assert(
       chainId === NETWORKS[network].id,
       "NETWORK_MISMATCH",
@@ -144,6 +161,19 @@ export class Runtime {
       "Contract was not found. List or import contracts first.",
     );
     return found;
+  }
+  private async ensureCurrentContract(snapshot: ContractRecord) {
+    const current = await this.contract(snapshot.id);
+    assert(
+      current.revision === snapshot.revision &&
+        current.abiHash === snapshot.abiHash &&
+        current.network === snapshot.network &&
+        current.chainId === snapshot.chainId &&
+        current.address === snapshot.address &&
+        current.kind === snapshot.kind,
+      "STALE_REVISION",
+      "The contract changed during simulation. Inspect the current schema and prepare again.",
+    );
   }
   async inspectTool(
     id: string,
@@ -365,13 +395,15 @@ export class Runtime {
     try {
       assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
       const client = await this.client(r.contract.network, signal);
-      const response = await this.limited(() =>
-        client.call({
-          to: r.contract.address,
-          data: r.data,
-          account: r.caller,
-          value: r.value,
-        }),
+      const response = await this.limited(
+        () =>
+          client.call({
+            to: r.contract.address,
+            data: r.data,
+            account: r.caller,
+            value: r.value,
+          }),
+        signal,
       );
       const decoded =
         r.tool.outputs.length && response.data
@@ -397,13 +429,15 @@ export class Runtime {
       if (estimate) {
         try {
           result.gasEstimate = (
-            await this.limited(() =>
-              client.estimateGas({
-                to: r.contract.address,
-                data: r.data,
-                account: r.caller,
-                value: r.value,
-              }),
+            await this.limited(
+              () =>
+                client.estimateGas({
+                  to: r.contract.address,
+                  data: r.data,
+                  account: r.caller,
+                  value: r.value,
+                }),
+              signal,
             )
           ).toString();
         } catch (e) {
@@ -527,10 +561,18 @@ export class Runtime {
       reviewUrl: `${settings.webUrl}/?plan=${idPlan}`,
     };
     const complete = { ...plan, digest: planDigest(plan) };
+    await this.ensureCurrentContract(r.contract);
+    assert(!options.signal?.aborted, "CANCELLED", "Request cancelled.");
     await this.store.savePlan(complete);
     return complete;
   }
-  async validatePlan(plan: TransactionPlan, from: string, chainId: number) {
+  async validatePlan(
+    plan: TransactionPlan,
+    from: string,
+    chainId: number,
+    signal?: AbortSignal,
+  ) {
+    assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
     assert(
       plan &&
         /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(plan.id) &&
@@ -593,7 +635,9 @@ export class Runtime {
       "INPUT",
       "Plan fields do not match the contract and arguments.",
     );
-    const simulation = await this.execute(r, true);
+    const simulation = await this.execute(r, true, signal);
+    await this.ensureCurrentContract(r.contract);
+    assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
     assert(
       expires > Date.now(),
       "PLAN_EXPIRED",
@@ -614,66 +658,81 @@ export class Runtime {
       simulation,
     };
   }
-  async status(network: Network, hash: Hex) {
+  async status(network: Network, hash: Hex, signal?: AbortSignal) {
+    assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
     assert(
       /^0x[0-9a-fA-F]{64}$/.test(hash),
       "INPUT",
       "Invalid transaction hash.",
     );
-    const client = await this.client(network);
-    let receipt;
     try {
-      receipt = await this.limited(() =>
-        client.getTransactionReceipt({ hash }),
-      );
-    } catch (e) {
-      if (/not found|could not be found/i.test((e as Error).message))
-        return {
-          hash,
-          network,
-          state: "pending",
-          indexing: "unknown",
-          explorerUrl: `${NETWORKS[network].explorer}/transaction/${hash}`,
-        };
-      throw asError(e);
+      const client = await this.client(network, signal);
+      let receipt;
+      try {
+        receipt = await this.limited(
+          () => client.getTransactionReceipt({ hash }),
+          signal,
+        );
+      } catch (e) {
+        assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
+        if (/not found|could not be found/i.test((e as Error).message))
+          return {
+            hash,
+            network,
+            state: "pending",
+            indexing: "unknown",
+            explorerUrl: `${NETWORKS[network].explorer}/transaction/${hash}`,
+          };
+        throw asError(e);
+      }
+      const record = await this.store.transaction(network, hash);
+      if (record?.planId) {
+        const plan = await this.store.plan(record.planId),
+          tx = await this.limited(
+            () => client.getTransaction({ hash }),
+            signal,
+          );
+        assert(
+          getAddress(tx.from) === getAddress(plan.from) &&
+            tx.to &&
+            getAddress(tx.to) === getAddress(plan.to) &&
+            tx.input === plan.data &&
+            tx.value.toString() === plan.valueWeibar,
+          "PRECONDITION",
+          "Receipt belongs to a transaction that does not match this plan.",
+        );
+      }
+      let indexed = false;
+      try {
+        const metadata = await this.fetchJson(
+          `${NETWORKS[network].mirror}/contracts/results/${hash}`,
+          signal,
+        );
+        indexed = !!metadata;
+      } catch {
+        assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
+        /* Receipt and mirror indexing are separate states. */
+      }
+      assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
+      return {
+        hash,
+        network,
+        state: receipt.status === "success" ? "confirmed" : "reverted",
+        indexing: indexed ? "indexed" : "pending",
+        receipt: jsonValue(receipt),
+        explorerUrl: `${NETWORKS[network].explorer}/transaction/${hash}`,
+      };
+    } catch (error) {
+      assert(!signal?.aborted, "CANCELLED", "Request cancelled.");
+      throw asError(error);
     }
-    const record = await this.store.transaction(network, hash);
-    if (record?.planId) {
-      const plan = await this.store.plan(record.planId),
-        tx = await client.getTransaction({ hash });
-      assert(
-        getAddress(tx.from) === getAddress(plan.from) &&
-          tx.to &&
-          getAddress(tx.to) === getAddress(plan.to) &&
-          tx.input === plan.data &&
-          tx.value.toString() === plan.valueWeibar,
-        "PRECONDITION",
-        "Receipt belongs to a transaction that does not match this plan.",
-      );
-    }
-    let indexed = false;
-    try {
-      const metadata = await this.fetchJson(
-        `${NETWORKS[network].mirror}/contracts/results/${hash}`,
-      );
-      indexed = !!metadata;
-    } catch {
-      /* Receipt and mirror indexing are separate states. */
-    }
-    return {
-      hash,
-      network,
-      state: receipt.status === "success" ? "confirmed" : "reverted",
-      indexing: indexed ? "indexed" : "pending",
-      receipt: jsonValue(receipt),
-      explorerUrl: `${NETWORKS[network].explorer}/transaction/${hash}`,
-    };
   }
   async account(network: Network, address: string, signal?: AbortSignal) {
     assert(isAddress(address), "INPUT", "Invalid account address.");
     const client = await this.client(network, signal);
-    const balance = await this.limited(() =>
-      client.getBalance({ address: getAddress(address) }),
+    const balance = await this.limited(
+      () => client.getBalance({ address: getAddress(address) }),
+      signal,
     );
     return {
       address: getAddress(address),

@@ -41,7 +41,7 @@ The central workspace retains contract selection and dynamic Functions, Swap and
 
 ## Implementation and verification record
 
-Three agents completed disjoint shell/wallet, tokens/primitives and content/state modules. The root agent integrated them, documented font provenance and performed final verification. Existing core review findings F1–F4 remain separate from this UI work; none are implicitly marked repaired. The original checkout and its uncommitted review artifacts remain preserved.
+Three agents completed disjoint shell/wallet, tokens/primitives and content/state modules. The root agent integrated them, documented font provenance and performed final verification. Core review findings F1–F4 were not repaired by UI work; concurrent main commit `c642179` repaired them and is merged into this branch. The original checkout and its uncommitted review artifacts remain preserved.
 
 Ordinary pinned npm 10.9.3 installation completed in this worktree, without `--legacy-peer-deps` or dependency changes. Existing Radix/shadcn primitives are reused. 21st search returned Connect Wallet Modal (8588) and Auth Modal (20038); no candidate code/dependency was copied because existing primitives fit the measured panel and avoid an unresolved external license.
 
@@ -55,4 +55,8 @@ Existing Slush captures were reused; no new Slush capture was taken. New Workben
 - Accounts showed honest missing-extension guidance. Network radio drawer, light/dark preference, empty Activity, missing-provider Assistant and malformed-import validation were inspected. The invalid address produced actionable `INPUT` guidance and preserved the catalog. Mobile always exposes its network badge in the header.
 - Focus-visible outlines and reduced-motion rules are explicit. This is not a complete assistive-technology or motion-emulation audit.
 
-Connected-wallet signing/rejection/account-change acceptance, real receipt recovery and a configured provider session remain pending. No wallet extension was installed in the review browser. No transaction was submitted. Earlier core findings F1–F4 remain open. Existing tests are regression checks, not substitutes for these acceptance gates.
+Connected-wallet signing/rejection/account-change acceptance, real receipt recovery and a configured provider session remain pending. No wallet extension was installed in the review browser. No transaction was submitted. Earlier core findings F1–F4 are repaired by the integrated main commit `c642179`; see the follow-up functional acceptance record. Existing tests are regression checks, not substitutes for these acceptance gates.
+
+## Concurrent functional repair integration
+
+Main commit `c642179` arrived during final UI verification and was merged into this branch. The revision-guarded remove action is retained in the Slush shell. Combined lint, typecheck, **21 core + 1 Solidity tests**, receipt-adapter cancellation/removal checks and production build passed under Node 24.19.0 and npm 10.9.3. The restarted production app completed a real testnet `factory()` read. [Combined check record](../evidence/slush-ui/checks.json) · [Build log](../evidence/slush-ui/integrated-build.txt) · [Rendered result](../evidence/slush-ui/integrated-production.jpg). F1–F4 are repaired by that commit, not by visual changes. Live wallet/provider and release gates remain pending.

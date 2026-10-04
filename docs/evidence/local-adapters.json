@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-03T20:53:31.824Z",
+  "observedAt": "2026-10-04T06:12:49.342Z",
   "scope": "Isolated Hardhat RPC fixture with chain ID 296. No Hedera transaction or real funds.",
   "checks": [
     "core/CLI/MCP equivalent unsigned calldata and caller",
@@ -8,7 +8,163 @@
     "MCP simulation",
     "live catalog notification and removal",
     "stale plan rejected",
-    "documented CLI command groups and error envelopes"
+    "documented CLI command groups and error envelopes",
+    "CLI deployed-contract import by resolved ID and artifact, verified discovery and successful refresh",
+    "CLI overloads, argument files/stdin, precision, process restart persistence",
+    "actual local confirmed journal receipt, pending receipt and mirror indexing lag across CLI/MCP",
+    "CLI stale removal preserves registry and exact current removal succeeds"
   ],
-  "catalogNotifications": 6
+  "catalogNotifications": 8,
+  "metadataScope": "Controlled mirror/Sourcify metadata fixture; real isolated EVM RPC execution. Public adapter verification is separate.",
+  "cliChecks": [
+    {
+      "command": "doctor --network testnet",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "doctor --network mainnet",
+      "exitCode": 3,
+      "ok": true
+    },
+    {
+      "command": "contracts import --network testnet --address 0.0.12345 --abi /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-local-GRGxab/observation.json",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "contracts import --network testnet --address 0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "contracts import --address 0x5FbDB2315678afecb367f032d93F642f64180aa3 --abi -",
+      "exitCode": 2,
+      "ok": false,
+      "errorCode": "INPUT"
+    },
+    {
+      "command": "contracts import --address 0x5FbDB2315678afecb367f032d93F642f64180aa3 --abi -",
+      "exitCode": 2,
+      "ok": false,
+      "errorCode": "ABI_INVALID"
+    },
+    {
+      "command": "contracts list",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "contracts inspect local-observation",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "tools list --contract local-observation",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "tools inspect prepare_record_27b061de4321df1c",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "mcp config",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "tools prepare prepare_record_27b061de4321df1c --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file -",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "tools simulate prepare_record_27b061de4321df1c --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file -",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "transactions status --network testnet --hash 0xf338cba08a6d8affeb6154c66133ac1daa7bb81c2964a58eb7e2f5dfcc183c9b",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "transactions status --network testnet --hash 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "tools call read_latest_70c85c7b5bab7ea1 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file -",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "tools call read_latest_70c85c7b5bab7ea1 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-local-GRGxab/arguments.json",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "tools call read_latest_70c85c7b5bab7ea1 --from 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --args-file -",
+      "exitCode": 5,
+      "ok": false,
+      "errorCode": "REVERT"
+    },
+    {
+      "command": "tools call read_latest_70c85c7b5bab7ea1 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file -",
+      "exitCode": 2,
+      "ok": false,
+      "errorCode": "INPUT"
+    },
+    {
+      "command": "tools call read_describe_b3426e63cf5e0865 --args-file -",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "tools call read_describe_0d495db1fef60a64 --args-file -",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "contracts refresh local-observation",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "contracts refresh sauce-testnet",
+      "exitCode": 2,
+      "ok": false,
+      "errorCode": "ABI_REQUIRED"
+    },
+    {
+      "command": "transactions status --network testnet --hash bad",
+      "exitCode": 2,
+      "ok": false,
+      "errorCode": "INPUT"
+    },
+    {
+      "command": "contracts remove local-observation",
+      "exitCode": 2,
+      "ok": false,
+      "errorCode": "INPUT"
+    },
+    {
+      "command": "contracts remove local-observation --yes --revision 0x79bbf79c39a717dd0d1d7d1705b3c45b17cb860d0ad5d11d9f38b07345245cbd:2929ac8f-a33a-419c-8c83-6729fd90945f",
+      "exitCode": 3,
+      "ok": false,
+      "errorCode": "STALE_REVISION"
+    },
+    {
+      "command": "contracts remove local-observation --yes --revision 0x46e788de3ec0708b8604c065a88ba11a50d90918abbe1998f6b50f37696fbf98:f966937a-a96d-4fe1-9695-a43e04a60c23",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "contracts inspect local-observation",
+      "exitCode": 2,
+      "ok": false,
+      "errorCode": "NOT_FOUND"
+    }
+  ]
 }

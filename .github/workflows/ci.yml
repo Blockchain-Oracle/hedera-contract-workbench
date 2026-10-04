@@ -23,6 +23,7 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run verify:local
+      - run: npm run verify:receipts
       - run: npm run build
         env:
           WORKBENCH_RPC_TESTNET_URL: http://127.0.0.1:9

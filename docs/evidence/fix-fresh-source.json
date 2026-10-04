@@ -1,0 +1,61 @@
+{
+  "observedAt": "2026-10-04T06:19:07Z",
+  "scope": "Fresh isolated copy of final source; ordinary npm 10.9.3 ci. Not a public-template download or a new installer transformation.",
+  "node": "24.19.0",
+  "npm": "10.9.3",
+  "checks": [
+    {
+      "name": "install",
+      "exitCode": 0,
+      "seconds": 41.904
+    },
+    {
+      "name": "dependencies",
+      "exitCode": 0,
+      "seconds": 0.886
+    },
+    {
+      "name": "lint",
+      "exitCode": 0,
+      "seconds": 1.863
+    },
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "seconds": 8.47
+    },
+    {
+      "name": "tests",
+      "exitCode": 0,
+      "seconds": 10.712
+    },
+    {
+      "name": "cli-mcp-e2e",
+      "exitCode": 0,
+      "seconds": 11.129
+    },
+    {
+      "name": "receipt-adapters",
+      "exitCode": 0,
+      "seconds": 4.663
+    },
+    {
+      "name": "build",
+      "exitCode": 0,
+      "seconds": 21.046
+    },
+    {
+      "name": "production-boot-and-keyless-live-read",
+      "exitCode": 0,
+      "value": "0x00000000000000000000000000000000000026E7",
+      "polling": {
+        "intervalMs": 3000,
+        "budgetMs": 120000
+      },
+      "assistantConfigured": false
+    }
+  ],
+  "credentialsCopied": false,
+  "localStateCopied": false,
+  "submitted": false
+}

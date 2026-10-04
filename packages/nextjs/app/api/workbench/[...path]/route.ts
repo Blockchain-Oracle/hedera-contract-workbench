@@ -49,7 +49,7 @@ async function handle(request: NextRequest, context: Context) {
         return success({ contract, ...toolsFor(contract) });
       }
       if (path[1] && request.method === "DELETE") {
-        await engine.store.removeContract(path[1]);
+        await engine.store.removeContract(path[1], query.get("revision")!);
         return success({ removed: path[1] });
       }
       if (path[2] === "refresh" && request.method === "POST")
@@ -85,6 +85,7 @@ async function handle(request: NextRequest, context: Context) {
           data.plan as TransactionPlan,
           data.from,
           data.chainId,
+          request.signal,
         );
         await engine.store.savePlan(validated.plan);
         return success(validated);
@@ -161,7 +162,11 @@ async function handle(request: NextRequest, context: Context) {
       }
       if (path[1] && request.method === "GET")
         return success(
-          await engine.status(selectedNetwork(), path[1] as `0x${string}`),
+          await engine.status(
+            selectedNetwork(),
+            path[1] as `0x${string}`,
+            request.signal,
+          ),
         );
     }
     return failure(

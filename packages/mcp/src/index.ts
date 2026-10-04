@@ -138,7 +138,9 @@ serveStdio(async () => {
         additionalProperties: false,
       }),
     },
-    wrap((args) => runtime.status(networkName(args.network), args.hash)),
+    wrap((args, signal) =>
+      runtime.status(networkName(args.network), args.hash, signal),
+    ),
   );
   let synchronizing: Promise<void> | null = null;
   async function sync() {

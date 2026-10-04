@@ -480,13 +480,18 @@ export function Workbench() {
                             `Remove ${catalog.contract.name} from this local catalog?`,
                           )
                         ) {
-                          await api(
-                            `contracts/${selected}`,
-                            undefined,
-                            "DELETE",
-                          ).catch(setError);
-                          setSelected("");
-                          await load();
+                          try {
+                            await api(
+                              `contracts/${selected}?revision=${encodeURIComponent(catalog.contract.revision)}`,
+                              undefined,
+                              "DELETE",
+                            );
+                            setSelected("");
+                            setPlan(null);
+                            await load();
+                          } catch (error) {
+                            setError(error);
+                          }
                         }
                       }}
                     >

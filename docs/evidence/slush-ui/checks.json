@@ -51,10 +51,24 @@
   "limitations": [
     "No connected-wallet signing, rejection, account-change or receipt-recovery acceptance in this browser",
     "No configured model-provider session",
-    "F1-F4 from earlier functional audit remain open",
     "Geist substitutes for unavailable licensed Aeonik",
     "Mobile adapts desktop reference; no Slush mobile capture exists",
     "Not a complete assistive-technology audit",
     "No publication or transaction submitted"
-  ]
+  ],
+  "integratedVerification": {
+    "recordedAt": "2026-10-04T06:23:06.564157+00:00",
+    "mergedMain": "c642179",
+    "lint": "passed",
+    "typecheck": "passed",
+    "tests": {
+      "core": 21,
+      "solidity": 1,
+      "outcome": "passed"
+    },
+    "receiptAdapters": "passed; HTTP, assistant and MCP RPC cancellation plus stale deletion",
+    "productionBuild": "passed; integrated-build.txt",
+    "productionBoot": "passed; real testnet factory read after restart",
+    "render": "integrated-production.jpg"
+  }
 }

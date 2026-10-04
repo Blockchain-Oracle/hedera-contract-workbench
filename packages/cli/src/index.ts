@@ -217,7 +217,9 @@ contracts
 contracts
   .command("remove <id>")
   .option("--yes", "Remove without a prompt")
+  .option("--revision <revision>", "Require the revision previously inspected")
   .action(async (id, opts) => {
+    const contract = await app().contract(id);
     if (!opts.yes) {
       if (!interactive)
         throw new WorkbenchError(
@@ -233,8 +235,11 @@ contracts
       )
         throw new WorkbenchError("CANCELLED", "Cancelled.");
     }
-    await app().store.removeContract(id);
-    finish({ removed: id });
+    await app().store.removeContract(
+      contract.id,
+      opts.revision ?? contract.revision,
+    );
+    finish({ removed: contract.id });
   });
 const tools = program
   .command("tools")

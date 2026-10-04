@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-03T20:36:37.156Z",
+  "observedAt": "2026-10-04T06:15:19.791Z",
   "network": "testnet",
   "caller": "0x00000000000000000000000000000000000026E7",
   "revert": "Error([\"UniswapV2Router: EXPIRED\"])",
@@ -24,19 +24,19 @@
     "revision": "0x91bf6ca2f54cfe09fa377b8c7ded9a74efc807906d193d62c18f2d602c8a45d3",
     "signature": "factory()",
     "value": "0x0000000000000000000000000000000000103780",
-    "observedAt": "2026-10-03T20:36:36.509Z"
+    "observedAt": "2026-10-04T06:15:19.211Z"
   },
   "quote": {
     "network": "testnet",
     "chainId": 296,
     "amountHbar": "1",
     "amountInTinybar": "100000000",
-    "amountOutRaw": "54082017",
-    "amountOutDisplay": "54.082017",
-    "minimumOutRaw": "53811606",
+    "amountOutRaw": "54006066",
+    "amountOutDisplay": "54.006066",
+    "minimumOutRaw": "53736035",
     "slippageBps": 50,
-    "quotedAt": "2026-10-03T20:36:37.156Z",
-    "expiresAt": "2026-10-03T20:37:07.156Z",
+    "quotedAt": "2026-10-04T06:15:19.791Z",
+    "expiresAt": "2026-10-04T06:15:49.791Z",
     "path": [
       "0x0000000000000000000000000000000000003aD2",
       "0x0000000000000000000000000000000000120f46"
