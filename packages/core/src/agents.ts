@@ -9,6 +9,7 @@ import {
 import { join, resolve, dirname } from "node:path";
 import { randomUUID } from "node:crypto";
 import { toolsFor } from "./abi.js";
+import { inputSources } from "./inputs.js";
 import { assert, WorkbenchError } from "./errors.js";
 import type { Runtime } from "./runtime.js";
 import type { Json, Parameter } from "./types.js";
@@ -148,6 +149,8 @@ export async function agentContext(engine: Runtime, id: string) {
         "Inspect current schema before execution; rediscover after STALE_REVISION",
       templates:
         "Replace example values with intended arguments. Templates are shape examples, never permission or automatic transaction instructions.",
+      discovery:
+        "Use inputSources to inspect and run actual getter tools before filling unknown values. Matching types do not establish meaning or units. Never guess token/proposal IDs, recipients or routes; a count is not an enumeration.",
     },
     tools: catalog.tools.map((tool) => {
       let template: Record<string, Json> | null = null,
@@ -183,6 +186,7 @@ export async function agentContext(engine: Runtime, id: string) {
         inputSchema: tool.inputSchema,
         outputSchema: tool.outputSchema,
         parameters: tool.parameters,
+        inputSources: inputSources(tool, catalog.tools),
         template,
         templateAvailable: template !== null,
         ...(templateError ? { templateError } : {}),

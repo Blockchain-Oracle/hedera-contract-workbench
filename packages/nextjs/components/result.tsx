@@ -20,11 +20,21 @@ export function ErrorNotice({ error }: { error: unknown }) {
     path?: string;
     nextAction?: string;
   };
+  const titles: Record<string, string> = {
+    INPUT: "Check the inputs",
+    PRECONDITION: "Action required",
+    TRANSPORT: "Network request failed",
+    REVERT: "The contract rejected this call",
+    STALE_REVISION: "The contract interface changed",
+    NETWORK_MISMATCH: "Check the selected network",
+  };
   return (
     <Alert variant="destructive" role="alert" className="rounded-2xl p-4">
       <AlertCircle className="size-4" />
       <AlertTitle>
-        {e.code?.replaceAll("_", " ") || "Unable to continue"}
+        {(e.code && titles[e.code]) ||
+          e.code?.replaceAll("_", " ") ||
+          "Unable to continue"}
       </AlertTitle>
       <AlertDescription>
         <p>{e.message || String(error)}</p>

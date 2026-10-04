@@ -207,6 +207,20 @@ export function WalletPanel({
                   </Button>
                 </div>
               )}
+              <p className="text-sm leading-6 text-muted-foreground">
+                Selected network: Hedera {network}. Connecting a wallet does not
+                create a Hedera account. Ordinary reads work without one;
+                caller-scoped reads and transactions need an account on this
+                network.
+              </p>
+              <a
+                href="https://docs.hedera.com/learn/core-concepts/accounts/auto-account-creation"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 text-xs underline"
+              >
+                Hedera account setup <ArrowUpRight className="size-3" />
+              </a>
               <Button
                 variant="ghost"
                 className="w-full justify-start"

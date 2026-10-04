@@ -436,6 +436,9 @@ export function Workbench() {
               <>
                 <div className="wb-secondary-surface flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-secondary px-4 py-3">
                   <div className="min-w-0 flex-1">
+                    <p className="mb-2 text-xs font-medium text-muted-foreground">
+                      Selected contract · click to switch
+                    </p>
                     <Picker
                       label="Selected contract"
                       placeholder="Choose a contract"
@@ -448,7 +451,7 @@ export function Workbench() {
                           label: c.name,
                           description: c.hederaId || c.address,
                         }))}
-                      className="min-h-8 max-w-xl border-transparent bg-transparent px-0 py-0 text-base"
+                      className="max-w-xl text-base"
                     />
                     <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
                       <code className="truncate">
@@ -646,6 +649,7 @@ export function Workbench() {
                           <FunctionForm
                             key={`${tool.id}:${tool.revision}`}
                             tool={tool}
+                            tools={catalog.tools}
                             contract={catalog.contract}
                             onReview={setPlan}
                             invalidate={() => setPlan(null)}

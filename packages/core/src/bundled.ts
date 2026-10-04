@@ -8,7 +8,7 @@ export const ROUTER_ABI = parseAbi([
   "function getAmountsIn(uint256 amountOut, address[] path) view returns (uint256[] amounts)",
   "function swapExactETHForTokens(uint256 amountOutMin, address[] path, address to, uint256 deadline) payable returns (uint256[] amounts)",
   "function factory() view returns (address)",
-  "function WETH() view returns (address)",
+  "function whbar() view returns (address)",
 ]);
 export const TOKEN_ABI = parseAbi([
   "function name() view returns (string)",

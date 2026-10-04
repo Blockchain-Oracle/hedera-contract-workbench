@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-04T06:16:14.445Z",
+  "observedAt": "2026-10-04T09:04:25.224Z",
   "scope": "Official AI SDK 7 mock model stream with a live core RPC tool. No paid/provider inference claimed.",
   "value": "0x00000000000000000000000000000000000026E7",
   "checks": [
@@ -7,6 +7,7 @@
     "stream continuation",
     "selected contract scope",
     "cancellation",
-    "six-execution budget"
+    "six-execution budget",
+    "connected wallet does not inject a read caller; explicit caller remains supported"
   ]
 }

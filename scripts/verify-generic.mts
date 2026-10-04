@@ -315,6 +315,30 @@ try {
       {} as any,
     )) as any;
     assert.deepEqual(assistant.data.value, core.value);
+    const inspected = await engine.inspectTool(tool.id);
+    assert.deepEqual(
+      (await cli(["tools", "inspect", tool.id])).inputSources,
+      inspected.inputSources,
+    );
+    assert.deepEqual(
+      (
+        (
+          await client.callTool({
+            name: "tools_inspect",
+            arguments: { toolId: tool.id },
+          })
+        ).structuredContent as any
+      ).data.inputSources,
+      inspected.inputSources,
+    );
+    const assistantInspection = (await execution.tools.inspect.execute!(
+      { toolId: tool.id },
+      {} as any,
+    )) as any;
+    assert.deepEqual(
+      assistantInspection.data.inputSources,
+      inspected.inputSources,
+    );
     const outside = (await execution.tools.inspect.execute!(
       { toolId: toolsFor(records[(fixture.index + 1) % 3]).tools[0].id },
       {} as any,

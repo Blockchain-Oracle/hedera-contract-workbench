@@ -38,6 +38,8 @@ Open `/workbench?view=agents` for the browser **Agent access** view. It exposes 
 
 The skill does not hardcode contract functions. Its sequence stays constant: discover → inspect current schema → construct typed arguments → read or prepare → report real output / open wallet review. New contracts change the tool catalog rather than the skill.
 
+`tools inspect`, MCP `tools_inspect`, assistant inspection and exported agent context include `inputSources`: compatible read getters from the selected contract's actual ABI, full signatures, required parameters and current revision. Inspect a source getter, supply verified inputs, read it and use only actual returned values whose meaning matches the target. Counts are not enumerations. Type compatibility does not prove an ID exists or establish units, intended recipients or routes. No getter is run automatically; ask the user for missing intent when it cannot be discovered. Do not pass a connected wallet as `from` for ordinary reads. An explicit caller remains available for intentional caller-scoped state.
+
 Provider credentials are unnecessary for CLI and MCP. Tools do not sign. A user must approve the exact browser-wallet transaction; never ask for private-key export.
 
 The product home preserves the selected contract in its links and shares the same contract-scoped assistant. Current agent choices use licensed product marks; searchable full-signature pickers distinguish overloads. CLI and MCP preparations return `/workbench?plan=…` review URLs. Older `/?plan=…` URLs redirect; transaction-file upload is no longer part of the UI.

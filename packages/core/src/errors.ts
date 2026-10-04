@@ -16,6 +16,19 @@ export function cleanMessage(message: string): string {
 export function asError(error: unknown): WorkbenchError {
   if (error instanceof WorkbenchError) return error;
   const e = error as any;
+  // A persistent Next development Runtime may belong to a prior module instance.
+  if (
+    e?.name === "WorkbenchError" &&
+    typeof e.code === "string" &&
+    typeof e.message === "string"
+  )
+    return new WorkbenchError(
+      e.code,
+      e.message,
+      e.path,
+      e.retryable === true,
+      e.nextAction,
+    );
   // viem's outer shortMessage can hide Hedera's actionable RPC cause.
   const causes: string[] = [];
   const seen = new Set<unknown>();
@@ -42,13 +55,13 @@ export function asError(error: unknown): WorkbenchError {
       "Check the arguments and caller permissions.",
     );
   }
-  if (/sender account not found/i.test(causes.join("\n")))
+  if (/sender account (?:not found|does not exist)/i.test(causes.join("\n")))
     return new WorkbenchError(
       "PRECONDITION",
       "The sender account does not exist on the selected Hedera network.",
       "from",
       false,
-      "Check the network and wallet address. Create or fund the account on that network, then simulate again.",
+      "For an ordinary read, omit the caller. For a caller-scoped read or transaction, check the selected network and create/fund that Hedera account. Connecting MetaMask alone does not create an account on Hedera.",
     );
   if (
     /insufficient (?:funds|balance)|insufficient_account_balance/i.test(

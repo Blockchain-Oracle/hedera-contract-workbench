@@ -1,0 +1,109 @@
+{
+  "observedAt": "2026-10-04T09:18:00.535748+00:00",
+  "scope": "Connected-read and generic argument-experience repair on local main; no Hedera submission/publication",
+  "automated": {
+    "node": "24.19.0",
+    "npm": "10.9.3",
+    "lint": true,
+    "typecheck": true,
+    "coreTests": 27,
+    "solidityTests": 1,
+    "cliSubprocessChecks": 28,
+    "genericLocalFixtures": 3,
+    "coreCliMcpHttpAssistantParity": true,
+    "inputSourcesParity": true,
+    "providerSdkAdapters": [
+      "openai",
+      "anthropic",
+      "gemini"
+    ],
+    "providerHttpMocked": true,
+    "paidInference": false,
+    "assistantMockStreamWithLiveRead": true,
+    "assistantConnectedWalletCallerOmitted": true,
+    "explicitAssistantCallerForwarded": true,
+    "productionBuild": true,
+    "buildRpcEndpoints": "closed loopback",
+    "buildProviderKeysAndModel": "empty",
+    "finalLintTypecheckRepeated": true,
+    "finalBuildAfterAccessibilityChanges": true,
+    "existingFilesystemTracingWarnings": 2,
+    "freshInstallRepeated": false,
+    "dependencyVersionsChanged": false,
+    "logs": [
+      "checks.txt",
+      "final-build.txt",
+      "design-review.txt"
+    ],
+    "stagedStrongCredentialFormatMatches": 0,
+    "productionTraceManifestsChecked": 8,
+    "traceEnvironmentOrLocalStateReferences": 0
+  },
+  "nativeZen": {
+    "metamaskAlreadyConnected": true,
+    "reportedSenderTransportReproduced": true,
+    "afterFixFactoryLiveRead": "0x00000000000000000000000000000000000026E7",
+    "requiredAmountAndPathFeedback": true,
+    "malformedArrayAddressFeedback": true,
+    "laterInterruption": "User changed active pages, then Mac locked; further native actions left untouched",
+    "nativeScreenshotsSaved": false,
+    "signed": false,
+    "funded": false,
+    "fullWalletContextAcceptance": false
+  },
+  "isolatedBrowser": {
+    "developmentUrl": "http://127.0.0.1:3000",
+    "productionUrl": "http://127.0.0.1:3109",
+    "actualWhbarGetter": "0x0000000000000000000000000000000000003aD2",
+    "explicitApplyNoTargetExecution": true,
+    "sourceGetterRequiredFields": true,
+    "sourceCallerValidation": true,
+    "callerDisclosureStaysOpenDuringCorrection": true,
+    "ordinaryTokenName": "Sauce",
+    "explicitAbsentCaller": "PRECONDITION with account guidance; clearing caller restores read",
+    "finalProductionQuote": [
+      "100000000",
+      "54006066"
+    ],
+    "quoteInputs": "WHBAR address read from whbar(); SAUCE address from reviewed bundled token metadata",
+    "keyboardContractSearchAndSelection": true,
+    "firstInvalidControlFocused": "arg-amountIn",
+    "invalidFieldBorder": "destructive token",
+    "invalidInputOutline": "none",
+    "groupErrorDescribedBy": "arg-path-error",
+    "widthsWithoutDocumentOverflow": [
+      390,
+      1280,
+      1440
+    ],
+    "lightAndDarkInspected": true,
+    "consoleErrors": 0,
+    "screenshots": {
+      "contract-chooser-light.png": "development render; obvious chooser and search",
+      "getter-desktop-dark.png": "development render; real getter result before final accessibility refinements",
+      "required-production-light.png": "final production render; required amount/path feedback",
+      "getter-production-desktop-light.png": "final production render; actual getter result and explicit use",
+      "getter-production-mobile-light.png": "final production render at 390x844",
+      "quote-production-dark.png": "final production real quote at 1440x900"
+    }
+  },
+  "designReview": {
+    "errors": 0,
+    "warnings": 1,
+    "informational": 2,
+    "existingWidthWarningManuallyChecked": true
+  },
+  "limits": [
+    "No full wallet rejection/account/network-change or funded transaction acceptance",
+    "No paid-provider inference",
+    "No unfamiliar developer walkthrough",
+    "No public-template download, push, release or submission"
+  ],
+  "cleanup": {
+    "temporaryProductionStopped": true,
+    "isolatedBrowserTabClosed": true,
+    "viewportReset": true,
+    "primaryDevPreviewRetained": true,
+    "otherUiWorktreeRetained": true
+  }
+}

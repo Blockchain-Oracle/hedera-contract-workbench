@@ -6,3 +6,4 @@ export * from "./bundled.js";
 export * from "./store.js";
 export * from "./runtime.js";
 export * from "./agents.js";
+export * from "./inputs.js";

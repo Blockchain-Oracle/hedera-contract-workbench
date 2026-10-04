@@ -1,6 +1,4 @@
 import {
-  getAddress,
-  isAddress,
   keccak256,
   toHex,
   type Abi,
@@ -16,6 +14,8 @@ import type {
   Schema,
   ToolCatalog,
 } from "./types.js";
+
+export { validateValue, validateArguments } from "./validation.js";
 
 export function normalizeAbi(input: unknown): Abi {
   const raw = Array.isArray(input) ? input : (input as any)?.abi;
@@ -239,116 +239,6 @@ export function toolsFor(contract: ContractRecord): ToolCatalog {
   cache.set(cacheKey, catalog);
   if (cache.size > 100) cache.delete(cache.keys().next().value!);
   return catalog;
-}
-function validateObject(
-  params: Parameter[],
-  input: unknown,
-  path: string,
-): unknown[] {
-  assert(
-    input !== null && typeof input === "object" && !Array.isArray(input),
-    "INPUT",
-    "Expected an object with named fields.",
-    path,
-  );
-  const obj = input as Record<string, unknown>;
-  for (const key of Object.keys(obj))
-    assert(
-      params.some((p) => p.key === key),
-      "INPUT",
-      `Unknown argument ${key}.`,
-      `${path}.${key}`,
-    );
-  return params.map((p) => {
-    assert(
-      Object.hasOwn(obj, p.key),
-      "INPUT",
-      `Missing argument ${p.key}.`,
-      `${path}.${p.key}`,
-    );
-    return validateValue(p, obj[p.key], `${path}.${p.key}`);
-  });
-}
-export function validateValue(
-  p: Parameter,
-  input: unknown,
-  path: string,
-): unknown {
-  if (p.item) {
-    assert(Array.isArray(input), "INPUT", "Expected an array.", path);
-    assert(
-      input.length <= DEFAULTS.maxArrayLength &&
-        (p.length === undefined || input.length === p.length),
-      "INPUT",
-      `Expected ${p.length ?? `at most ${DEFAULTS.maxArrayLength}`} items.`,
-      path,
-    );
-    return input.map((x, i) => validateValue(p.item!, x, `${path}[${i}]`));
-  }
-  if (p.children) return validateObject(p.children, input, path);
-  const int = /^(u?int)(\d+)$/.exec(p.type);
-  if (int) {
-    assert(
-      typeof input === "string" &&
-        input.length <= 79 &&
-        new RegExp(p.schema.pattern).test(input),
-      "INPUT",
-      "Use a canonical decimal string for an ABI integer.",
-      path,
-    );
-    const value = BigInt(input),
-      bits = BigInt(int[2]),
-      signed = int[1] === "int";
-    const min = signed ? -(1n << (bits - 1n)) : 0n,
-      max = signed ? (1n << (bits - 1n)) - 1n : (1n << bits) - 1n;
-    assert(
-      value >= min && value <= max,
-      "INPUT",
-      `${p.type} is out of range.`,
-      path,
-    );
-    return value;
-  }
-  if (p.type === "bool") {
-    assert(
-      typeof input === "boolean",
-      "INPUT",
-      "Expected a JSON boolean.",
-      path,
-    );
-    return input;
-  }
-  assert(
-    typeof input === "string",
-    "INPUT",
-    `Expected a ${p.type} string.`,
-    path,
-  );
-  if (p.type === "address") {
-    assert(isAddress(input), "INPUT", "Invalid EVM address or checksum.", path);
-    return getAddress(input);
-  }
-  if (p.schema.pattern)
-    assert(
-      new RegExp(p.schema.pattern).test(input),
-      "INPUT",
-      `Invalid ${p.type} value.`,
-      path,
-    );
-  if (p.schema.maxLength)
-    assert(
-      input.length <= p.schema.maxLength,
-      "INPUT",
-      "Value is too long.",
-      path,
-    );
-  return input;
-}
-export function validateArguments(
-  params: Parameter[],
-  input: unknown,
-): unknown[] {
-  return validateObject(params, input, "arguments");
 }
 /** Decode tuples positionally, then restore the catalog's stable field keys. */
 export function positionalOutputs(fn: AbiFunction): AbiFunction {

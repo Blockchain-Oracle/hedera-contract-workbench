@@ -1,0 +1,22 @@
+{
+  "observedAt": "2026-10-04T09:06:26.339Z",
+  "scope": "Live token getter reads on both Hedera networks; no caller or transaction",
+  "checks": [
+    {
+      "network": "testnet",
+      "signature": "whbar()",
+      "value": "0x0000000000000000000000000000000000003aD2",
+      "revision": "0xece636193d5f793e3ab118e7a5fa5ca245caa8a0583314b21ba31d805ad47d64",
+      "directRpcEqual": true,
+      "configuredTokenEqual": true
+    },
+    {
+      "network": "mainnet",
+      "signature": "whbar()",
+      "value": "0x0000000000000000000000000000000000163B5a",
+      "revision": "0xece636193d5f793e3ab118e7a5fa5ca245caa8a0583314b21ba31d805ad47d64",
+      "directRpcEqual": true,
+      "configuredTokenEqual": true
+    }
+  ]
+}

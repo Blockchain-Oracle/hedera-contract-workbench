@@ -240,7 +240,7 @@ export function Assistant({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={!enabled || busy}
-          className="min-h-20 border-0 bg-transparent px-2 shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="min-h-20 border-0 bg-transparent px-2 shadow-none "
           onKeyDown={(event) => {
             if (
               event.key === "Enter" &&

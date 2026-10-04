@@ -13,6 +13,8 @@ Supported ABI values: bounded uint/int (8–256 bits), address, bool, string, by
 
 Bundled ABI subsets are authored from public interface signatures, not copied application source. They expose the router methods used by this workbench and selected HTS token facade/ERC views; they are intentionally narrower than the complete contracts.
 
+The router's token address getter is `whbar()`, verified against [the official router source](https://github.com/saucerswaplabs/saucerswap-periphery/blob/606a00316c5526a8fb42c35a5692d8f8bdb97810/contracts/UniswapV2Router02.sol#L18) and live RPC on both networks. The earlier bundled `WETH()` signature was incorrect and is removed; ABI revisions change accordingly. `WHBAR()` in that source denotes the wrapper contract, a different address from the token used in the path. Getter assistance does not add wrapping or allowance operations.
+
 | Example                         | Testnet ID  | Mainnet ID  |
 | ------------------------------- | ----------- | ----------- |
 | SaucerSwap V1 router            | 0.0.19264   | 0.0.3045981 |

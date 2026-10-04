@@ -34,6 +34,7 @@ import {
 } from "./networks.js";
 import { Store, findWorkspace } from "./store.js";
 import { assert, asError, WorkbenchError } from "./errors.js";
+import { inputSources } from "./inputs.js";
 import type {
   ContractRecord,
   ExecutionResult,
@@ -177,10 +178,16 @@ export class Runtime {
   }
   async inspectTool(
     id: string,
-  ): Promise<{ contract: ContractRecord; tool: ToolDefinition }> {
+  ): Promise<{
+    contract: ContractRecord;
+    tool: ToolDefinition;
+    inputSources: ReturnType<typeof inputSources>;
+  }> {
     for (const contract of await this.store.contracts()) {
-      const tool = toolsFor(contract).tools.find((t) => t.id === id);
-      if (tool) return { contract, tool };
+      const catalog = toolsFor(contract).tools;
+      const tool = catalog.find((t) => t.id === id);
+      if (tool)
+        return { contract, tool, inputSources: inputSources(tool, catalog) };
     }
     throw new WorkbenchError(
       "NOT_FOUND",

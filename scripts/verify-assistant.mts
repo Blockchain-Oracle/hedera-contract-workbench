@@ -12,7 +12,7 @@ const factory = toolsFor(contract).tools.find(
 const execution = assistantTools(
   engine,
   contract,
-  undefined,
+  "0x481231a8DFE80B16Cdf823116eB62a71342b3210",
   new AbortController().signal,
 );
 const usage = {
@@ -71,6 +71,32 @@ const output = chunks.find((c: any) => c.type === "tool-result") as any;
 assert.equal(output.output.ok, true);
 const direct = await engine.call(factory.id, {});
 assert.equal(output.output.data.value, direct.value);
+assert.equal(
+  output.output.data.caller,
+  undefined,
+  "A connected wallet is not an implicit read caller.",
+);
+const contexts: unknown[] = [];
+const callerProbe = assistantTools(
+  {
+    call: async (_id: string, _args: unknown, options: { from?: string }) => {
+      contexts.push(options.from);
+      return { caller: options.from };
+    },
+  } as unknown as Runtime,
+  contract,
+  "0x481231a8DFE80B16Cdf823116eB62a71342b3210",
+  new AbortController().signal,
+);
+await callerProbe.tools[factory.id].execute!({ arguments: {} }, {} as any);
+await callerProbe.tools[factory.id].execute!(
+  { arguments: {}, from: "0x0000000000000000000000000000000000000001" },
+  {} as any,
+);
+assert.deepEqual(contexts, [
+  undefined,
+  "0x0000000000000000000000000000000000000001",
+]);
 assert.ok(
   chunks.some(
     (c: any) => c.type === "text-delta" && c.text === "Read completed.",
@@ -106,6 +132,7 @@ const evidence = {
     "selected contract scope",
     "cancellation",
     "six-execution budget",
+    "connected wallet does not inject a read caller; explicit caller remains supported",
   ],
 };
 await writeFile(

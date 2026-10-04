@@ -17,6 +17,10 @@ The repository is prepared for the technical template identifier `Blockchain-Ora
 
 The reusable browser interface follows the measured Slush blue shell and light/dark surfaces, with green testnet and blue mainnet accents. Accounts opens from the sidebar footer; actual installed EVM wallets provide connection and signing. Imported supported ABIs inherit the same forms, result cards and review drawers. [Design authority, rendered evidence and known limits](docs/design/2026-10-04-slush-fidelity.md).
 
+Ordinary reads work with or without a connected wallet: they omit the caller by default. Expand **Caller context · optional** only for an intentional caller-scoped read. Connecting MetaMask does not create a Hedera account; that account must exist on the selected network for caller-scoped calls and transactions. [Hedera account creation](https://docs.hedera.com/learn/core-concepts/accounts/auto-account-creation).
+
+Required arguments show inline errors before RPC. Nested tuples, array elements and integer bounds use the same validator as core execution. **Find a value** offers compatible getters from the selected ABI, reads only the chosen getter, and lets you explicitly apply a validated result with its source path, network and revision. Confirm its meaning and units; a returned count is not a list of existing IDs. Without a suitable getter, provide the value from an authoritative source. ABI types alone cannot infer recipients, routes or permissions.
+
 ## Import your contract
 
 Use **Import contract** in the browser: select its deployment network and enter its EVM address or Hedera contract ID. Verified ABI discovery uses Sourcify. If no verified ABI is available, upload an ABI array or a Solidity artifact containing `abi`. Imports persist in `workbench.config.local.json`, outside version control. Importing does not deploy or copy a contract to another network.

@@ -1,7 +1,10 @@
 import { Runtime, WorkbenchError, assert, errorEnvelope } from "@sh/core";
 import { NextResponse, type NextRequest } from "next/server";
 const globalRuntime = globalThis as unknown as { workbenchRuntime?: Runtime };
-export const runtime = (globalRuntime.workbenchRuntime ??= new Runtime());
+export const runtime =
+  globalRuntime.workbenchRuntime instanceof Runtime
+    ? globalRuntime.workbenchRuntime
+    : (globalRuntime.workbenchRuntime = new Runtime());
 export function guard(request: NextRequest) {
   const origin = request.headers.get("origin");
   const host = request.headers.get("host") ?? "";

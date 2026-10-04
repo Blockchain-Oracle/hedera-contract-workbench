@@ -1,0 +1,15 @@
+# Connected reads and sourced arguments
+
+The user requests fixing a connected MetaMask read failure, generic inline required-field validation, a discoverable contract chooser, one focus treatment and getter-assisted argument discovery for developers and agents. This authorizes implementation and actual Zen acceptance without another design approval. No wallet signing, fund transfer or publication follows from it.
+
+Reproduced in Zen: the connected wallet is passed as `from` even for `allPairsLength()`. The selected testnet account is absent, causing a Hedera prerequisite. The development runtime persists across hot reloads, so class identity can differ between its errors and the HTTP error formatter; the prerequisite was subsequently reclassified as TRANSPORT.
+
+Choose shared deterministic validation and explicit sourced values. Browser and core use one browser-safe validator; collect every field error before issuing RPC. Keep ABI-valid empty strings/arrays and false/zero values valid. Reads omit caller by default, including when connected; an advanced caller override supports intentional caller-scoped reads. Writes/simulation retain their intended sender. Preserve known errors across module reloads and explain account prerequisites with network/funding guidance.
+
+Make contract selection a bordered, visibly labeled chooser. Use one accessible focus ring rather than stacked global/component outlines. Reuse Field/FieldError, Radix and cmdk; no new UI dependency is needed. 21st search found field/combobox references but existing installed components satisfy this behavior.
+
+Argument help lists compatible read functions from the actual selected ABI, exposes their required inputs, runs only the chosen getter on demand, and offers validated result values with function/result-path/network/revision/time provenance. Applying a value is an explicit user action. A count is not proof of existing IDs; matching types are not semantic guarantees. Do not guess IDs, unit conversions, routes, addresses, recipients or permitted votes. No polling all getters, event indexer or contract category classifier. Share the source descriptions through CLI/MCP inspection, portable skill context and assistant inspection; agents use actual reads or ask for missing intent.
+
+Verify core validation/path/precision, cross-module errors, sourced nested/array values and scope; exercise CLI/MCP/assistant inspection and keyless reads, then actual Zen MetaMask-connected reads and invalid/valid forms. Check desktop/narrow focus and chooser visibility. Record evidence and remaining wallet/provider limits, then commit locally.
+
+Manual getter acceptance exposed a separate bundled ABI error: `WETH()` reverts on the live router. The official SaucerSwap router source exposes `whbar()` for the token address and `WHBAR()` for the wrapper contract. Replace the mistaken signature with the token getter, update the example ABI and verify direct RPC/browser reads. This changes the bundled ABI revision without mutating imported local ABIs. No wrapping or allowance workflow is added.

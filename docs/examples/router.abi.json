@@ -82,7 +82,7 @@
     ]
   },
   {
-    "name": "WETH",
+    "name": "whbar",
     "type": "function",
     "stateMutability": "view",
     "inputs": [],

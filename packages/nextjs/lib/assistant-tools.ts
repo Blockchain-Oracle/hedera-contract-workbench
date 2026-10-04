@@ -1,6 +1,7 @@
 import { tool, jsonSchema, type ToolSet } from "ai";
 import {
   toolsFor,
+  inputSources,
   assert,
   errorEnvelope,
   type Runtime,
@@ -65,7 +66,10 @@ export function assistantTools(
       );
       if (active.size >= 28) active.delete(active.values().next().value!);
       active.add(definition.id);
-      return definition;
+      return {
+        ...definition,
+        inputSources: inputSources(definition, catalog.tools),
+      };
     }),
   });
   tools.simulate = tool({
@@ -116,6 +120,16 @@ export function assistantTools(
         type: "object",
         properties: {
           arguments: definition.inputSchema,
+          ...(definition.action === "read"
+            ? {
+                from: {
+                  type: "string",
+                  pattern: "^0x[0-9a-fA-F]{40}$",
+                  description:
+                    "Optional explicit caller for an intentionally caller-scoped read. Omit for ordinary reads, even with a connected wallet.",
+                },
+              }
+            : {}),
           ...(definition.mutability === "payable"
             ? {
                 valueHbar: {
@@ -131,7 +145,7 @@ export function assistantTools(
       execute: bounded((args) =>
         definition.action === "read"
           ? engine.call(definition.id, args.arguments, {
-              from: from,
+              from: args.from,
               revision: definition.revision,
               signal,
             })

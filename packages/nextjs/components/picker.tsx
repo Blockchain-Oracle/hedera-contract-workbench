@@ -40,7 +40,7 @@ export function Picker({
           aria-expanded={open}
           disabled={disabled || !options.length}
           className={cn(
-            "wb-picker flex min-h-12 w-full min-w-0 items-center justify-between gap-3 rounded-[12px] border border-input bg-card px-4 py-3 text-left text-sm disabled:opacity-50",
+            "wb-picker flex min-h-12 w-full min-w-0 items-center justify-between gap-3 rounded-[12px] border border-input bg-card px-4 py-3 text-left text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50",
             className,
           )}
         >
@@ -111,19 +111,29 @@ export function Choice({
   value,
   options,
   onChange,
+  invalid,
+  describedBy,
+  onBlur,
 }: {
   id: string;
   label: string;
   value: string;
   options: Option[];
   onChange: (value: string) => void;
+  invalid?: boolean;
+  describedBy?: string;
+  onBlur?: () => void;
 }) {
   return (
     <Select.Root value={value} onValueChange={onChange}>
       <Select.Trigger
+        data-slot="select-trigger"
         id={id}
         aria-label={label}
-        className="flex h-12 w-full items-center justify-between gap-3 rounded-[12px] border border-input bg-card px-4 text-sm"
+        aria-invalid={invalid || undefined}
+        aria-describedby={describedBy}
+        onBlur={onBlur}
+        className="flex h-12 w-full items-center justify-between gap-3 rounded-[12px] border border-input bg-card px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring aria-invalid:border-destructive"
       >
         <Select.Value />
         <Select.Icon>

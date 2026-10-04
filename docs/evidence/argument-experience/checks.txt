@@ -1,0 +1,279 @@
+
+> hedera-contract-workbench@0.1.0 lint
+> eslint packages scripts --max-warnings 0
+
+
+> hedera-contract-workbench@0.1.0 test
+> npm run build:runtime && npm run test -w @sh/core && npm run test -w @sh/hardhat
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/core@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ one agent context handles nested proposals and NFT overloads without categories (136.460042ms)
+✔ decimal-string integers preserve precision and reject invalid bounds (1.96325ms)
+✔ nested tuples and arrays retain positional mappings for duplicate/unnamed fields (0.336ms)
+✔ overloads have independent identity and unsupported types are visible (0.573917ms)
+✔ HBAR, tinybar, and RPC weibar are distinct exact units (0.286ms)
+✔ receipt polling settings retain defaults, accept bounded overrides, and reject unbounded polling (14.6485ms)
+✔ concurrent registry edits preserve imports; stale refresh and corrupt JSON preserve state (46.019ms)
+✔ preparation binds calldata, caller, network, revision, expiry, and value (19.678583ms)
+✔ tuple results never lose duplicate or unnamed positions (0.715042ms)
+✔ mainnet plans require exact context without any submission (12.20725ms)
+✔ invalid native value types and oversized values fail before RPC (0.248459ms)
+✔ plan expiry and metadata changes require renewed preparation (10.00075ms)
+✔ malformed imports preserve the registry without requesting RPC (4.284584ms)
+✔ abandoned reads cancel the underlying RPC and leave other reads usable (62.489875ms)
+✔ all missing and invalid fields use canonical nested paths before execution (3.255791ms)
+✔ explicit empty strings/arrays/bytes and false/zero remain valid ABI values (0.218583ms)
+✔ getter discovery stays read-only, ABI-scoped, revision-bound and non-semantic (3.965666ms)
+✔ actual getter choices preserve precise array/tuple paths and enforce destination bounds (0.387084ms)
+✔ known application errors survive persistent-runtime module identity changes (0.205291ms)
+✔ prepare rejects an interface refresh during simulation (28.991583ms)
+✔ validate rejects an interface refresh during simulation (13.86225ms)
+✔ stale removal preserves the refreshed registry byte for byte (17.8925ms)
+✔ journal-backed receipt checks obey the shared concurrency limit (138.925125ms)
+✔ receipt cancellation interrupts rpc HTTP and permits later requests (41.432708ms)
+✔ receipt cancellation interrupts mirror HTTP and permits later requests (10.334084ms)
+✔ aborting queued receipt work releases the queue without starting cancelled RPC (24.012542ms)
+✔ nested Hedera sender/funding failures give actionable prerequisites, not endpoint retries (1.143875ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 964.898709
+
+> @sh/hardhat@0.1.0 test
+> hardhat test
+
+
+
+  Observation
+    ✔ keeps tuples caller-scoped and exposes independent overloads (486ms)
+
+
+  1 passing (487ms)
+
+
+> hedera-contract-workbench@0.1.0 typecheck
+> npm run build:runtime && npm run typecheck -w @sh/nextjs && npm run typecheck -w @sh/hardhat
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/nextjs@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @sh/hardhat@0.1.0 typecheck
+> tsc --noEmit
+
+
+> hedera-contract-workbench@0.1.0 build
+> node scripts/build.mjs
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/hardhat@0.1.0 compile
+> hardhat compile
+
+Nothing to compile
+
+> @sh/nextjs@0.1.0 build
+> next build
+
+▲ Next.js 16.3.8 (Turbopack)
+✓ Running next.config.ts took 67ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.2s
+  Running TypeScript ...
+  Finished TypeScript in 4.0s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/5) ...
+  Generating static pages using 7 workers (1/5)
+  Generating static pages using 7 workers (2/5)
+  Generating static pages using 7 workers (3/5)
+✓ Generating static pages using 7 workers (5/5) in 566ms
+Turbopack build encountered 2 warnings:
+./packages/core/dist/agents.js:203:51
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m201 |[0m                 [36mif[0m (name === [32m"arguments"[0m && !context.tools.length)
+  [90m202 |[0m                     [36mcontinue[0m;
+[33m[1m>[0m [90m203 |[0m                 [36mawait[0m rename(join(staging, name), join(destination, name));
+  [90m    |[0m                                                   [33m[1m^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m204 |[0m             }
+  [90m205 |[0m         }
+  [90m206 |[0m         [36mcatch[0m (error) {
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import trace:
+  App Route:
+    ./packages/core/dist/agents.js
+    ./packages/nextjs/app/api/workbench/[...path]/route.ts
+
+
+./packages/core/dist/agents.js:172:25
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m170 |[0m ...ll(engine, id, output) {
+  [90m171 |[0m ...Context(engine, id), files = [36mawait[0m portableSkill(engine.store.root);
+[33m[1m>[0m [90m172 |[0m ...(output ??
+  [90m    |[0m    [33m[1m^^^^^^^^^^^^^^^^[0m
+[33m[1m>[0m [90m173 |[0m ... [32m".workbench"[0m, [32m"skills"[0m, [32m`[0m${context.contract.id[32m}-[0m${[33mDate[0m.now()[32m}-[0m${randomUUID().slice([35m0[0m,.[35m.[0m.
+  [90m    |[0m    [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m174 |[0m ...ion[32m}.tmp-[0m${randomUUID()[32m}`[0m;
+  [90m175 |[0m ...tion), { recursive: [36mtrue[0m });
+  [90m176 |[0m ...
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.resolve(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import trace:
+  App Route:
+    ./packages/core/dist/agents.js
+    ./packages/nextjs/app/api/workbench/[...path]/route.ts
+
+
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /api/chat
+├ ƒ /api/workbench/[...path]
+└ ○ /workbench
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+> hedera-contract-workbench@0.1.0 verify:local
+> npm run build:runtime && npm run compile -w @sh/hardhat && node scripts/verify-local.mjs
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/hardhat@0.1.0 compile
+> hardhat compile
+
+Nothing to compile
+{"observedAt":"2026-10-04T09:04:07.328Z","scope":"Isolated Hardhat RPC fixture with chain ID 296. No Hedera transaction or real funds.","checks":["core/CLI/MCP equivalent unsigned calldata and caller","typed nested tuple roundtrip with integer above Number precision","caller-specific custom revert agrees with direct RPC","MCP simulation","live catalog notification and removal","stale plan rejected","documented CLI command groups and error envelopes","CLI deployed-contract import by resolved ID and artifact, verified discovery and successful refresh","CLI overloads, argument files/stdin, precision, process restart persistence","actual local confirmed journal receipt, pending receipt and mirror indexing lag across CLI/MCP","CLI stale removal preserves registry and exact current removal succeeds"],"catalogNotifications":8,"metadataScope":"Controlled mirror/Sourcify metadata fixture; real isolated EVM RPC execution. Public adapter verification is separate.","cliChecks":[{"command":"doctor --network testnet","exitCode":0,"ok":true},{"command":"doctor --network mainnet","exitCode":3,"ok":true},{"command":"contracts import --network testnet --address 0.0.12345 --abi /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-local-ifPAb0/observation.json","exitCode":0,"ok":true},{"command":"contracts import --network testnet --address 0x5FbDB2315678afecb367f032d93F642f64180aa3","exitCode":0,"ok":true},{"command":"contracts import --address 0x5FbDB2315678afecb367f032d93F642f64180aa3 --abi -","exitCode":2,"ok":false,"errorCode":"INPUT"},{"command":"contracts import --address 0x5FbDB2315678afecb367f032d93F642f64180aa3 --abi -","exitCode":2,"ok":false,"errorCode":"ABI_INVALID"},{"command":"contracts list","exitCode":0,"ok":true},{"command":"contracts inspect local-observation","exitCode":0,"ok":true},{"command":"tools list --contract local-observation","exitCode":0,"ok":true},{"command":"tools inspect prepare_record_27b061de4321df1c","exitCode":0,"ok":true},{"command":"mcp config","exitCode":0,"ok":true},{"command":"tools prepare prepare_record_27b061de4321df1c --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file -","exitCode":0,"ok":true},{"command":"tools simulate prepare_record_27b061de4321df1c --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file -","exitCode":0,"ok":true},{"command":"transactions status --network testnet --hash 0xf338cba08a6d8affeb6154c66133ac1daa7bb81c2964a58eb7e2f5dfcc183c9b","exitCode":0,"ok":true},{"command":"transactions status --network testnet --hash 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","exitCode":0,"ok":true},{"command":"tools call read_latest_70c85c7b5bab7ea1 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file -","exitCode":0,"ok":true},{"command":"tools call read_latest_70c85c7b5bab7ea1 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-local-ifPAb0/arguments.json","exitCode":0,"ok":true},{"command":"tools call read_latest_70c85c7b5bab7ea1 --from 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --args-file -","exitCode":5,"ok":false,"errorCode":"REVERT"},{"command":"tools call read_latest_70c85c7b5bab7ea1 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file -","exitCode":2,"ok":false,"errorCode":"INPUT"},{"command":"tools call read_describe_b3426e63cf5e0865 --args-file -","exitCode":0,"ok":true},{"command":"tools call read_describe_0d495db1fef60a64 --args-file -","exitCode":0,"ok":true},{"command":"contracts refresh local-observation","exitCode":0,"ok":true},{"command":"contracts refresh sauce-testnet","exitCode":2,"ok":false,"errorCode":"ABI_REQUIRED"},{"command":"transactions status --network testnet --hash bad","exitCode":2,"ok":false,"errorCode":"INPUT"},{"command":"contracts remove local-observation","exitCode":2,"ok":false,"errorCode":"INPUT"},{"command":"contracts remove local-observation --yes --revision 0x79bbf79c39a717dd0d1d7d1705b3c45b17cb860d0ad5d11d9f38b07345245cbd:38f4d09a-2eff-44c5-85dc-86a2b3d7f78b","exitCode":3,"ok":false,"errorCode":"STALE_REVISION"},{"command":"contracts remove local-observation --yes --revision 0x46e788de3ec0708b8604c065a88ba11a50d90918abbe1998f6b50f37696fbf98:6b284ae5-16f2-461b-b2f2-69596e53657f","exitCode":0,"ok":true},{"command":"contracts inspect local-observation","exitCode":2,"ok":false,"errorCode":"NOT_FOUND"}]}
+
+> hedera-contract-workbench@0.1.0 verify:generic
+> npm run build:runtime && tsx --tsconfig packages/nextjs/tsconfig.json scripts/verify-generic.mts
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+{"observedAt":"2026-10-04T09:04:19.149Z","scope":"Three original Solidity fixtures deployed on isolated local EVM. No Hedera submissions; no contract-category routing or extra per-contract skills.","checks":["CLI skill show/export/install-command, raw Markdown and conflicting machine/document flags exercised as real subprocesses","GovernanceFixture: actual RPC read agrees across core, CLI, MCP, assistant and exported command; HTTP skills match canonical catalog","CollectibleFixture: actual RPC read agrees across core, CLI, MCP, assistant and exported command; HTTP skills match canonical catalog","RouteFixture: actual RPC read agrees across core, CLI, MCP, assistant and exported command; HTTP skills match canonical catalog","openai: actual SDK adapter parses tool request and result, runs real core RPC read, and continues; provider HTTP is mocked","anthropic: actual SDK adapter parses tool request and result, runs real core RPC read, and continues; provider HTTP is mocked","gemini: actual SDK adapter parses tool request and result, runs real core RPC read, and continues; provider HTTP is mocked","Overloaded NFT preparations agree across adapters; wrong owner reverts","Nested proposal preparation; uint8 bound and custom error; native payable precision","Same portable skill bytes across every ABI; imports persist after restart; cross-contract assistant calls rejected"]}
+
+> hedera-contract-workbench@0.1.0 verify:assistant
+> npm run build:runtime && tsx scripts/verify-assistant.mts
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+{"observedAt":"2026-10-04T09:04:25.224Z","scope":"Official AI SDK 7 mock model stream with a live core RPC tool. No paid/provider inference claimed.","value":"0x00000000000000000000000000000000000026E7","checks":["streamed tool call agrees with forms/CLI/MCP core","stream continuation","selected contract scope","cancellation","six-execution budget","connected wallet does not inject a read caller; explicit caller remains supported"]}

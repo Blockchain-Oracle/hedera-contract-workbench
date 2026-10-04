@@ -121,13 +121,10 @@
     margin: 0;
     font-family: var(--font-sans);
   }
-  button,
-  a,
-  input,
-  textarea,
-  select,
+  button:not([data-slot]):not(.wb-picker),
+  a:not([data-slot]),
   summary {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2;
   }
   button:not(:disabled),
   a,

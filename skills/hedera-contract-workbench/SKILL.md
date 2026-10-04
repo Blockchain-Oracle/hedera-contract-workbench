@@ -31,9 +31,13 @@ Replace placeholders with returned aliases and IDs, never invented ones. Inspect
 
 Read [argument rules](references/arguments.md). Construct only the inspected schema's keys. Put JSON in an argument file or stdin; do not interpolate user values into shell command code. Preserve decimal integers as strings, tuple structure, and exact units. Ask the user only for genuinely missing required values or intent.
 
+Inspection and skill context include `inputSources`: compatible read functions in the actual selected ABI, their signatures, required parameters and revision. Inspect a candidate and execute its real read to discover values. Preserve the source network, revision, function and result path; check meaning and units before reuse. Type compatibility is a clue, not proof that an ID exists or a route/recipient is intended. A supply/count is not a list of valid IDs. Never guess token IDs, proposal IDs, recipients, routes or units. When the ABI has no suitable getter, explain the missing discovery surface and ask for the needed value or a fuller ABI. No getter is called automatically.
+
 ## Execute the appropriate action
 
 For a read:
+
+Omit `--from` for ordinary reads, including when a wallet is connected. Use it only when the user intentionally needs caller-scoped state. Connecting MetaMask does not by itself create the account on the selected Hedera network; an absent caller is an account prerequisite, not an endpoint retry. Default reads remain usable without that account.
 
 ```sh
 npm run --silent workbench -- tools call TOOL_ID --args-file input.json --json

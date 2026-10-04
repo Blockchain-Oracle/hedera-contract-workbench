@@ -15,6 +15,14 @@
     "test": "tsx --test test/*.test.ts"
   },
   "exports": {
+    "./validation": {
+      "types": "./dist/validation.d.ts",
+      "default": "./dist/validation.js"
+    },
+    "./inputs": {
+      "types": "./dist/inputs.d.ts",
+      "default": "./dist/inputs.js"
+    },
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
