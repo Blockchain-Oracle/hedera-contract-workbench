@@ -53,7 +53,19 @@ A returned transaction hash is saved immediately in browser recovery storage and
 
 ## Optional assistant
 
-Copy `packages/nextjs/.env.example` to `.env.local` in that directory. Configure either OpenAI or Anthropic plus an explicit model ID, then restart. Credentials remain server-side. Provider errors leave deterministic functions available. The assistant uses a fixed set of result components; model-generated code is never executed.
+Copy `packages/nextjs/.env.example` to `.env.local` in that directory. Configure OpenAI, Anthropic or Gemini plus an explicit compatible model ID, then restart. Credentials remain server-side. Provider errors leave deterministic functions available. The assistant uses a fixed set of result components; model-generated code is never executed. Audio is excluded at the user's request.
+
+## Give your agent the current contract tools
+
+The same portable skill works after importing a different ABI. It discovers current schemas rather than hardcoding token functions. Install with the official Vercel skills CLI:
+
+```sh
+npx --yes skills@1.7.0 add ./skills/hedera-contract-workbench --agent codex claude-code cursor --copy --yes
+npm run --silent workbench -- skills show --contract CONTRACT_ID --json
+npm run --silent workbench -- skills export --contract CONTRACT_ID --json
+```
+
+Use an actual contract alias from `contracts list`. `show` provides Markdown, typed argument examples and copyable commands. `export` bundles the portable skill with its current catalog and workspace location for another agent/project. Inspect again before execution and fill intended arguments. [Local installation and agent setup](docs/AGENTS.md).
 
 ## Development
 

@@ -17,6 +17,9 @@ Entry point: `npm run --silent workbench -- COMMAND`. Node 24 LTS recommended. R
 | `tools prepare TOOL_ID`    | Same input as simulation; writes only, returns an unsigned plan and review URL                                  |
 | `transactions status`      | `--hash HASH`, `--network`; actual receipt and separate indexing status                                         |
 | `mcp config`               | Absolute Node/server paths and workspace cwd for compatible hosts                                               |
+| `skills show`              | `--contract ID`; current schemas, typed templates and install/execution commands; `--markdown` prints SKILL.md  |
+| `skills export`            | `--contract ID`, optional `--out NEW_DIRECTORY`; complete portable bundle, preserving existing exports          |
+| `skills install-command`   | Optional `--agent AGENT_IDS...`; official Vercel local installation command, default Codex                      |
 
 `--json` is a global flag accepted after commands. It disables guided prompts and prints one versioned envelope to stdout. Use `--no-color` or `NO_COLOR=1` for human plain output.
 

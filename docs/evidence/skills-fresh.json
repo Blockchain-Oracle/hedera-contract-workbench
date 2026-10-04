@@ -1,0 +1,89 @@
+{
+  "observedAt": "2026-10-04T06:51:59.927Z",
+  "scope": "Fresh isolated source copy, ordinary npm 10.9.3 ci; no credentials/local state. Offline production build; real served skill API/Markdown and keyless live Hedera testnet read. Not a new external installer transformation or public remote download.",
+  "node": "v24.19.0",
+  "npm": "10.9.3",
+  "checks": [
+    {
+      "name": "ci",
+      "exitCode": 0,
+      "durationMs": 32998
+    },
+    {
+      "name": "dependencies",
+      "exitCode": 0,
+      "durationMs": 663
+    },
+    {
+      "name": "lint",
+      "exitCode": 0,
+      "durationMs": 1674
+    },
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "durationMs": 8050
+    },
+    {
+      "name": "test",
+      "exitCode": 0,
+      "durationMs": 15429
+    },
+    {
+      "name": "build",
+      "exitCode": 0,
+      "durationMs": 18001
+    }
+  ],
+  "boot": {
+    "state": true,
+    "skillToolCount": 5,
+    "markdown": true,
+    "signature": "factory()",
+    "value": "0x00000000000000000000000000000000000026E7"
+  },
+  "sourceRefresh": {
+    "files": [
+      "packages/core/src/agents.ts",
+      "packages/core/test/agents.test.ts",
+      "packages/cli/src/index.ts",
+      "scripts/record-terminal.py",
+      "scripts/verify-generic.mts"
+    ],
+    "reason": "Final readable commands, shell escaping regression, CLI human summaries and new skill-command subprocess checks; manifests/lockfile unchanged.",
+    "checks": [
+      {
+        "name": "lint",
+        "exitCode": 0,
+        "durationMs": 1207
+      },
+      {
+        "name": "typecheck",
+        "exitCode": 0,
+        "durationMs": 7778
+      },
+      {
+        "name": "test",
+        "exitCode": 0,
+        "durationMs": 5264
+      },
+      {
+        "name": "generic",
+        "exitCode": 0,
+        "durationMs": 10792
+      },
+      {
+        "name": "build",
+        "exitCode": 0,
+        "durationMs": 8977
+      }
+    ],
+    "productionSkillApi": true,
+    "productionMarkdown": true
+  },
+  "correctedSetupAttempt": {
+    "symptom": "Build-only disabled RPC overrides were mistakenly applied to local RPC tests, which timed out.",
+    "resolution": "Remove those overrides for tests; apply only to build.",
+    "log": "skills-fresh-setup-failure.txt"
+  }
+}

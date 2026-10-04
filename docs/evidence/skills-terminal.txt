@@ -1,0 +1,41 @@
+
+$ workbench skills show --contract saucerswap-testnet
+[1m
+Agent skill · hedera-contract-workbench[22m
+SaucerSwap V1 router · testnet · 0x0000000000000000000000000000000000004b40
+[2mRevision 0x91bf6ca2f54cfe09fa377b8c7ded9a74efc807906d193d62c18f2d602c8a45d3[22m
+
+Install locally for your agent:
+[36mcodex[39m
+npx --yes skills@1.7.0 add /Users/abu/dev/hackathon/hedera-bounties/workbench/skills/hedera-contract-workbench --agent codex --copy --yes
+
+[36mclaude-code[39m
+npx --yes skills@1.7.0 add /Users/abu/dev/hackathon/hedera-bounties/workbench/skills/hedera-contract-workbench --agent claude-code --copy --yes
+
+[36mcursor[39m
+npx --yes skills@1.7.0 add /Users/abu/dev/hackathon/hedera-bounties/workbench/skills/hedera-contract-workbench --agent cursor --copy --yes
+
+Inspect the current catalog:
+npm --prefix /Users/abu/dev/hackathon/hedera-bounties/workbench run --silent workbench -- tools list --contract saucerswap-testnet --json
+
+5 functions · 0 unsupported
+[1mgetAmountsOut(uint256,address[])[22m · read
+npm --prefix /Users/abu/dev/hackathon/hedera-bounties/workbench run --silent workbench -- tools inspect read_getAmountsOut_093c902fde71ee4f --json
+
+[1mgetAmountsIn(uint256,address[])[22m · read
+npm --prefix /Users/abu/dev/hackathon/hedera-bounties/workbench run --silent workbench -- tools inspect read_getAmountsIn_cf0db674422ef38b --json
+
+[1mswapExactETHForTokens(uint256,address[],address,uint256)[22m · prepare
+npm --prefix /Users/abu/dev/hackathon/hedera-bounties/workbench run --silent workbench -- tools inspect prepare_swapExactETHForTokens_6ae3341ee4f94e40 --json
+
+[1mfactory()[22m · read
+npm --prefix /Users/abu/dev/hackathon/hedera-bounties/workbench run --silent workbench -- tools inspect read_factory_c5d171ab56a811f2 --json
+
+[1mWETH()[22m · read
+npm --prefix /Users/abu/dev/hackathon/hedera-bounties/workbench run --silent workbench -- tools inspect read_WETH_4186b1380667e60a --json
+
+[2mRead Markdown: npm run --silent workbench -- skills show --contract saucerswap-testnet --markdown
+Export commands and arguments: npm run --silent workbench -- skills export --contract saucerswap-testnet[22m
+
+$ workbench skills install-command --agent codex claude-code
+npx --yes skills@1.7.0 add /Users/abu/dev/hackathon/hedera-bounties/workbench/skills/hedera-contract-workbench --agent codex claude-code --copy --yes

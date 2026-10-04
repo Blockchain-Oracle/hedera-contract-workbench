@@ -1,0 +1,81 @@
+{
+  "observedAt": "2026-10-04T06:37:38.855Z",
+  "scope": "Live public Hedera testnet NFT facade import and read parity. No wallet/provider inference or Hedera submissions.",
+  "tokenId": "0.0.10853272",
+  "address": "0x0000000000000000000000000000000000A59b98",
+  "metadataUrl": "https://testnet.mirrornode.hedera.com/api/v1/tokens/0.0.10853272",
+  "abiProvenance": "Authored ERC-721 read/overload interface subset; actual HTS facade methods validated on RPC. Full ERC-721/HTS implementation compliance is not claimed.",
+  "checks": [
+    {
+      "signature": "name()",
+      "arguments": {},
+      "value": "Night Market",
+      "interfaces": [
+        "direct RPC",
+        "core",
+        "CLI",
+        "MCP",
+        "assistant tools"
+      ]
+    },
+    {
+      "signature": "symbol()",
+      "arguments": {},
+      "value": "NIGHT",
+      "interfaces": [
+        "direct RPC",
+        "core",
+        "CLI",
+        "MCP",
+        "assistant tools"
+      ]
+    },
+    {
+      "signature": "totalSupply()",
+      "arguments": {},
+      "value": "3",
+      "interfaces": [
+        "direct RPC",
+        "core",
+        "CLI",
+        "MCP",
+        "assistant tools"
+      ]
+    },
+    {
+      "signature": "ownerOf(uint256)",
+      "arguments": {
+        "tokenId": "3"
+      },
+      "value": "0xA91F6F8C707B8115Bc07193AD181c6D181aEC4Ab",
+      "interfaces": [
+        "direct RPC",
+        "core",
+        "CLI",
+        "MCP",
+        "assistant tools"
+      ]
+    }
+  ],
+  "daoSource": "https://github.com/hashgraph/hedera-accelerator-defi-dex/tree/d813159078be7d84b4c408b153a585348f0f82c2",
+  "staleDaoChecks": [
+    {
+      "label": "FTDAO factory",
+      "address": "0x0000000000000000000000000000000000581ec6",
+      "verified": false,
+      "reason": "No current EVM code"
+    },
+    {
+      "label": "MultisigDAO",
+      "address": "0x0000000000000000000000000000000000572acc",
+      "verified": false,
+      "reason": "The contract function \"getDaoInfo\" returned no data (\"0x\")."
+    },
+    {
+      "label": "Governor",
+      "address": "0x00000000000000000000000000000000003961bc",
+      "verified": false,
+      "reason": "No current EVM code"
+    }
+  ]
+}

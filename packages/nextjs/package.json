@@ -5,12 +5,15 @@
   "type": "module",
   "dependencies": {
     "@ai-sdk/anthropic": "4.0.71",
+    "@ai-sdk/google": "4.0.87",
     "@ai-sdk/openai": "4.0.83",
     "@ai-sdk/react": "4.0.130",
     "@hiero-ledger/sdk": "2.80.0",
+    "@next/env": "16.3.8",
     "@scaffold-hbar-ui/components": "3.0.2",
     "@scaffold-hbar-ui/hooks": "2.0.2",
     "@sh/core": "0.1.0",
+    "@swc/helpers": "0.5.23",
     "@tanstack/react-query": "5.104.1",
     "ai": "7.0.127",
     "class-variance-authority": "0.7.1",
@@ -22,13 +25,11 @@
     "radix-ui": "1.4.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "styled-jsx": "5.1.6",
     "tailwind-merge": "3.3.1",
     "viem": "2.57.2",
     "wagmi": "2.19.5",
-    "zod": "4.6.5",
-    "@swc/helpers": "0.5.23",
-    "@next/env": "16.3.8",
-    "styled-jsx": "5.1.6"
+    "zod": "4.6.5"
   },
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",

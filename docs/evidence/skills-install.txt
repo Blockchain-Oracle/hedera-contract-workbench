@@ -1,0 +1,36 @@
+
+│
+●   codex  Agent detected — installing non-interactively
+│
+◇  Source: /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-skills-oRKZkr/export
+│
+◇  Local path validated
+│
+◇  Found 1 skill
+│
+●  Skill: hedera-contract-workbench
+│
+│  Discover and inspect imported Hedera EVM contract tools, construct typed arguments, perform validated reads, and prepare unsigned transactions for wallet review through the workbench CLI or MCP.
+
+│
+◇  Installation Summary ───────────────────────╮
+│                                              │
+│  ./.agents/skills/hedera-contract-workbench  │
+│    copy → Codex, Claude Code, Cursor         │
+│                                              │
+├──────────────────────────────────────────────╯
+│
+◇  Installation complete
+
+│
+◇  Installed 1 skill ──────────────────────────────╮
+│                                                  │
+│  ✓ hedera-contract-workbench (copied)            │
+│    → ./.agents/skills/hedera-contract-workbench  │
+│    → ./.claude/skills/hedera-contract-workbench  │
+│                                                  │
+├──────────────────────────────────────────────────╯
+
+│
+└  Done!  Review skills before use; they run with full agent permissions.
+

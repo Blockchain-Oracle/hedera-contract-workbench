@@ -2,6 +2,8 @@
 
 The user's final implementation instruction on 2026-10-03 is authoritative. Working display name **Contract Workbench**; technical repository identifier `Blockchain-Oracle/hedera-contract-workbench`.
 
+**October 4 clarification:** the architecture stays generic and ABI-driven. DAO, NFT and DeFi are test scenarios, not product categories or separate skills. Provide discoverable portable Markdown, local Vercel skills installation, current schemas and copyable CLI commands. Swap presentation belongs to the other UI agent. Optional typed chat additionally supports Gemini. The user explicitly removed audio from scope after clarifying live voice. [Implementation slice](plans/2026-10-04-generic-contracts-and-agents.md).
+
 One local Scaffold HBAR template connects already deployed Hedera EVM contracts through browser forms, CLI, MCP, and a portable agent skill. First launch exposes a real testnet example with no wallet, secret, provider key or deployment. Import uses network/address and automatic verified ABI discovery, with supplied ABI/artifact fallback. Both testnet and mainnet support reads, caller simulation, unsigned preparation and exact browser-wallet-approved transactions. The optional assistant requires explicit OpenAI or Anthropic configuration; deterministic interfaces remain useful without it.
 
 Five npm workspaces: core (no React/terminal/model/MCP dependencies), CLI, MCP, Next.js, Hardhat. Shared catalog and dispatcher own validation. Use viem/abitype, wagmi 2, Hardhat 2/local solc, MCP SDK v2, AI SDK 7, Commander/Clack/picocolors, Next 16.3/React 19.3/TypeScript 5.9.3/Zod 4/Query 5/Tailwind 4. Pin direct dependencies and prove ordinary installation without legacy peer resolution. Node 24 LTS is the target.

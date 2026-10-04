@@ -12,6 +12,9 @@ import {
   exitCode,
   WorkbenchError,
   DEFAULTS,
+  skillView,
+  exportSkill,
+  skillInstallCommand,
   type Json,
   type Network,
 } from "@sh/core";
@@ -49,6 +52,49 @@ function finish(data: unknown) {
     return;
   }
   const value = data as any;
+  if (value?.shell && value?.argv) {
+    console.log(value.shell);
+    return;
+  }
+  if (value?.directory && value?.install && value?.files) {
+    console.log(pc.green("\nSkill bundle exported"));
+    console.log(value.directory);
+    console.log(
+      pc.dim(`${value.files.length} files · revision ${value.revision}`),
+    );
+    for (const install of value.install)
+      console.log(`\n${pc.cyan(install.agent)}\n${install.shell}`);
+    console.log(
+      pc.dim(
+        "\nReview argument examples and inspect current schemas before use.",
+      ),
+    );
+    return;
+  }
+  if (value?.markdown && value?.contract && value?.skill) {
+    console.log(pc.bold("\nAgent skill · hedera-contract-workbench"));
+    console.log(
+      `${value.contract.name} · ${value.contract.network} · ${value.contract.address}`,
+    );
+    console.log(pc.dim(`Revision ${value.contract.revision}`));
+    console.log("\nInstall locally for your agent:");
+    for (const install of value.skill.install)
+      console.log(`${pc.cyan(install.agent)}\n${install.shell}\n`);
+    console.log(`Inspect the current catalog:\n${value.commands.list.shell}`);
+    console.log(
+      `\n${value.tools.length} functions · ${value.unsupported.length} unsupported`,
+    );
+    for (const tool of value.tools)
+      console.log(
+        `${pc.bold(tool.signature)} · ${tool.action}\n${tool.commands.inspect.shell}\n`,
+      );
+    console.log(
+      pc.dim(
+        `Read Markdown: npm run --silent workbench -- skills show --contract ${value.contract.id} --markdown\nExport commands and arguments: npm run --silent workbench -- skills export --contract ${value.contract.id}`,
+      ),
+    );
+    return;
+  }
   if (value?.checks) {
     console.log(pc.bold("\nContract Workbench"));
     for (const check of value.checks)
@@ -301,6 +347,49 @@ program
   .option("--network <network>")
   .action(async (opts) =>
     finish(await app().status(await selected(opts.network), opts.hash)),
+  );
+const skills = program
+  .command("skills")
+  .description("Portable agent skill and current contract commands");
+skills
+  .command("show")
+  .requiredOption("--contract <id>")
+  .option("--markdown", "Print the portable SKILL.md")
+  .action(async (opts) => {
+    if (opts.markdown && machine)
+      throw new WorkbenchError(
+        "INPUT",
+        "Choose --markdown for a document or --json for the machine context.",
+      );
+    const view = await skillView(app(), opts.contract);
+    if (opts.markdown) process.stdout.write(view.markdown);
+    else finish(view);
+  });
+skills
+  .command("export")
+  .requiredOption("--contract <id>")
+  .option(
+    "--out <directory>",
+    "New directory; existing files are never replaced",
+  )
+  .action(async (opts) =>
+    finish(await exportSkill(app(), opts.contract, opts.out)),
+  );
+skills
+  .command("install-command")
+  .option(
+    "--agent <agents...>",
+    "Agent IDs supported by Vercel skills (e.g. codex, claude-code, cursor)",
+    ["codex"],
+  )
+  .action((opts) =>
+    finish({
+      scope: "project",
+      ...skillInstallCommand(
+        join(app().store.root, "skills/hedera-contract-workbench"),
+        opts.agent,
+      ),
+    }),
   );
 program
   .command("mcp")

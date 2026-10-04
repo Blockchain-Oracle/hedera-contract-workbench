@@ -4,6 +4,7 @@ import {
   networkName,
   assert,
   WorkbenchError,
+  skillView,
   type TransactionPlan,
   type SwapQuote,
 } from "@sh/core";
@@ -19,6 +20,18 @@ async function handle(request: NextRequest, context: Context) {
     const data = request.method === "POST" ? await body(request) : {};
     const selectedNetwork = () =>
       networkName(data.network ?? query.get("network") ?? "testnet");
+    if (path[0] === "skills" && request.method === "GET") {
+      const view = await skillView(engine, query.get("contract") ?? "");
+      if (path[1] === "markdown")
+        return new Response(view.markdown, {
+          headers: {
+            "Content-Type": "text/markdown; charset=utf-8",
+            "Content-Disposition": 'attachment; filename="SKILL.md"',
+            "Cache-Control": "no-store",
+          },
+        });
+      if (path.length === 1) return success(view);
+    }
     if (path[0] === "state" && request.method === "GET") {
       const settings = await engine.store.settings();
       return success({

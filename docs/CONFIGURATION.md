@@ -6,7 +6,7 @@ workbench.config.json stores committed defaults. workbench.config.local.json sto
 
 Environment overrides: WORKBENCH_NETWORK, WORKBENCH_RPC_CONCURRENCY, WORKBENCH_RPC_TESTNET_URL, WORKBENCH_RPC_MAINNET_URL, WORKBENCH_WEB_URL. Runtime loads packages/nextjs/.env.local for CLI/MCP and web. Default RPC concurrency 4, timeout 15 seconds, unsigned-plan expiry 5 minutes. Receipt polling defaults to every 3 seconds with a 2-minute budget, then manual refresh; both are configurable in the workspace settings. ABI limit 1 MiB, array limit 1,024 items, nesting limit 16, assistant budget 6 steps/executions.
 
-Chat: WORKBENCH_AI_PROVIDER=openai|anthropic, WORKBENCH_AI_MODEL=<explicit model>, corresponding OPENAI_API_KEY or ANTHROPIC_API_KEY. Missing configuration disables chat while other interfaces continue. Restart after changes.
+Chat: WORKBENCH_AI_PROVIDER=openai|anthropic|gemini, WORKBENCH_AI_MODEL=<explicit compatible model>, corresponding OPENAI_API_KEY, ANTHROPIC_API_KEY or GEMINI_API_KEY. Missing configuration disables chat while other interfaces continue. Restart after changes. Provider adapters share the validated core tools and fixed result cards; model capabilities and API access still depend on the chosen provider/model. Live voice was removed from scope at the user's October 4 request.
 
 - **ABI_REQUIRED**: upload the ABI/artifact. Bytecode alone does not reveal complete argument types.
 - **NETWORK_MISMATCH**: check selected deployment network, endpoint chain ID, and connected wallet chain.

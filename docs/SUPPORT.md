@@ -26,3 +26,15 @@ Association uses caller-scoped `isAssociated()` / `associate()` from [HRC-719](h
 Automatic ABI discovery uses [Sourcify](https://docs.sourcify.dev/docs/api/). Supplied interfaces are marked supplied and retain a hash/revision. A verified ABI is useful provenance, not proof of contract safety or semantic correctness. Proxies require the appropriate implementation ABI supplied/verified at the address; automatic proxy tracing is not advertised.
 
 Interface/output parity and live workflow evidence are recorded in DELIVERY.md. Do not treat implemented source as evidence of a completed on-chain transaction.
+
+## Broader contract acceptance
+
+The same dispatcher imports every supported ABI; it does not classify contracts as tokens, NFTs, DAOs or DeFi. A supplied ABI must describe the deployed address correctly. Contract permissions, funding, association, proxy implementation and protocol semantics remain real prerequisites; ABI import cannot invent them.
+
+`npm run verify:generic` deploys three original verification fixtures on an isolated EVM and compares typed results, nested proposal preparation, NFT overload calldata, wrong-caller reverts, integer bounds and payable value across the actual adapters. These fixtures are test source under `packages/hardhat/test/fixtures`, not new application categories or production standard implementations. Independent ethers encoding checks unsigned calldata. The optional provider adapters are tested with controlled HTTP responses and actual core RPC reads; paid inference is not claimed.
+
+`npm run verify:generic-network` imports a current testnet NFT facade with the authored [ERC-721 interface subset](examples/erc721-read.abi.json) and validates name, symbol, total supply and owner reads across direct RPC, core, CLI, MCP and assistant tools. The network fixture may age or disappear; it is not a permanent bundled default or proof of full ERC-721/HTS compliance. See [live evidence](evidence/generic-network.json).
+
+The primary [Hedera DAO accelerator source](https://github.com/hashgraph/hedera-accelerator-defi-dex/tree/d813159078be7d84b4c408b153a585348f0f82c2) contains governance, DAO metadata tuples, factories and ERC-721 interfaces. Its 2023 published deployment addresses did not return the expected DAO functions on the current testnet during this check. The evidence records those limitations; local governance fixture verification is not advertised as a successful live Hedera DAO workflow.
+
+The portable skill's installation is independently exercised using the official [Vercel skills CLI](https://github.com/vercel-labs/skills/blob/main/README.md) in an isolated project for Codex, Claude Code and Cursor. Other supported agent IDs are forwarded to that installer; no universal host compatibility is assumed. No contract-specific skill rewrite is required.

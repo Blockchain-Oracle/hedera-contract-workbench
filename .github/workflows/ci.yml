@@ -24,9 +24,11 @@ jobs:
       - run: npm test
       - run: npm run verify:local
       - run: npm run verify:receipts
+      - run: npm run verify:generic
       - run: npm run build
         env:
           WORKBENCH_RPC_TESTNET_URL: http://127.0.0.1:9
           WORKBENCH_RPC_MAINNET_URL: http://127.0.0.1:9
           OPENAI_API_KEY: ""
           ANTHROPIC_API_KEY: ""
+          GEMINI_API_KEY: ""

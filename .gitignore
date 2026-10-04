@@ -12,3 +12,10 @@ artifacts/
 cache/
 coverage/
 .DS_Store
+# Installed copies can contain private local catalogs and edited argument files.
+.agents/skills/hedera-contract-workbench/
+.claude/skills/hedera-contract-workbench/
+.cursor/skills/hedera-contract-workbench/
+**/skills/hedera-contract-workbench/catalog.json
+**/skills/hedera-contract-workbench/arguments/
+**/skills/hedera-contract-workbench/references/runtime.md

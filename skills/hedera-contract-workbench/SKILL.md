@@ -18,6 +18,8 @@ npm run --silent workbench -- contracts list --json
 
 If the runtime is absent, explain that setup/build is required; do not fabricate tool output. Use an existing imported contract when it matches the user's requested chain/address. Otherwise import the deployed contract with its actual network; provide an ABI/artifact only if discovery cannot obtain one. Import does not deploy or copy contracts across networks.
 
+For a current contract's complete schemas and copyable command argv, use `npm run --silent workbench -- skills show --contract CONTRACT_ALIAS --json`. Read its actual alias, revision, templates, and rules. Templates are shape examples: replace zero/empty values with intended arguments. A template marked unavailable must be constructed from its schema. Do not infer permissions or intent from an example. If this skill was exported with `catalog.json` and `references/runtime.md`, read that runtime reference to locate the workbench from another project; inspect the live catalog because exported snapshots can become stale.
+
 ## Discover and inspect
 
 ```sh
@@ -44,6 +46,8 @@ npm run --silent workbench -- tools prepare TOOL_ID --args-file input.json --fro
 ```
 
 Use the returned current context and plan rather than composing raw transaction calldata independently. An account supplied for simulation is not proof of signing authority. Never request private-key export for the normal workflow.
+
+Pass `--revision` with the inspected revision to reads, simulation and preparation. Full signatures distinguish overloads. When arguments or revision change, inspect again. No DAO/NFT/DeFi classification or contract-specific skill rewrite is required.
 
 Show the actual chain, sender, target, function, arguments, value, prerequisites, and simulation outcome. Provide the wallet-review handoff returned by the runtime. Preparation and simulation do not submit a transaction. The user approves the exact transaction through their wallet.
 

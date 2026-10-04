@@ -28,6 +28,9 @@ npm run verify:adapters
 npm run verify:local
 npm run verify:assistant
 npm run verify:receipts
+npm run verify:generic
+npm run verify:generic-network
+npm run verify:skills
 node scripts/verify-network.mjs
 ```
 
@@ -83,3 +86,15 @@ The supplied address showed zero testnet HBAR and no matching account at review 
 Public Hedera adapter/network checks and mock assistant streaming pass. The supplied-address CLI now gives a nonretryable account prerequisite with exit 3. Production build passes with RPCs disabled and keys empty. An [isolated final source copy](evidence/fix-fresh-source.json) passes ordinary **npm 10.9.3 ci**, clean dependency tree, lint, typecheck, all 22 tests, CLI/MCP and receipt-adapter verification, build, production boot and a keyless live read. It contains no copied credentials/local state. This is a fresh source copy; the earlier official installer local-template transformation and still-pending public-template download are separate evidence. The working checkout's npm run commands used Node 24's bundled npm 11.17.0; the fresh sequence used pinned npm 10.9.3 throughout.
 
 Next action: resume funded human wallet acceptance, configured-provider checks, an unfamiliar developer walkthrough and explicit release actions. The supplied testnet address still has no usable funded account. No Hedera transaction was submitted. Never request a private key or sign through CLI/MCP/chat.
+
+## October 4 generic contracts and agent access
+
+The user's examples are acceptance scenarios, not contract categories. **One ABI pipeline and one portable skill remain authoritative.** Swap/UI presentation stays with the other agent. The user explicitly removed audio from scope. Optional typed chat now supports Gemini alongside OpenAI/Anthropic through official AI SDK adapters; all three adapters run real core reads against controlled provider HTTP fixtures, including Gemini thought-signature continuation. Real provider inference remains unverified.
+
+Delivered `skills show` (human/JSON/Markdown), `skills export` and `skills install-command`; read-only same-origin skills JSON/reference/Markdown download routes; current revision-bound schemas and copyable argv/shell commands. Exports preserve prior bundles and keep local snapshots/arguments ignored. Vercel's official CLI actually installs the exported bundle for Codex, Claude Code and Cursor in an isolated project. Other supported agent IDs are delegated to the installer. The [UI handoff](reviews/2026-10-04-skill-ui-handoff.md) is concrete; a rendered skill panel is still the UI agent's work.
+
+[Generic acceptance](reviews/2026-10-04-generic-contracts-and-skills.md) verifies three deployed local contract fixtures across core, CLI, MCP, HTTP handlers and assistant; tuple/array results, nested proposal inputs, NFT overloads, independent calldata encoding, caller-specific errors, bounds, payable precision, restart persistence and unchanged skill instructions. **Four real Hedera NFT facade reads** agree across direct RPC, CLI, MCP and assistant and matching mirror metadata where applicable. Old public DAO addresses failed their expected live functions; local governance evidence is labelled local. No category classifier is added.
+
+Current **22 core + 1 Solidity tests**, all **28 existing CLI end-to-end subprocess checks**, receipt adapter cancellation, skill validation, lint/typecheck and fresh-source ordinary npm 10.9.3 ci/dependency/build/boot checks pass. New skill commands and exported command argv are exercised end to end; official agent installation and actual PTY output are recorded. [Fresh source evidence](evidence/skills-fresh.json) separates initial clean installation from final source refresh. A fresh production server serves skill JSON/Markdown and performs a keyless live read; build succeeds with RPC disabled and all provider keys empty.
+
+Next: let the UI agent consume the tested skill API and update the example presentation; finish configured-provider acceptance, funded human-wallet workflow, developer walkthrough and explicit release gates. UI appearance/layout does not count toward the user's current review. Audio is removed, not a pending release requirement. CLI/MCP/chat only prepare; no Hedera transaction or publication occurred.

@@ -892,8 +892,10 @@ export class Runtime {
     const key =
       provider === "anthropic"
         ? process.env.ANTHROPIC_API_KEY
-        : process.env.OPENAI_API_KEY;
-    return key && model && ["openai", "anthropic"].includes(provider)
+        : provider === "gemini"
+          ? process.env.GEMINI_API_KEY
+          : process.env.OPENAI_API_KEY;
+    return key && model && ["openai", "anthropic", "gemini"].includes(provider)
       ? { provider, model, key }
       : null;
   }

@@ -1,0 +1,68 @@
+
+> hedera-contract-workbench@0.1.0 test
+> npm run build:runtime && npm run test -w @sh/core && npm run test -w @sh/hardhat
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/core@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ one agent context handles nested proposals and NFT overloads without categories (70.076167ms)
+✔ decimal-string integers preserve precision and reject invalid bounds (1.329958ms)
+✔ nested tuples and arrays retain positional mappings for duplicate/unnamed fields (0.257375ms)
+✔ overloads have independent identity and unsupported types are visible (0.508959ms)
+✔ HBAR, tinybar, and RPC weibar are distinct exact units (0.266417ms)
+✔ receipt polling settings retain defaults, accept bounded overrides, and reject unbounded polling (10.075166ms)
+✔ concurrent registry edits preserve imports; stale refresh and corrupt JSON preserve state (35.275417ms)
+✔ preparation binds calldata, caller, network, revision, expiry, and value (21.7995ms)
+✔ tuple results never lose duplicate or unnamed positions (0.778084ms)
+✔ mainnet plans require exact context without any submission (7.568042ms)
+✔ invalid native value types and oversized values fail before RPC (0.22475ms)
+✔ plan expiry and metadata changes require renewed preparation (8.115542ms)
+✔ malformed imports preserve the registry without requesting RPC (3.675667ms)
+✔ abandoned reads cancel the underlying RPC and leave other reads usable (52.651333ms)
+✔ prepare rejects an interface refresh during simulation (19.991041ms)
+✔ validate rejects an interface refresh during simulation (15.491875ms)
+✔ stale removal preserves the refreshed registry byte for byte (10.148459ms)
+✔ journal-backed receipt checks obey the shared concurrency limit (138.172ms)
+✔ receipt cancellation interrupts rpc HTTP and permits later requests (40.306333ms)
+✔ receipt cancellation interrupts mirror HTTP and permits later requests (8.239833ms)
+✔ aborting queued receipt work releases the queue without starting cancelled RPC (22.191917ms)
+✔ nested Hedera sender/funding failures give actionable prerequisites, not endpoint retries (1.297917ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 809.143666
+
+> @sh/hardhat@0.1.0 test
+> hardhat test
+
+Compiled 1 Solidity file successfully (evm target: paris).
+
+
+  Observation
+    ✔ keeps tuples caller-scoped and exposes independent overloads (1550ms)
+
+
+  1 passing (2s)
+
+

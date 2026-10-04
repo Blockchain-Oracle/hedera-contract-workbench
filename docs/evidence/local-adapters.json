@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-04T06:12:49.342Z",
+  "observedAt": "2026-10-04T06:42:53.822Z",
   "scope": "Isolated Hardhat RPC fixture with chain ID 296. No Hedera transaction or real funds.",
   "checks": [
     "core/CLI/MCP equivalent unsigned calldata and caller",
@@ -28,7 +28,7 @@
       "ok": true
     },
     {
-      "command": "contracts import --network testnet --address 0.0.12345 --abi /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-local-GRGxab/observation.json",
+      "command": "contracts import --network testnet --address 0.0.12345 --abi /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-local-HMAXY7/observation.json",
       "exitCode": 0,
       "ok": true
     },
@@ -100,7 +100,7 @@
       "ok": true
     },
     {
-      "command": "tools call read_latest_70c85c7b5bab7ea1 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-local-GRGxab/arguments.json",
+      "command": "tools call read_latest_70c85c7b5bab7ea1 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --args-file /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-local-HMAXY7/arguments.json",
       "exitCode": 0,
       "ok": true
     },
@@ -150,13 +150,13 @@
       "errorCode": "INPUT"
     },
     {
-      "command": "contracts remove local-observation --yes --revision 0x79bbf79c39a717dd0d1d7d1705b3c45b17cb860d0ad5d11d9f38b07345245cbd:2929ac8f-a33a-419c-8c83-6729fd90945f",
+      "command": "contracts remove local-observation --yes --revision 0x79bbf79c39a717dd0d1d7d1705b3c45b17cb860d0ad5d11d9f38b07345245cbd:bc1cf0c8-85ed-40fe-a7f9-469e00d9eee7",
       "exitCode": 3,
       "ok": false,
       "errorCode": "STALE_REVISION"
     },
     {
-      "command": "contracts remove local-observation --yes --revision 0x46e788de3ec0708b8604c065a88ba11a50d90918abbe1998f6b50f37696fbf98:f966937a-a96d-4fe1-9695-a43e04a60c23",
+      "command": "contracts remove local-observation --yes --revision 0x46e788de3ec0708b8604c065a88ba11a50d90918abbe1998f6b50f37696fbf98:13a03826-ef7f-48c5-88e9-91f5cacf5c16",
       "exitCode": 0,
       "ok": true
     },
