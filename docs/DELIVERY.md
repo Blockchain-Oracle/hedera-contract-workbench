@@ -4,6 +4,8 @@ Updated 2026-10-04. Checkout: `workbench/`, local `main`. The project is **not y
 
 ## Resume here
 
+The user approved the Slush revamp, superseding the earlier neutral palette and UI review exclusion. The Slush branch `codex/slush-workbench-ui` is integrated into this `workbench/` checkout on local `main`, together with the newer generic-contract skill and Gemini changes. Read [the fidelity authority and parity record](design/2026-10-04-slush-fidelity.md). Core transaction and registry repairs from `c642179` remain included.
+
 Read README, AGENTS, this file, and [the approved specification](PLAN.md). Inspect Git state and evidence timestamps. Use Node 24 LTS and the pinned npm 10.9.3 toolchain. Do not restart broad architecture research or assume that an implemented wallet button proves an on-chain transaction.
 
 | Stage                              | Implemented behavior                                                                                                                                          | Verification / remaining exit evidence                                                                                                                                                                                                                                                                                                       |
@@ -54,6 +56,12 @@ Installation and time to useful read were measured separately on macOS arm64 wit
 - [Partial actual read-path video](evidence/read-path-partial.mp4); this is not the complete wallet demonstration required for release.
 - Desktop and narrow-screen JPEGs in `evidence/` are actual rendered app captures.
 - `terminal.cast` / `terminal.txt` are actual CLI PTY output, not reconstructed examples.
+
+## Slush revamp verification — 2026-10-04
+
+The isolated `codex/slush-workbench-ui` branch implements the approved Slush shell, palette, footer Accounts panel, network drawer and shared ABI-driven surfaces. Ordinary npm 10.9.3 clean installation, lint, typecheck, all 14 tests and final production build pass. Actual desktop, tablet and mobile layouts, testnet/mainnet reads, a live quote, import validation, missing-wallet/provider and empty states were inspected. Final production reads were captured on desktop and mobile. [Fidelity and limitations](design/2026-10-04-slush-fidelity.md) · [Machine check record](evidence/slush-ui/checks.json) · [Rendered evidence](evidence/slush-ui/production-desktop-light.jpg).
+
+Geist is a licensed typography substitution; mobile layouts adapt the desktop reference because Slush mobile capture coverage is absent. Connected-wallet and configured-provider acceptance remain pending. Concurrent main commit `c642179` repairs F1–F4 and is integrated into this UI branch; combined lint/typecheck, all 22 tests, receipt-adapter checks, build and restarted keyless read passed. This UI branch is not a completed public release.
 
 ## Release checklist
 

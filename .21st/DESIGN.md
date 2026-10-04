@@ -1,0 +1,3 @@
+# Contract Workbench — Slush fidelity
+
+The October 4 user instruction supersedes the original neutral workbench palette. Use Slush Blue Blizzard measured tokens and shell geometry, with Hedera identity and actual EVM functionality. See docs/design/2026-10-04-slush-fidelity.md for authority, parity and evidence. Existing Radix/shadcn primitives remain the implementation foundation. 21st search found Connect Wallet Modal (8588) and Auth Modal (20038); neither was imported because the existing primitives support the measured Accounts panel without an extra dependency or unresolved candidate license.

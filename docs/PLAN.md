@@ -34,3 +34,7 @@ Operational defaults: 4 concurrent RPC requests, 15-second timeout, 5-minute pla
 Defer voice, hosted multi-user infrastructure, remote MCP, independent npm CLI publication, Foundry, native ED25519, arbitrary user source deployment and event indexing. Optional single-owner Coolify instructions do not imply a hosted first release.
 
 Resume from [actual files and verification](DELIVERY.md). Completion requires all eight exits; implementation alone is not evidence of a funded wallet transaction, provider session, public release or bounty submission.
+
+## October 4 UI direction update
+
+The user's Slush revamp instruction supersedes the neutral palette above and the earlier exclusion of UI review. Apply measured Slush shell geometry, blue light/dark surfaces, footer Accounts interaction and network selection, with explicit testnet/mainnet accent changes. Assistant and contract-specific surfaces remain reusable ABI-driven adaptations. Existing screenshots are reference authority; mobile layouts are adaptations because no Slush mobile captures exist. Licensed local Geist substitutes for unavailable Aeonik. Read [the fidelity ledger and acceptance record](design/2026-10-04-slush-fidelity.md). This change does not waive the original functional, wallet, provider or release gates.

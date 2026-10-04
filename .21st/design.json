@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "project": {
+    "name": "hedera-contract-workbench",
+    "productType": "Local Hedera EVM contract workbench",
+    "stack": [
+      "Next.js 16.3",
+      "React 19.3",
+      "Tailwind 4",
+      "shadcn / Radix",
+      "wagmi 2"
+    ]
+  },
+  "sources": {
+    "tokens": ["packages/nextjs/app/globals.css"],
+    "components": [
+      "packages/nextjs/components/ui",
+      "packages/nextjs/components/workbench.tsx"
+    ],
+    "assets": ["packages/nextjs/public/fonts"],
+    "instructions": ["AGENTS.md"]
+  },
+  "design": {
+    "colorMode": "light/dark with network accents",
+    "colors": {
+      "canvas": "#CCE5FF",
+      "sidebar": "#8FC5FF",
+      "surface": "#FAFCFF",
+      "ink": "#060D14",
+      "testnet": "#47E299",
+      "darkCanvas": "#082D57",
+      "darkSidebar": "#125EB0"
+    },
+    "typography": {
+      "body": "local Geist; explicit Aeonik substitution",
+      "heading": "30px / 34.2px, -0.75px"
+    },
+    "spacing": {},
+    "radius": {
+      "rail": "32px",
+      "nav": "24px",
+      "row": "16px"
+    },
+    "shadows": {},
+    "motion": {},
+    "density": "Slush measured shell: 248px rail, 48px nav, 32px gutter"
+  },
+  "components": {
+    "installed": [],
+    "preferredPrimitives": [],
+    "patterns": []
+  },
+  "constraints": {
+    "must": [
+      "Follow measured Slush Blue Blizzard tokens and existing captures",
+      "Browser wallet signs; CLI/MCP/chat do not",
+      "Generic imported ABI forms inherit the same reusable theme",
+      "Real states and real data only",
+      "Keyboard focus, reduced motion and responsive layouts"
+    ],
+    "avoid": [
+      "Cartoon mascots",
+      "Unlicensed Slush fonts/assets",
+      "Fake balances or accounts",
+      "Replacing EVM wallet architecture with unrelated Baku Privy auth",
+      "New UI dependency without need"
+    ]
+  },
+  "decisions": [
+    {
+      "date": "2026-10-04",
+      "decision": "User approved Slush fidelity for Workbench shell, palette, wallet menu, network selection and states; assistant is additive in that language."
+    },
+    {
+      "date": "2026-10-04",
+      "decision": "Retain measured blue canvas/sidebar, green testnet indicator; adapt network action accents to blue mainnet/green testnet as requested."
+    },
+    {
+      "date": "2026-10-04",
+      "decision": "Keep Hedera identity/domain and generic ABI-driven forms. No Slush trademarks or cartoon cast copied."
+    }
+  ],
+  "evidence": [
+    {
+      "fact": "project.instructions",
+      "source": "AGENTS.md"
+    }
+  ],
+  "generatedAt": "2026-10-04T06:07:48.672Z"
+}

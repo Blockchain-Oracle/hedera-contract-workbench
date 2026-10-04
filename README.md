@@ -15,6 +15,8 @@ Open **http://127.0.0.1:3000**. Select `factory()` in the SaucerSwap testnet rou
 
 The repository is prepared for the technical template identifier `Blockchain-Oracle/hedera-contract-workbench`. Publication and external scaffold verification are recorded separately in [the delivery tracker](docs/DELIVERY.md). Until published, use this checkout; no similarly named npm package is required.
 
+The reusable browser interface follows the measured Slush blue shell and light/dark surfaces, with green testnet and blue mainnet accents. Accounts opens from the sidebar footer; actual installed EVM wallets provide connection and signing. Imported supported ABIs inherit the same forms, result cards and review drawers. [Design authority, rendered evidence and known limits](docs/design/2026-10-04-slush-fidelity.md).
+
 ## Import your contract
 
 Use **Import contract** in the browser: select its deployment network and enter its EVM address or Hedera contract ID. Verified ABI discovery uses Sourcify. If no verified ABI is available, upload an ABI array or a Solidity artifact containing `abi`. Imports persist in `workbench.config.local.json`, outside version control. Importing does not deploy or copy a contract to another network.

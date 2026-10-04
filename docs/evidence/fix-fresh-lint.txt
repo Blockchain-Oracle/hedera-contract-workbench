@@ -1,4 +1,3 @@
 
 > hedera-contract-workbench@0.1.0 lint
 > eslint packages scripts --max-warnings 0
-
