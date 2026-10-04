@@ -1,0 +1,65 @@
+{
+  "reviewDate": "2026-10-04",
+  "sourceCommit": "a1a58ff",
+  "runtime": "Node 24.19.0; npm 10.9.3",
+  "applicationSourceChanged": false,
+  "excluded": ["UI appearance", "layout", "visual polish"],
+  "commands": [
+    { "command": "npm run lint", "exitCode": 0 },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "coreTests": 13,
+      "solidityTests": 1
+    },
+    { "command": "npm run typecheck", "exitCode": 0 },
+    {
+      "command": "npm run verify:local",
+      "exitCode": 0,
+      "evidence": "../evidence/local-adapters.json"
+    },
+    {
+      "command": "npm run verify:assistant",
+      "exitCode": 0,
+      "evidence": "../evidence/assistant.json",
+      "provider": "official mock model"
+    },
+    {
+      "command": "npm run verify:adapters",
+      "exitCode": 0,
+      "evidence": "../evidence/adapters.json"
+    },
+    {
+      "command": "node scripts/verify-network.mjs",
+      "exitCode": 0,
+      "evidence": "../evidence/network.json",
+      "submitted": false
+    },
+    {
+      "command": "node docs/reviews/reproduce-2026-10-04.mjs",
+      "exitCode": 0,
+      "evidence": "2026-10-04-probes.json",
+      "findingsReproduced": ["F1", "F2", "F3"]
+    }
+  ],
+  "priorChecksReused": {
+    "date": "2026-10-03",
+    "evidence": "../evidence/external-scaffold.json",
+    "checks": [
+      "ordinary install",
+      "dependency tree",
+      "build",
+      "installer local-template transformation",
+      "boot"
+    ],
+    "reason": "No application source or dependency changes in this review. Public-template download remains unverified."
+  },
+  "livePrerequisiteCheck": {
+    "network": "testnet",
+    "usableFundedAccount": false,
+    "accountMetadata": "not found at review time",
+    "privateLocalEvidence": ".workbench/reviews/2026-10-04-wallet.json",
+    "finding": "F4",
+    "submitted": false
+  }
+}

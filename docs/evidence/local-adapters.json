@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-03T20:53:31.824Z",
+  "observedAt": "2026-10-04T05:57:35.182Z",
   "scope": "Isolated Hardhat RPC fixture with chain ID 296. No Hedera transaction or real funds.",
   "checks": [
     "core/CLI/MCP equivalent unsigned calldata and caller",
@@ -10,5 +10,5 @@
     "stale plan rejected",
     "documented CLI command groups and error envelopes"
   ],
-  "catalogNotifications": 6
+  "catalogNotifications": 8
 }
