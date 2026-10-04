@@ -1,0 +1,60 @@
+{
+  "recordedAt": "2026-10-04T06:20:52.849638+00:00",
+  "branch": "codex/slush-workbench-ui",
+  "baseline": "a1a58ff",
+  "runtime": {
+    "node": "24.19.0",
+    "npm": "10.9.3"
+  },
+  "checks": {
+    "ordinaryCleanInstall": "passed; no legacy-peer-deps",
+    "lint": "passed",
+    "typecheck": "passed",
+    "tests": {
+      "core": 13,
+      "solidity": 1,
+      "outcome": "passed"
+    },
+    "productionBuild": "passed; build.txt",
+    "productionBoot": "HTTP 200 on loopback port 3107",
+    "gitDiffCheck": "passed",
+    "21stReview": {
+      "errors": 0,
+      "warnings": 5,
+      "suggestions": 57
+    }
+  },
+  "manual": {
+    "viewports": [
+      [1440, 900],
+      [768, 1024],
+      [390, 844]
+    ],
+    "horizontalOverflow": "none in checked views",
+    "themes": ["light", "dark"],
+    "networks": ["testnet", "mainnet"],
+    "realReads": {
+      "testnetFactory": "0x00000000000000000000000000000000000026E7",
+      "mainnetFactory": "0x0000000000000000000000000000000000103780",
+      "tokenSymbol": "SAUCE"
+    },
+    "otherObserved": [
+      "mainnet HBAR to SAUCE quote",
+      "network drawer and accent change",
+      "Accounts missing-extension guidance",
+      "invalid address import preserves catalog",
+      "missing-provider Assistant",
+      "empty Activity",
+      "mobile navigation and network badge"
+    ]
+  },
+  "limitations": [
+    "No connected-wallet signing, rejection, account-change or receipt-recovery acceptance in this browser",
+    "No configured model-provider session",
+    "F1-F4 from earlier functional audit remain open",
+    "Geist substitutes for unavailable licensed Aeonik",
+    "Mobile adapts desktop reference; no Slush mobile capture exists",
+    "Not a complete assistive-technology audit",
+    "No publication or transaction submitted"
+  ]
+}

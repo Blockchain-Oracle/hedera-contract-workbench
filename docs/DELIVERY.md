@@ -1,8 +1,10 @@
 # Delivery and acceptance tracker
 
-Updated 2026-10-03. Checkout: `workbench/`, local `main`. The project is **not yet accepted as a completed first release**. Source implementation and independently verified behavior are distinguished below. Publication, submission, and funded wallet approval have not happened.
+Updated 2026-10-04. UI revamp checkout: `workbench-slush-ui/`, branch `codex/slush-workbench-ui`, baseline `a1a58ff`. The project is **not yet accepted as a completed first release**. Source implementation and independently verified behavior are distinguished below. Publication, submission, and funded wallet approval have not happened.
 
 ## Resume here
+
+The user now requests UI fidelity to Slush. Read [the fidelity authority and parity record](design/2026-10-04-slush-fidelity.md). The earlier neutral palette and exclusion of UI review are superseded for this task. The [October 4 functional review](reviews/2026-10-04-plan-coverage-review.md) remains valid: core findings F1–F4 are still open; UI work does not repair or waive them.
 
 Read README, AGENTS, this file, and [the approved specification](PLAN.md). Inspect Git state and evidence timestamps. Use Node 24 LTS and the pinned npm 10.9.3 toolchain. Do not restart broad architecture research or assume that an implemented wallet button proves an on-chain transaction.
 
@@ -51,6 +53,12 @@ Installation and time to useful read were measured separately on macOS arm64 wit
 - Desktop and narrow-screen JPEGs in `evidence/` are actual rendered app captures.
 - `terminal.cast` / `terminal.txt` are actual CLI PTY output, not reconstructed examples.
 
+## Slush revamp verification — 2026-10-04
+
+The isolated `codex/slush-workbench-ui` branch implements the approved Slush shell, palette, footer Accounts panel, network drawer and shared ABI-driven surfaces. Ordinary npm 10.9.3 clean installation, lint, typecheck, all 14 tests and final production build pass. Actual desktop, tablet and mobile layouts, testnet/mainnet reads, a live quote, import validation, missing-wallet/provider and empty states were inspected. Final production reads were captured on desktop and mobile. [Fidelity and limitations](design/2026-10-04-slush-fidelity.md) · [Machine check record](evidence/slush-ui/checks.json) · [Rendered evidence](evidence/slush-ui/production-desktop-light.jpg).
+
+Geist is a licensed typography substitution; mobile layouts adapt the desktop reference because Slush mobile capture coverage is absent. Connected-wallet and configured-provider acceptance remain pending. Findings F1–F4 remain open. This UI branch is not a completed public release.
+
 ## Release checklist
 
 - [ ] Finish funded testnet HBAR → SAUCE flow in a human-controlled EVM wallet; retain independently viewable hash, recipient/value/calldata, association proof and confirmed receipt.
@@ -63,4 +71,4 @@ Installation and time to useful read were measured separately on macOS arm64 wit
 - [ ] Re-run ordinary install/dependency/lint/typecheck/test/build/boot checks against that public template; verify ignored local state/credentials are absent.
 - [ ] Review README claims against evidence, publish the video and submit the bounty only as explicit release actions.
 
-Next action: prepare the live swap for the user’s supplied EVM wallet address and complete the recorded human acceptance gates; independent clean-template and rendered checks now pass. Never request a private key or sign through CLI/MCP/chat.
+Next action: inspect the Slush revamp evidence and current branch. Repair core review findings F1–F4 with focused regressions, then finish the funded wallet, configured provider, unfamiliar developer and explicit public release gates. The supplied wallet was not usable/funded on testnet at October 4 preflight. Never request a private key or sign through CLI/MCP/chat.

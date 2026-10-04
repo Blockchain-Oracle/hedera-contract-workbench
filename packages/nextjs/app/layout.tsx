@@ -11,7 +11,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-network="testnet" suppressHydrationWarning>
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/geist-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <Providers>{children}</Providers>
       </body>

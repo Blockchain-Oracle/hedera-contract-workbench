@@ -1,45 +1,85 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
+@font-face {
+  font-family: "Workbench Sans";
+  src: url("/fonts/geist-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Workbench Mono";
+  src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Blue Blizzard: computed light tokens and sampled saved dark reference.
+   Aeonik is not redistributed; Workbench Sans is a locally licensed substitute. */
 :root {
-  --background: #f7f8fa;
-  --foreground: #20242b;
-  --card: #fff;
-  --card-foreground: #20242b;
-  --popover: #fff;
-  --popover-foreground: #20242b;
-  --primary: #176c54;
-  --primary-foreground: #fff;
-  --secondary: #edf0f3;
-  --secondary-foreground: #313840;
-  --muted: #edf0f3;
-  --muted-foreground: #59636f;
-  --accent: #e5f1ed;
-  --accent-foreground: #176c54;
+  color-scheme: light;
+  --background: #cce5ff;
+  --foreground: #060d14;
+  --card: #fafcff;
+  --card-foreground: #060d14;
+  --popover: #fafcff;
+  --popover-foreground: #060d14;
+  --primary: #47e299;
+  --primary-foreground: #060d14;
+  --secondary: #e8f3ff;
+  --secondary-foreground: #060d14;
+  --muted: #e8f3ff;
+  --muted-foreground: rgba(6, 13, 20, 0.64);
+  --accent: #d7eaff;
+  --accent-foreground: #060d14;
   --destructive: #b42318;
-  --border: #dbe0e5;
-  --input: #dbe0e5;
-  --ring: #248567;
-  --radius: 0.625rem;
+  --border: rgba(6, 13, 20, 0.14);
+  --input: rgba(6, 13, 20, 0.2);
+  --ring: #087749;
+  --radius: 1rem;
+  --wb-sidebar: #8fc5ff;
+  --wb-nav-active: #e8f3ff;
+  --wb-surface: var(--card);
+  --wb-secondary: var(--secondary);
+  --wb-network: #47e299;
+  --wb-network-foreground: #060d14;
+  --wb-scrim: rgba(8, 45, 87, 0.64);
+  --wb-panel-border: #060d14;
+  --wb-success: #087749;
+  --wb-code: #e8f3ff;
 }
 .dark {
-  --background: #111419;
-  --foreground: #e6e9ed;
-  --card: #191d23;
-  --card-foreground: #e6e9ed;
-  --popover: #191d23;
-  --popover-foreground: #e6e9ed;
-  --primary: #69c7a6;
-  --primary-foreground: #13281f;
-  --secondary: #242a32;
-  --secondary-foreground: #e6e9ed;
-  --muted: #242a32;
-  --muted-foreground: #a0abb8;
-  --accent: #1c352d;
-  --accent-foreground: #8ad8bc;
-  --destructive: #fb8e87;
-  --border: #303844;
-  --input: #303844;
-  --ring: #69c7a6;
+  color-scheme: dark;
+  --background: #082d57;
+  --foreground: #fafcff;
+  --card: #060d14;
+  --card-foreground: #fafcff;
+  --popover: #060d14;
+  --popover-foreground: #fafcff;
+  --secondary: #0e4078;
+  --secondary-foreground: #fafcff;
+  --muted: #0a2746;
+  --muted-foreground: rgba(250, 252, 255, 0.68);
+  --accent: #0e4078;
+  --accent-foreground: #fafcff;
+  --destructive: #ffa39b;
+  --border: rgba(250, 252, 255, 0.16);
+  --input: rgba(250, 252, 255, 0.24);
+  --ring: #47e299;
+  --wb-sidebar: #125eb0;
+  --wb-nav-active: #051b33;
+  --wb-panel-border: #000;
+  --wb-success: #47e299;
+  --wb-code: #051b33;
+}
+:root[data-network="mainnet"] {
+  --primary: #4da2ff;
+  --wb-network: #4da2ff;
+  --ring: #135fa8;
+}
+:root.dark[data-network="mainnet"] {
+  --ring: #8fc5ff;
 }
 @theme inline {
   --color-background: var(--background);
@@ -60,30 +100,165 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, monospace;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --font-sans: "Workbench Sans", Arial, Helvetica, sans-serif;
+  --font-mono:
+    "Workbench Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 @layer base {
   * {
     @apply border-border;
   }
+  html {
+    min-height: 100%;
+  }
   body {
     @apply bg-background text-foreground antialiased;
+    margin: 0;
+    font-family: var(--font-sans);
   }
   button,
   a,
   input,
   textarea,
-  select {
+  select,
+  summary {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
   button:not(:disabled),
-  a {
+  a,
+  summary {
     cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--muted-foreground);
+  }
+  ::selection {
+    background: var(--wb-network);
+    color: #060d14;
+  }
+}
+@layer components {
+  .wb-sidebar {
+    background: var(--wb-sidebar);
+  }
+  .wb-nav-item {
+    color: var(--foreground);
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+  .wb-nav-item:hover {
+    background: color-mix(in srgb, var(--wb-nav-active) 56%, transparent);
+  }
+  .wb-nav-item[aria-current="page"],
+  .wb-nav-item[data-active="true"] {
+    background: var(--wb-nav-active);
+  }
+  .wb-panel {
+    min-width: 0;
+    border: 2px solid var(--wb-panel-border);
+    border-radius: 24px;
+    background: var(--wb-surface);
+  }
+  .wb-surface {
+    background: var(--wb-surface);
+    color: var(--card-foreground);
+  }
+  .wb-secondary-surface {
+    background: var(--wb-secondary);
+  }
+  .wb-network-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px;
+    padding: 4px 10px;
+    background: var(--wb-network);
+    color: var(--wb-network-foreground);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+  }
+  .wb-accounts-panel {
+    width: min(480px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    border: 2px solid var(--wb-panel-border);
+    border-radius: 32px;
+    background: var(--popover);
+    color: var(--popover-foreground);
+  }
+  .wb-code {
+    overflow-wrap: anywhere;
+    border-radius: 12px;
+    background: var(--wb-code);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .wb-select {
+    min-height: 48px;
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--input);
+    border-radius: 16px;
+    padding: 10px 14px;
+    background: var(--card);
+    color: var(--foreground);
+  }
+  .wb-skeleton {
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--foreground) 12%, transparent);
+    animation: wb-breathe 1.8s ease-in-out infinite;
+  }
+  .wb-spinner {
+    animation: wb-spin 900ms linear infinite;
+  }
+  .wb-empty-state {
+    display: flex;
+    min-height: 220px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px;
+    text-align: center;
+  }
+}
+@keyframes wb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes wb-breathe {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (max-width: 639px) {
+  .wb-panel {
+    border-radius: 20px;
+  }
+  .wb-accounts-panel {
+    border-radius: 24px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -91,7 +266,11 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .wb-skeleton {
+    opacity: 0.7;
   }
 }

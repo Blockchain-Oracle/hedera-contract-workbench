@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { hedera, hederaTestnet } from "viem/chains";
 import { useAccount, useSendTransaction, useSwitchChain } from "wagmi";
 import { formatUnits, getAddress } from "viem";
-import { Loader2, ShieldCheck } from "lucide-react";
+import { Loader2, ShieldCheck, Wallet, Clock3 } from "lucide-react";
 import type { TransactionPlan, TransactionRecord } from "@sh/core";
 import { api, ApiError } from "@/lib/api";
 import { saveRecovery } from "@/lib/recovery";
@@ -156,7 +156,10 @@ export function TransactionReview({
       }}
     >
       <SheetContent className="w-full overflow-y-auto sm:max-w-xl">
-        <SheetHeader>
+        <SheetHeader className="px-6 pb-3 pt-8 sm:px-8">
+          <span className="mb-4 flex size-12 items-center justify-center rounded-full bg-muted">
+            <ShieldCheck className="size-5" />
+          </span>
           <SheetTitle>Review transaction</SheetTitle>
           <SheetDescription>
             Verify these exact fields before approving the request in your
@@ -164,9 +167,9 @@ export function TransactionReview({
           </SheetDescription>
         </SheetHeader>
         {plan && (
-          <div className="space-y-6 px-4 pb-6">
+          <div className="space-y-6 px-6 pb-8 sm:px-8">
             <div
-              className={`rounded-lg border p-4 ${plan.network === "mainnet" ? "border-destructive text-destructive" : "bg-accent"}`}
+              className={`rounded-2xl border p-5 ${plan.network === "mainnet" ? "border-destructive/40 bg-destructive/10 text-destructive" : "border-border/60 bg-muted"}`}
             >
               <p className="font-semibold">
                 Hedera {plan.network} · chain {plan.chainId}
@@ -177,7 +180,7 @@ export function TransactionReview({
                   : "Testnet uses test funds."}
               </p>
             </div>
-            <dl className="space-y-4 text-sm">
+            <dl className="divide-y divide-border/70 rounded-2xl bg-muted/40 px-4 text-sm">
               {[
                 ["From", plan.from],
                 ["To", plan.to],
@@ -185,9 +188,11 @@ export function TransactionReview({
                 ["Value", `${formatUnits(BigInt(plan.valueWeibar), 18)} HBAR`],
                 ["Expires", new Date(plan.expiresAt).toLocaleString()],
               ].map(([label, value]) => (
-                <div key={label}>
-                  <dt className="mb-1 text-muted-foreground">{label}</dt>
-                  <dd className="break-all font-mono">
+                <div key={label} className="py-4">
+                  <dt className="mb-2 text-xs text-muted-foreground">
+                    {label}
+                  </dt>
+                  <dd className="min-w-0 break-all font-mono text-xs leading-relaxed">
                     {label === "From" || label === "To" ? (
                       <ScaffoldAddress
                         address={value as `0x${string}`}
@@ -207,11 +212,11 @@ export function TransactionReview({
             </dl>
             <div>
               <h3 className="mb-2 text-sm font-medium">Exact arguments</h3>
-              <pre className="overflow-x-auto rounded-lg bg-muted p-4 text-xs">
+              <pre className="overflow-x-auto rounded-2xl bg-muted p-4 text-xs leading-6">
                 {JSON.stringify(plan.args, null, 2)}
               </pre>
             </div>
-            <details className="text-xs">
+            <details className="rounded-2xl bg-muted/40 p-4 text-xs">
               <summary className="cursor-pointer">
                 Calldata and interface revision
               </summary>
@@ -224,7 +229,8 @@ export function TransactionReview({
             <ResultCard result={plan.simulation} simulation />
             <ErrorNotice error={error} />
             {!address && (
-              <p className="text-sm">
+              <p className="flex items-start gap-2 rounded-2xl bg-muted p-4 text-sm">
+                <Wallet className="mt-0.5 size-4 shrink-0" />
                 Connect the prepared account to continue.
               </p>
             )}
@@ -246,7 +252,8 @@ export function TransactionReview({
               </Button>
             )}
             {expired && (
-              <p className="text-sm text-destructive">
+              <p className="flex items-start gap-2 rounded-2xl bg-destructive/10 p-4 text-sm text-destructive">
+                <Clock3 className="mt-0.5 size-4 shrink-0" />
                 This plan expired. Prepare a new one.
               </p>
             )}
@@ -256,15 +263,15 @@ export function TransactionReview({
               onClick={submit}
             >
               {pending ? (
-                <Loader2 className="size-4 animate-spin" />
+                <Loader2 className="size-4 animate-spin motion-reduce:animate-none" />
               ) : (
                 <ShieldCheck className="size-4" />
               )}
               {pending
                 ? "Checking simulation / waiting for wallet…"
-                : "Approve exact transaction in wallet"}
+                : "Approve in wallet"}
             </Button>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs leading-relaxed text-muted-foreground">
               The workbench rechecks calldata, ABI revision, account, network,
               expiry, and simulation before requesting your wallet approval.
             </p>

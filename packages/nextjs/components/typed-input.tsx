@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Plus, X } from "lucide-react";
 export function initialValue(p: Parameter): Json {
   if (p.item)
     return Array.from({ length: p.length ?? 0 }, () => initialValue(p.item!));
@@ -30,7 +31,7 @@ export function TypedInput({
   const id = `arg-${path}`;
   if (p.children)
     return (
-      <fieldset className="rounded-lg border p-4">
+      <fieldset className="rounded-2xl border border-border/70 bg-muted/40 p-4 sm:p-5">
         <legend className="px-2 text-sm font-medium">
           {p.name || p.key}{" "}
           <span className="font-mono text-xs text-muted-foreground">tuple</span>
@@ -59,7 +60,7 @@ export function TypedInput({
   if (p.item) {
     const items = Array.isArray(value) ? value : [];
     return (
-      <fieldset className="space-y-3 rounded-lg border p-4">
+      <fieldset className="space-y-4 rounded-2xl border border-border/70 bg-muted/40 p-4 sm:p-5">
         <legend className="px-2 text-sm font-medium">
           {p.name || p.key}{" "}
           <span className="font-mono text-xs text-muted-foreground">
@@ -67,7 +68,10 @@ export function TypedInput({
           </span>
         </legend>
         {items.map((item, i) => (
-          <div key={i} className="flex items-start gap-2">
+          <div
+            key={i}
+            className="flex items-start gap-2 rounded-xl bg-card p-3"
+          >
             <div className="min-w-0 flex-1">
               <TypedInput
                 parameter={{ ...p.item!, name: `[${i}]`, key: String(i) }}
@@ -82,13 +86,13 @@ export function TypedInput({
               <Button
                 type="button"
                 variant="ghost"
-                size="sm"
+                size="icon"
                 aria-label={`Remove ${p.key} item ${i}`}
                 onClick={() =>
                   onChange(items.filter((_, index) => index !== i))
                 }
               >
-                Remove
+                <X className="size-4" />
               </Button>
             )}
           </div>
@@ -101,12 +105,12 @@ export function TypedInput({
             disabled={items.length >= 1024}
             onClick={() => onChange([...items, initialValue(p.item!)])}
           >
-            Add item
+            <Plus className="size-4" /> Add item
           </Button>
         )}
         {!items.length && (
-          <p className="text-xs text-muted-foreground">
-            Empty array. Add items in their intended order.
+          <p className="rounded-xl bg-card p-4 text-sm text-muted-foreground">
+            No items yet. Add values in the order the contract expects.
           </p>
         )}
       </fieldset>
@@ -116,7 +120,7 @@ export function TypedInput({
     <Field>
       <FieldLabel htmlFor={id}>
         {p.name || p.key}{" "}
-        <span className="font-mono text-xs text-muted-foreground">
+        <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-xs font-normal text-muted-foreground">
           {p.type}
         </span>
       </FieldLabel>
@@ -125,7 +129,8 @@ export function TypedInput({
           id={id}
           value={String(value)}
           onChange={(e) => onChange(e.target.value === "true")}
-          className="h-9 rounded-md border bg-background px-3 text-sm"
+          className="h-12 w-full rounded-xl border border-input bg-card px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          aria-describedby={/int/.test(p.type) ? `${id}-help` : undefined}
         >
           <option value="false">false</option>
           <option value="true">true</option>
@@ -146,11 +151,13 @@ export function TypedInput({
                   : "Enter text"
           }
           autoComplete="off"
+          spellCheck={false}
+          aria-describedby={/int/.test(p.type) ? `${id}-help` : undefined}
         />
       )}
       {/int/.test(p.type) && (
-        <FieldDescription>
-          Exact integer. Decimal strings preserve precision.
+        <FieldDescription id={`${id}-help`}>
+          Use a whole number. Large values stay exact; no rounding.
         </FieldDescription>
       )}
     </Field>
