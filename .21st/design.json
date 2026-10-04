@@ -12,38 +12,49 @@
     ]
   },
   "sources": {
-    "tokens": ["packages/nextjs/app/globals.css"],
+    "tokens": [
+      "packages/nextjs/app/globals.css"
+    ],
     "components": [
       "packages/nextjs/components/ui",
       "packages/nextjs/components/workbench.tsx"
     ],
-    "assets": ["packages/nextjs/public/fonts"],
-    "instructions": ["AGENTS.md"]
+    "assets": [
+      "packages/nextjs/public/fonts",
+      "packages/nextjs/public/brand"
+    ],
+    "instructions": [
+      "AGENTS.md"
+    ]
   },
   "design": {
-    "colorMode": "light/dark with network accents",
+    "colorMode": "Neutral light/charcoal dark workspace; black brand landing",
     "colors": {
-      "canvas": "#CCE5FF",
-      "sidebar": "#8FC5FF",
-      "surface": "#FAFCFF",
-      "ink": "#060D14",
-      "testnet": "#47E299",
-      "darkCanvas": "#082D57",
-      "darkSidebar": "#125EB0"
+      "canvas": "#F6F7F9",
+      "sidebar": "#FFFFFF",
+      "surface": "#FFFFFF",
+      "ink": "#11151D",
+      "primary": "#0031FF",
+      "ultraviolet": "#8259EF",
+      "darkCanvas": "#0C0E13",
+      "darkSidebar": "#11151D",
+      "testnet": "#087749"
     },
     "typography": {
-      "body": "local Geist; explicit Aeonik substitution",
-      "heading": "30px / 34.2px, -0.75px"
+      "body": "locally bundled licensed Geist",
+      "code": "locally bundled licensed Geist Mono",
+      "heading": "clear editorial landing; compact application hierarchy"
     },
     "spacing": {},
     "radius": {
-      "rail": "32px",
-      "nav": "24px",
-      "row": "16px"
+      "rail": "16px",
+      "nav": "10px",
+      "row": "10px",
+      "control": "12px"
     },
     "shadows": {},
     "motion": {},
-    "density": "Slush measured shell: 248px rail, 48px nav, 32px gutter"
+    "density": "Compact neutral workspace; 224px rail, clear context bar and function/result hierarchy"
   },
   "components": {
     "installed": [],
@@ -52,7 +63,7 @@
   },
   "constraints": {
     "must": [
-      "Follow measured Slush Blue Blizzard tokens and existing captures",
+      "Follow the approved Hedera brand direction; official logo separate from product identity",
       "Browser wallet signs; CLI/MCP/chat do not",
       "Generic imported ABI forms inherit the same reusable theme",
       "Real states and real data only",
@@ -86,6 +97,10 @@
     {
       "date": "2026-10-04",
       "decision": "Make contract switching visibly labeled and bordered; use one focus treatment and shared inline required-field validation. Ordinary reads omit wallet caller; explicit getter discovery applies only actual values with provenance, never inferred IDs or routes."
+    },
+    {
+      "date": "2026-10-04",
+      "decision": "User approved the recommended black landing and neutral white/charcoal workspace with official Hedera colors and separate Built on Hedera logo. Supersedes Slush colors and shell geometry. Real contract preview leads; working assistant stays lower on landing. No fake data, global swap, contract classification or changes to core execution."
     }
   ],
   "evidence": [
