@@ -12,20 +12,13 @@
     ]
   },
   "sources": {
-    "tokens": [
-      "packages/nextjs/app/globals.css"
-    ],
+    "tokens": ["packages/nextjs/app/globals.css"],
     "components": [
       "packages/nextjs/components/ui",
       "packages/nextjs/components/workbench.tsx"
     ],
-    "assets": [
-      "packages/nextjs/public/fonts",
-      "packages/nextjs/public/brand"
-    ],
-    "instructions": [
-      "AGENTS.md"
-    ]
+    "assets": ["packages/nextjs/public/fonts", "packages/nextjs/public/brand"],
+    "instructions": ["AGENTS.md"]
   },
   "design": {
     "colorMode": "Neutral light/charcoal dark workspace; black brand landing",

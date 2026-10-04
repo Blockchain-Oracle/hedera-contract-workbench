@@ -1,0 +1,16 @@
+{
+  "traceManifests": 8,
+  "tracesWithIgnoredState": 0,
+  "builtJavaScriptFiles": 425,
+  "credentialPatternMatches": 0,
+  "officialAssets": [
+    {
+      "name": "hedera-black.svg",
+      "unchanged": true
+    },
+    {
+      "name": "hedera-white.svg",
+      "unchanged": true
+    }
+  ]
+}

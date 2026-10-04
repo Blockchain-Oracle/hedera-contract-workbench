@@ -60,7 +60,7 @@ export function Assistant({
   const busy = status === "submitted" || status === "streaming";
   return (
     <section
-      className={`min-w-0 overflow-hidden rounded-3xl border border-border bg-card ${embedded ? "" : "mx-auto max-w-4xl"}`}
+      className={`min-w-0 overflow-hidden rounded-2xl border border-border bg-card ${embedded ? "" : "mx-auto max-w-4xl"}`}
       aria-label="Contract assistant"
     >
       <header className="flex items-center justify-between gap-3 border-b border-border px-5 py-4 sm:px-6">

@@ -69,7 +69,7 @@ export function AgentAccess({ contract }: { contract: ContractRecord }) {
   }, [tool]);
   if (!view)
     return (
-      <section className="wb-panel space-y-4 rounded-3xl bg-card p-6">
+      <section className="wb-panel space-y-4 rounded-2xl bg-card p-6">
         {error ? (
           <>
             <ErrorNotice error={error} />
@@ -105,7 +105,7 @@ export function AgentAccess({ contract }: { contract: ContractRecord }) {
         <span>{view.tools.length} current tools</span>
       </div>
       <div className="grid min-w-0 items-start gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
-        <section className="wb-panel min-w-0 space-y-5 rounded-3xl bg-card p-5 sm:p-6">
+        <section className="wb-panel min-w-0 space-y-5 rounded-2xl bg-card p-5 sm:p-6">
           <h2 className="flex items-center gap-2 text-lg font-semibold">
             <Terminal className="size-5" /> Connect your agent
           </h2>
@@ -147,7 +147,7 @@ export function AgentAccess({ contract }: { contract: ContractRecord }) {
             commands for that bundle.
           </p>
         </section>
-        <section className="wb-panel min-w-0 space-y-5 rounded-3xl bg-card p-5 sm:p-6">
+        <section className="wb-panel min-w-0 space-y-5 rounded-2xl bg-card p-5 sm:p-6">
           <h2 className="flex items-center gap-2 text-lg font-semibold">
             <FileText className="size-5" /> Portable skill
           </h2>
@@ -185,7 +185,7 @@ export function AgentAccess({ contract }: { contract: ContractRecord }) {
           ))}
         </section>
       </div>
-      <section className="wb-panel min-w-0 space-y-5 rounded-3xl bg-card p-5 sm:p-6">
+      <section className="wb-panel min-w-0 space-y-5 rounded-2xl bg-card p-5 sm:p-6">
         <div className="space-y-2">
           <h2 className="text-lg font-semibold">Current CLI tools</h2>
           <p className="text-sm leading-relaxed text-muted-foreground">

@@ -6,4 +6,6 @@ Project implementation and original Observation.sol are MIT licensed. Scaffold H
 
 Public protocol ABI method signatures and deployment metadata are attributed in docs/SUPPORT.md. No private research clone source, keys, or user-local state is distributed with this template.
 
-The October 4 browser theme was informed by existing Slush reference screenshots. Those screenshots, logos, illustrations and Aeonik font files are not distributed. Unchanged Geist Sans and Geist Mono Latin WOFF2 files are bundled under the SIL Open Font License; their copyright and full license are in `packages/nextjs/public/fonts/OFL.txt`. Geist is an explicit substitute for the reference typography. Font provenance is recorded alongside the files.
+The earlier October 4 browser theme was informed by existing Slush reference screenshots. Those screenshots, logos, illustrations and Aeonik font files are not distributed. The latest approved design uses the Hedera brand palette and neutral application surfaces. Unchanged Geist Sans and Geist Mono Latin WOFF2 files are bundled under the SIL Open Font License; their copyright and full license are in `packages/nextjs/public/fonts/OFL.txt`. Font provenance is recorded alongside the files.
+
+Unmodified Hedera logo SVGs in `packages/nextjs/public/brand` come from the official brand library and remain Hedera trademarks, outside the project MIT license. They identify the network separately from Contract Workbench's product identity. The source, archive hash and usage guidance are recorded alongside the assets.

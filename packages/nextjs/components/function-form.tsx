@@ -176,7 +176,7 @@ export function FunctionForm({
               : "Wallet approval required"}
           </p>
           <div className="flex items-start justify-between gap-3">
-            <h2 className="min-w-0 break-words text-[30px] font-semibold leading-[1.14] tracking-[-0.75px]">
+            <h2 className="min-w-0 break-words text-2xl font-semibold leading-8 tracking-tight">
               {tool.signature.split("(")[0]}
             </h2>
             <CopyButton value={tool.id} label="Copy tool ID" iconOnly />
@@ -240,7 +240,7 @@ export function FunctionForm({
               <details
                 open={callerOpen}
                 onToggle={(event) => setCallerOpen(event.currentTarget.open)}
-                className="rounded-2xl bg-muted/40 p-3"
+                className="border-t border-border pt-4"
               >
                 <summary className="cursor-pointer text-sm text-muted-foreground">
                   Caller context · optional

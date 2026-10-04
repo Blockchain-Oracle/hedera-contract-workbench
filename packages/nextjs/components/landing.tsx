@@ -16,10 +16,11 @@ import {
   Check,
   Loader2,
 } from "lucide-react";
-import type { ContractRecord } from "@sh/core";
+import type { ContractRecord, ToolDefinition } from "@sh/core";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import { WorkbenchMark, AgentMark } from "./identity";
+import { WorkbenchMark, AgentMark, HederaIdentity } from "./identity";
+import { ContractPreview } from "./contract-preview";
 import { Picker } from "./picker";
 import { CopyButton, ErrorNotice } from "./result";
 const Assistant = dynamic(
@@ -38,6 +39,7 @@ export function Landing({ initialContract }: { initialContract?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
   const [contracts, setContracts] = useState<ContractRecord[]>([]);
   const [contract, setContract] = useState<ContractRecord | null>(null);
+  const [tools, setTools] = useState<ToolDefinition[]>([]);
   const [selected, setSelected] = useState("");
   const [enabled, setEnabled] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -75,18 +77,24 @@ export function Landing({ initialContract }: { initialContract?: string }) {
   useEffect(() => {
     if (!selected) {
       setContract(null);
+      setTools([]);
       return;
     }
     const controller = new AbortController();
     setContract(null);
-    api<{ contract: ContractRecord }>(
+    setTools([]);
+    setError(null);
+    api<{ contract: ContractRecord; tools: ToolDefinition[] }>(
       `contracts/${encodeURIComponent(selected)}`,
       undefined,
       "GET",
       controller.signal,
     )
       .then((data) => {
-        if (!controller.signal.aborted) setContract(data.contract);
+        if (!controller.signal.aborted) {
+          setContract(data.contract);
+          setTools(data.tools);
+        }
       })
       .catch((failure) => {
         if (!controller.signal.aborted) setError(failure);
@@ -104,97 +112,275 @@ export function Landing({ initialContract }: { initialContract?: string }) {
   }, [selected]);
   const context = selected ? `&contract=${encodeURIComponent(selected)}` : "";
   const open = `/workbench?view=functions${context}`;
+  const example =
+    contracts.find(
+      (c) => c.network === "testnet" && c.provenance.source === "bundled",
+    ) ?? contracts.find((c) => c.network === "testnet");
+  const exampleLink = example
+    ? `/workbench?view=functions&contract=${encodeURIComponent(example.id)}`
+    : "/workbench?import=1";
   return (
-    <div className="min-h-screen px-5 sm:px-8 lg:px-12">
-      <div className="mx-auto max-w-[1240px]">
-        <header className="flex min-h-24 items-center justify-between gap-4 border-b border-foreground/10">
-          <Link
-            href={selected ? `/?contract=${encodeURIComponent(selected)}` : "/"}
-            className="flex items-center gap-2.5 font-semibold tracking-tight"
-            aria-label="Contract Workbench home"
-          >
-            <WorkbenchMark className="size-8" />
-            <span>
-              Contract
-              <br className="sm:hidden" /> Workbench
-            </span>
-          </Link>
-          <nav
-            className="flex items-center gap-2 sm:gap-5"
-            aria-label="Main navigation"
-          >
+    <div className="min-h-screen">
+      <div className="wb-brand px-5 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-[1240px]">
+          <header className="flex min-h-22 items-center justify-between gap-3 border-b border-border">
             <Link
-              href={`/workbench?view=agents${context}`}
-              className="hidden text-sm text-muted-foreground hover:text-foreground sm:block"
-            >
-              Agent access
-            </Link>
-            <button
-              className="grid size-9 place-items-center rounded-xl hover:bg-card/40"
-              aria-label="Toggle light and dark theme"
-              onClick={() =>
-                setTheme(resolvedTheme === "dark" ? "light" : "dark")
+              href={
+                selected ? `/?contract=${encodeURIComponent(selected)}` : "/"
               }
+              className="flex items-center gap-3 text-sm font-semibold tracking-tight sm:text-base"
+              aria-label="Contract Workbench home"
             >
-              <Sun className="size-4 dark:hidden" />
-              <Moon className="hidden size-4 dark:block" />
-            </button>
-            <Button size="sm" variant="secondary" asChild>
-              <Link href={open}>
-                Open app <ArrowUpRight className="size-3.5" />
+              <WorkbenchMark className="size-7 shrink-0" />
+              <span>
+                Contract
+                <br className="sm:hidden" /> Workbench
+              </span>
+            </Link>
+            <nav
+              className="flex items-center gap-2 sm:gap-6"
+              aria-label="Main navigation"
+            >
+              <a
+                href="#how-it-works"
+                className="wb-brand-link hidden text-xs sm:block"
+              >
+                How it works
+              </a>
+              <Link
+                href={`/workbench?view=agents${context}`}
+                className="wb-brand-link hidden text-xs sm:block"
+              >
+                Agent access
               </Link>
-            </Button>
-          </nav>
-        </header>
-        <main>
+              <button
+                className="grid size-9 place-items-center rounded-lg hover:bg-muted"
+                aria-label="Toggle light and dark theme"
+                onClick={() =>
+                  setTheme(resolvedTheme === "dark" ? "light" : "dark")
+                }
+              >
+                <Sun className="size-4 dark:hidden" />
+                <Moon className="hidden size-4 dark:block" />
+              </button>
+              <Button size="sm" variant="secondary" asChild>
+                <Link href={open}>
+                  Open app <ArrowUpRight className="size-3.5" />
+                </Link>
+              </Button>
+            </nav>
+          </header>
+        </div>
+      </div>
+      <main>
+        <div className="wb-brand px-5 sm:px-8 lg:px-12">
+          <div className="mx-auto max-w-[1240px]">
+            <section
+              className="grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_1fr] lg:gap-16"
+              aria-labelledby="home-title"
+            >
+              <div>
+                <div className="mb-9">
+                  <HederaIdentity light />
+                </div>
+                <h1
+                  id="home-title"
+                  className="max-w-xl text-[clamp(2.8rem,5vw,4.5rem)] font-medium leading-[1.04] tracking-[-.055em]"
+                >
+                  Your contract.
+                  <br />
+                  <span className="wb-brand-accent">Every interface.</span>
+                </h1>
+                <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">
+                  Bring a deployed contract. Get typed functions in your
+                  browser, terminal, and AI agent — from the same ABI.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Button asChild className="wb-brand-button">
+                    <Link href="/workbench?import=1">
+                      Import your contract <ArrowRight className="size-4" />
+                    </Link>
+                  </Button>
+                  <Button variant="outline" asChild>
+                    <Link href={exampleLink}>
+                      {example ? "Try the testnet example" : "Open workspace"}
+                    </Link>
+                  </Button>
+                </div>
+                <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-muted-foreground">
+                  {[
+                    "Runs locally",
+                    "Testnet & mainnet",
+                    "Wallet-approved transactions",
+                  ].map((label) => (
+                    <span key={label} className="flex items-center gap-1.5">
+                      <Check className="size-3.5" />
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="min-w-0">
+                {Boolean(error) ? (
+                  <div className="wb-preview space-y-5 p-6">
+                    <ErrorNotice error={error} />
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setAttempt((n) => n + 1)}
+                    >
+                      Retry connection
+                    </Button>
+                  </div>
+                ) : contract ? (
+                  <ContractPreview
+                    key={`${contract.id}:${contract.revision}`}
+                    contract={contract}
+                    tools={tools}
+                    contracts={contracts}
+                    select={setSelected}
+                  />
+                ) : loaded && !selected ? (
+                  <div className="wb-preview flex min-h-80 flex-col justify-center p-6 sm:p-8">
+                    <Blocks className="mb-6 size-8 wb-brand-accent" />
+                    <h2 className="text-xl font-medium">
+                      Your workspace is ready.
+                    </h2>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                      Import a deployed contract to discover its functions and
+                      typed agent tools.
+                    </p>
+                    <Button asChild className="mt-6 w-fit">
+                      <Link href="/workbench?import=1">
+                        Import a contract <ArrowRight className="size-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <div
+                    role="status"
+                    className="wb-preview flex min-h-96 items-center justify-center gap-2 p-6 text-sm text-muted-foreground"
+                  >
+                    <Loader2 className="size-4 animate-spin motion-reduce:animate-none" />
+                    Loading your local catalog…
+                  </div>
+                )}
+              </div>
+            </section>
+            <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border py-5 text-xs text-muted-foreground">
+              <span>One contract. One typed catalog.</span>
+              <span className="flex items-center gap-3">
+                <span>Browser</span>
+                <span className="text-border">/</span>
+                <span>CLI</span>
+                <span className="text-border">/</span>
+                <span>MCP & skills</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="mx-auto max-w-[1336px] px-5 sm:px-8 lg:px-12">
           <section
-            className="grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1fr_1.05fr] lg:gap-16"
-            aria-labelledby="home-title"
+            id="how-it-works"
+            className="scroll-mt-8 border-b border-border py-14 sm:py-20"
+            aria-labelledby="interfaces-title"
+          >
+            <div className="mb-10 flex flex-wrap items-end justify-between gap-5">
+              <div>
+                <p className="mb-3 text-xs uppercase tracking-[.15em] text-muted-foreground">
+                  From address to action
+                </p>
+                <h2
+                  id="interfaces-title"
+                  className="max-w-lg text-3xl font-medium tracking-tight sm:text-4xl"
+                >
+                  A workspace that follows
+                  <br className="hidden sm:block" /> your contract.
+                </h2>
+              </div>
+              <p className="max-w-sm text-sm leading-6 text-muted-foreground">
+                Change the contract. Its functions, arguments, and agent
+                commands follow automatically.
+              </p>
+            </div>
+            <div className="grid gap-7 sm:grid-cols-3">
+              {[
+                {
+                  title: "Explore in your browser",
+                  icon: Blocks,
+                  copy: "Import an address and ABI. Discover functions, enter typed arguments, and see structured results.",
+                  href: open,
+                  action: "Explore functions",
+                },
+                {
+                  title: "Work from your terminal",
+                  icon: Terminal,
+                  copy: "Inspect current schemas, run reads, simulate calls, and prepare transactions with copyable CLI commands.",
+                  href: `/workbench?view=agents${context}`,
+                  action: "Get CLI commands",
+                },
+                {
+                  title: "Bring your own agent",
+                  icon: Braces,
+                  copy: "Connect MCP or install a portable skill. Your agent discovers the current contract before it acts.",
+                  href: `/workbench?view=agents${context}`,
+                  action: "Connect an agent",
+                },
+              ].map(({ title, icon: Icon, copy, href, action }, i) => (
+                <article
+                  key={title}
+                  className="min-w-0 border-t border-border pt-6"
+                >
+                  <div className="mb-6 flex items-center justify-between">
+                    <Icon className="size-5" />
+                    <span className="wb-interface-number font-mono text-xs">
+                      0{i + 1}
+                    </span>
+                  </div>
+                  <h3 className="text-base font-semibold">{title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                    {copy}
+                  </p>
+                  <Link
+                    href={href}
+                    className="mt-5 inline-flex items-center gap-2 text-xs font-medium"
+                  >
+                    {action}
+                    <ArrowUpRight className="size-3.5" />
+                  </Link>
+                </article>
+              ))}
+            </div>
+            <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-border pt-6">
+              <p className="max-w-lg text-sm leading-6 text-muted-foreground">
+                When a function changes state, review the exact transaction and
+                approve it in your wallet.
+              </p>
+              <span className="flex items-center gap-2 text-xs font-medium">
+                <Check className="size-4 text-[var(--wb-success)]" /> You
+                control every signature
+              </span>
+            </div>
+          </section>
+          <section
+            className="grid gap-8 border-b border-border py-14 sm:py-16 lg:grid-cols-[1fr_1.2fr] lg:gap-16"
+            aria-labelledby="assistant-title"
           >
             <div>
-              <p className="mb-6 flex items-center gap-2 text-xs font-medium uppercase tracking-[.18em]">
-                <span className="size-2 rounded-full bg-primary" /> Built for
-                Hedera EVM
+              <p className="mb-3 text-xs uppercase tracking-[.15em] text-muted-foreground">
+                An optional conversation
               </p>
-              <h1
-                id="home-title"
-                className="max-w-xl text-[clamp(2.7rem,5vw,4.5rem)] font-semibold leading-[1.05] tracking-[-.055em]"
+              <h2
+                id="assistant-title"
+                className="text-3xl font-medium tracking-tight"
               >
-                Your contract.
-                <br />
-                <span className="text-foreground/60">Every interface.</span>
-              </h1>
-              <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">
-                Bring a deployed contract. Get typed functions in your browser,
-                terminal, and AI agent — from the same ABI.
+                Ask about your contract.
+              </h2>
+              <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">
+                Use your configured model to explore functions, find the
+                arguments you need, or prepare a transaction for wallet review.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild>
-                  <Link href="/workbench?import=1">
-                    Import your contract <ArrowRight className="size-4" />
-                  </Link>
-                </Button>
-                <Button variant="outline" asChild>
-                  <Link href={open}>Open workspace</Link>
-                </Button>
-              </div>
-              <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <Check className="size-3.5" /> Runs locally
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Check className="size-3.5" /> Testnet & mainnet
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Check className="size-3.5" /> Wallet-approved transactions
-                </span>
-              </div>
-            </div>
-            <div className="min-w-0 space-y-3">
-              <div className="flex items-center gap-3">
-                <span className="shrink-0 text-xs text-muted-foreground">
-                  Explore
-                </span>
+              <div className="mt-6">
                 <Picker
                   label="Assistant contract"
                   placeholder="Choose a contract"
@@ -206,21 +392,15 @@ export function Landing({ initialContract }: { initialContract?: string }) {
                     label: c.name,
                     description: `Hedera ${c.network}`,
                   }))}
-                  className="border-transparent bg-card/50"
                 />
               </div>
-              {Boolean(error) ? (
-                <div className="rounded-3xl bg-card p-6">
-                  <ErrorNotice error={error} />
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => setAttempt((n) => n + 1)}
-                  >
-                    Retry connection
-                  </Button>
-                </div>
-              ) : contract ? (
+              <p className="mt-4 text-xs leading-6 text-muted-foreground">
+                OpenAI, Anthropic or Gemini. Without a provider key,
+                deterministic contract tools remain available.
+              </p>
+            </div>
+            <div className="min-w-0">
+              {contract ? (
                 <Assistant
                   key={`${contract.id}:${contract.revision}`}
                   embedded
@@ -232,126 +412,42 @@ export function Landing({ initialContract }: { initialContract?: string }) {
                     )
                   }
                 />
-              ) : loaded && !selected ? (
-                <div className="min-h-80 rounded-3xl border border-border bg-card p-6">
-                  <h2 className="text-xl font-semibold">
-                    Your workspace is ready.
-                  </h2>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    Import a deployed contract to get its functions and agent
-                    tools.
-                  </p>
-                  <Button asChild className="mt-5">
-                    <Link href="/workbench?import=1">
-                      Import a contract <ArrowRight className="size-4" />
-                    </Link>
-                  </Button>
-                </div>
               ) : (
-                <div
-                  role="status"
-                  className="flex min-h-80 items-center justify-center gap-2 rounded-3xl border border-border bg-card p-6 text-sm text-muted-foreground"
-                >
-                  <Loader2 className="size-4 animate-spin motion-reduce:animate-none" />{" "}
-                  Loading your local catalog…
+                <div className="wb-panel flex min-h-64 flex-col justify-center gap-3 p-6">
+                  <h3 className="font-medium">Choose a contract to start.</h3>
+                  <p className="text-sm text-muted-foreground">
+                    The assistant uses the same selected catalog as your
+                    workspace.
+                  </p>
                 </div>
               )}
             </div>
           </section>
           <section
-            className="border-t border-foreground/10 py-12 sm:py-16"
-            aria-labelledby="interfaces-title"
-          >
-            <div className="mb-9 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <p className="mb-3 text-xs font-medium uppercase tracking-[.18em] text-muted-foreground">
-                  Work your way
-                </p>
-                <h2
-                  id="interfaces-title"
-                  className="text-3xl font-semibold tracking-tight"
-                >
-                  One ABI. A shared set of tools.
-                </h2>
-              </div>
-              <p className="max-w-sm text-sm leading-6 text-muted-foreground">
-                Change the contract. The arguments, forms, and agent commands
-                follow.
-              </p>
-            </div>
-            <div className="grid gap-7 sm:grid-cols-3">
-              {[
-                {
-                  title: "In your browser",
-                  icon: Blocks,
-                  copy: "Inspect functions, enter typed arguments, see results, and review transactions in your wallet.",
-                  href: open,
-                  action: "Explore functions",
-                },
-                {
-                  title: "In your terminal",
-                  icon: Terminal,
-                  copy: "Discover tools, run reads, simulate calls, and prepare unsigned transactions with the CLI.",
-                  href: `/workbench?view=agents${context}`,
-                  action: "Get CLI commands",
-                },
-                {
-                  title: "With your agent",
-                  icon: Braces,
-                  copy: "Install a portable skill or connect MCP. Your agent inspects the current schema before it acts.",
-                  href: `/workbench?view=agents${context}`,
-                  action: "Connect an agent",
-                },
-              ].map(({ title, icon: Icon, copy, href, action }, i) => (
-                <article
-                  key={title}
-                  className="min-w-0 border-t border-foreground/15 pt-6"
-                >
-                  <div className="mb-6 flex items-center justify-between">
-                    <Icon className="size-6" />
-                    <span className="font-mono text-xs text-muted-foreground">
-                      0{i + 1}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-semibold">{title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    {copy}
-                  </p>
-                  <Link
-                    href={href}
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-medium"
-                  >
-                    {action}
-                    <ArrowUpRight className="size-4" />
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </section>
-          <section
-            className="grid gap-8 rounded-3xl border border-border bg-card p-6 sm:p-9 lg:grid-cols-[1fr_1.15fr]"
+            className="grid gap-8 border-b border-border py-14 sm:py-16 lg:grid-cols-[1fr_1.2fr] lg:gap-16"
             aria-labelledby="start-title"
           >
             <div>
-              <p className="mb-3 text-xs font-medium uppercase tracking-[.18em] text-muted-foreground">
-                The local template
+              <p className="mb-3 text-xs uppercase tracking-[.15em] text-muted-foreground">
+                Made for your machine
               </p>
               <h2
                 id="start-title"
-                className="text-2xl font-semibold tracking-tight"
+                className="text-3xl font-medium tracking-tight"
               >
                 Start with a useful read.
               </h2>
-              <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-                The bundled testnet examples work without a key or deployment.
-                Import another contract with its address and a verified or
-                supplied ABI.
+              <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">
+                The bundled testnet examples need no key or deployment. Import
+                another contract with its address and a verified or supplied
+                ABI.
               </p>
             </div>
             <div className="min-w-0">
               <div className="flex items-center justify-between gap-3 text-xs">
                 <span className="flex items-center gap-2 text-muted-foreground">
-                  <Terminal className="size-4" /> From your installed template
+                  <Terminal className="size-4" />
+                  From your installed template
                 </span>
                 <CopyButton
                   value="npm install\nnpm run dev"
@@ -359,7 +455,7 @@ export function Landing({ initialContract }: { initialContract?: string }) {
                   iconOnly
                 />
               </div>
-              <pre className="mt-3 overflow-x-auto rounded-xl bg-muted p-5 font-mono text-sm leading-7">
+              <pre className="mt-3 overflow-x-auto rounded-xl border border-border bg-card p-5 font-mono text-sm leading-8">
                 <code>
                   <span className="text-muted-foreground">$ </span>npm install
                   {"\n"}
@@ -367,46 +463,50 @@ export function Landing({ initialContract }: { initialContract?: string }) {
                 </code>
               </pre>
               <p className="mt-3 text-xs text-muted-foreground">
-                Use Node 24. Chat is optional; your wallet handles signing.
+                Node 24 · Local state · Your wallet handles signing
               </p>
             </div>
           </section>
           <section
-            className="flex flex-wrap items-center justify-between gap-6 py-12"
+            className="flex flex-wrap items-center justify-between gap-6 py-10"
             aria-label="Portable agent setup"
           >
             <div>
-              <h2 className="text-lg font-semibold">
-                Take the tools to your agent.
+              <h2 className="text-lg font-medium">
+                Take your contract tools with you.
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Copy the skill, inspect its Markdown, or install it locally.
+                Read the skill. Copy the commands. Connect your agent.
               </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5">
               <div
-                className="flex gap-3"
+                className="flex gap-4"
                 aria-label="Codex, Claude Code and Cursor"
               >
                 <AgentMark agent="codex" />
                 <AgentMark agent="claude-code" />
                 <AgentMark agent="cursor" />
               </div>
-              <Button variant="outline" asChild>
+              <Button variant="outline" size="sm" asChild>
                 <Link href={`/workbench?view=agents${context}`}>
                   Agent setup <ArrowRight className="size-4" />
                 </Link>
               </Button>
             </div>
           </section>
-        </main>
-        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-foreground/10 py-6 text-xs text-muted-foreground">
-          <span>Contract Workbench · Hedera EVM</span>
-          <Link href={open} className="hover:text-foreground">
-            Open your workspace →
-          </Link>
-        </footer>
-      </div>
+        </div>
+      </main>
+      <footer className="mx-auto flex max-w-[1336px] flex-wrap items-start justify-between gap-6 border-t border-border px-5 py-8 sm:px-8 lg:px-12">
+        <div>
+          <p className="text-xs font-medium">Contract Workbench</p>
+          <p className="mt-2 max-w-md text-[11px] leading-5 text-muted-foreground">
+            An independent project. Not affiliated with, sponsored or endorsed
+            by Hedera Hashgraph, LLC.
+          </p>
+        </div>
+        <HederaIdentity />
+      </footer>
     </div>
   );
 }

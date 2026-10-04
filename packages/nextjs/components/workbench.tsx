@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Picker } from "./picker";
-import { WorkbenchMark } from "./identity";
+import { WorkbenchMark, HederaIdentity } from "./identity";
 import { RadioGroup } from "radix-ui";
 import { useAccount } from "wagmi";
 import { useTheme } from "next-themes";
@@ -174,10 +174,14 @@ export function Workbench() {
       .then((data) => {
         if (controller.signal.aborted) return;
         setCatalog(data);
+        const preferredTool = new URL(window.location.href).searchParams.get(
+          "tool",
+        );
         setToolId(
-          data.tools.find(
-            (t) => t.parameters.length === 0 && t.action === "read",
-          )?.id ??
+          data.tools.find((t) => t.id === preferredTool)?.id ??
+            data.tools.find(
+              (t) => t.parameters.length === 0 && t.action === "read",
+            )?.id ??
             data.tools[0]?.id ??
             "",
         );
@@ -193,11 +197,16 @@ export function Workbench() {
     url.searchParams.set("view", tab);
     if (selected) url.searchParams.set("contract", selected);
     else url.searchParams.delete("contract");
+    if (tab !== "functions") url.searchParams.delete("tool");
+    else if (catalog?.contract.id === selected) {
+      if (toolId) url.searchParams.set("tool", toolId);
+      else url.searchParams.delete("tool");
+    }
     if (plan) url.searchParams.set("plan", plan.id);
     else url.searchParams.delete("plan");
     url.searchParams.delete("import");
     window.history.replaceState(null, "", url);
-  }, [initialised, selected, tab, plan]);
+  }, [initialised, selected, tab, plan, catalog, toolId]);
   const priorWallet = useRef({ address, chainId });
   useEffect(() => {
     const previous = priorWallet.current;
@@ -249,14 +258,17 @@ export function Workbench() {
     setNavOpen(false);
   };
   const navigation = (
-    <div className="flex h-full flex-col p-6">
-      <div className="mb-10 flex items-center gap-2">
+    <div className="flex h-full flex-col p-5">
+      <div className="mb-8 space-y-5">
         <Link
           href={selected ? `/?contract=${encodeURIComponent(selected)}` : "/"}
-          className="grid size-12 shrink-0 place-items-center rounded-2xl bg-card"
+          className="flex items-center gap-2.5 text-sm font-semibold tracking-tight"
           aria-label="Contract Workbench home"
         >
-          <WorkbenchMark className="size-8" />
+          <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
+            <WorkbenchMark className="size-5" />
+          </span>
+          <span>Contract Workbench</span>
         </Link>
         <button
           onClick={() => {
@@ -270,7 +282,7 @@ export function Workbench() {
           <ChevronDown className="size-3" />
         </button>
       </div>
-      <nav aria-label="Workbench" className="wb-navigation space-y-3">
+      <nav aria-label="Workbench" className="wb-navigation space-y-1.5">
         {[
           { value: "functions", label: "Contracts", Icon: Blocks },
           { value: "assistant", label: "Assistant", Icon: MessageCircle },
@@ -279,16 +291,16 @@ export function Workbench() {
         ].map(({ value, label, Icon }) => (
           <button
             key={value}
-            className={`wb-nav-item flex h-12 w-full items-center gap-3 rounded-full px-3 text-left text-lg tracking-[.54px] ${tab === value ? "bg-[var(--wb-nav-active)]" : "hover:bg-[var(--wb-nav-active)]/50"}`}
+            className={`wb-nav-item flex h-11 w-full items-center gap-3 rounded-[10px] px-3 text-left text-sm font-medium ${tab === value ? "bg-[var(--wb-nav-active)]" : "hover:bg-[var(--wb-nav-active)]/50"}`}
             aria-current={tab === value ? "page" : undefined}
             onClick={() => navigate(value)}
           >
-            <Icon className="size-6 shrink-0" strokeWidth={2.2} />
+            <Icon className="size-4 shrink-0" strokeWidth={1.8} />
             {label}
           </button>
         ))}
       </nav>
-      <div className="mt-auto space-y-4 pt-10">
+      <div className="mt-auto space-y-4 pt-8">
         <div className="flex items-center justify-between">
           <button
             onClick={() => {
@@ -310,6 +322,9 @@ export function Workbench() {
             <Sun className="size-4 dark:hidden" />
             <Moon className="hidden size-4 dark:block" />
           </button>
+        </div>
+        <div className="border-t border-border pt-4">
+          <HederaIdentity />
         </div>
         <WalletFooter
           network={network}
@@ -336,12 +351,12 @@ export function Workbench() {
     activity: "Your submitted transactions, all in one place.",
   };
   return (
-    <div className="wb-shell min-h-screen p-3 md:p-8" data-network={network}>
+    <div className="wb-shell min-h-screen p-3 md:p-6" data-network={network}>
       <div className="mx-auto flex max-w-[1700px] gap-6">
-        <aside className="wb-sidebar sticky top-8 hidden h-[calc(100dvh-64px)] min-h-[580px] w-[248px] shrink-0 rounded-[32px] bg-[var(--wb-sidebar)] md:block">
+        <aside className="wb-sidebar sticky top-6 hidden h-[calc(100dvh-48px)] min-h-[560px] w-[224px] shrink-0 rounded-2xl border border-border md:block">
           {navigation}
         </aside>
-        <main className="wb-main min-w-0 flex-1 py-1 md:py-4">
+        <main className="wb-main min-w-0 flex-1 py-1 md:py-2">
           <header className="mb-6 flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-start gap-3">
               <Button
@@ -365,7 +380,7 @@ export function Workbench() {
                   {network === "testnet" ? "Testnet" : "Mainnet"}
                   <ChevronDown className="size-3" />
                 </button>
-                <h1 className="text-[30px] font-bold leading-[34.2px] tracking-[-.75px]">
+                <h1 className="text-2xl font-semibold leading-8 tracking-tight">
                   {heading}
                 </h1>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -399,7 +414,7 @@ export function Workbench() {
                       />
                     ))
                 ) : (
-                  <div className="wb-panel flex min-h-80 flex-col items-center justify-center rounded-3xl bg-card p-8 text-center">
+                  <div className="wb-panel flex min-h-80 flex-col items-center justify-center rounded-2xl bg-card p-8 text-center">
                     <Activity className="mb-5 size-10 text-muted-foreground" />
                     <h2 className="text-xl font-semibold">
                       No transactions yet
@@ -420,7 +435,7 @@ export function Workbench() {
               </div>
             ) : loading || (!catalog && !error && selected) ? (
               <div
-                className="wb-panel space-y-5 rounded-3xl bg-card p-6"
+                className="wb-panel space-y-5 rounded-2xl bg-card p-6"
                 role="status"
                 aria-label="Loading contract tools"
               >
@@ -434,7 +449,7 @@ export function Workbench() {
               </div>
             ) : catalog ? (
               <>
-                <div className="wb-secondary-surface flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-secondary px-4 py-3">
+                <div className="wb-secondary-surface flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border px-4 py-4">
                   <div className="min-w-0 flex-1">
                     <p className="mb-2 text-xs font-medium text-muted-foreground">
                       Selected contract · click to switch
@@ -604,10 +619,10 @@ export function Workbench() {
                               aria-current={
                                 toolId === t.id ? "true" : undefined
                               }
-                              className={`group flex w-full items-start gap-3 rounded-[12px] px-3 py-3 text-left transition-colors ${toolId === t.id ? "bg-card shadow-sm" : "hover:bg-card/50"}`}
+                              className={`wb-function-item group flex w-full items-start gap-3 rounded-[10px] px-3 py-3 text-left transition-colors ${toolId === t.id ? "" : "hover:bg-muted"}`}
                             >
                               <span
-                                className={`mt-1.5 size-1.5 shrink-0 rounded-full ${toolId === t.id ? "bg-primary" : "bg-foreground/25"}`}
+                                className={`mt-1.5 size-1.5 shrink-0 rounded-full ${toolId === t.id ? "bg-[var(--wb-violet)]" : "bg-foreground/25"}`}
                               />
                               <span className="min-w-0 flex-1">
                                 <span className="block break-words text-sm font-medium">
@@ -644,7 +659,7 @@ export function Workbench() {
                           </details>
                         )}
                       </section>
-                      <div className="wb-panel min-w-0 rounded-3xl bg-card p-5 md:p-6">
+                      <div className="wb-panel min-w-0 rounded-2xl bg-card p-5 md:p-7">
                         {tool ? (
                           <FunctionForm
                             key={`${tool.id}:${tool.revision}`}
@@ -679,7 +694,7 @@ export function Workbench() {
                 </Tabs>
               </>
             ) : (
-              <div className="wb-panel rounded-3xl bg-card p-8">
+              <div className="wb-panel rounded-2xl bg-card p-8">
                 <h2 className="font-medium">Choose or import a contract</h2>
                 <p className="mt-2 text-sm text-muted-foreground">
                   {error
@@ -714,6 +729,10 @@ export function Workbench() {
               </div>
             )}
           </div>
+          <p className="mt-8 text-[11px] leading-5 text-muted-foreground">
+            Independent project · Not affiliated with, sponsored or endorsed by
+            Hedera Hashgraph, LLC.
+          </p>
         </main>
       </div>
       <Sheet open={navOpen} onOpenChange={setNavOpen}>

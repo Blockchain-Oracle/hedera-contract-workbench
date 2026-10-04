@@ -54,7 +54,7 @@ export function Picker({
         <Popover.Content
           align="start"
           sideOffset={8}
-          className="wb-picker-menu z-[70] w-[var(--radix-popover-trigger-width)] min-w-0 max-w-[calc(100vw-32px)] overflow-hidden rounded-2xl border border-border bg-popover p-1.5 text-popover-foreground shadow-xl"
+          className="wb-picker-menu z-[70] w-[var(--radix-popover-trigger-width)] min-w-0 max-w-[calc(100vw-32px)] overflow-hidden rounded-xl border border-border bg-popover p-1.5 text-popover-foreground shadow-xl"
         >
           <Command label={label} defaultValue={value} loop>
             <div className="flex items-center gap-2 border-b border-border px-3 py-1">

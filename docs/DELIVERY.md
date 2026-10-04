@@ -4,7 +4,7 @@ Updated 2026-10-04. Checkout: `workbench/`, local `main`. The project is **not y
 
 ## Resume here
 
-The user approved the Slush revamp, superseding the earlier neutral palette and UI review exclusion. The Slush branch `codex/slush-workbench-ui` is integrated into this `workbench/` checkout on local `main`, together with the newer generic-contract skill and Gemini changes. Read [the fidelity authority and parity record](design/2026-10-04-slush-fidelity.md). Core transaction and registry repairs from `c642179` remain included.
+The latest user approval supersedes the Slush palette: use the [Hedera visual direction](plans/2026-10-04-hedera-brand-direction.md), black landing, real contract preview and neutral white/charcoal workspace. Earlier Slush integration remains historical evidence. Generic-contract skills, Gemini, connected-read repairs and core transaction protections remain included. Read the [new visual acceptance](reviews/2026-10-04-hedera-brand.md).
 
 Read README, AGENTS, this file, and [the approved specification](PLAN.md). Inspect Git state and evidence timestamps. Use Node 24 LTS and the pinned npm 10.9.3 toolchain. Do not restart broad architecture research or assume that an implemented wallet button proves an on-chain transaction.
 
@@ -144,3 +144,11 @@ The user's supplied key enabled real `gpt-4.1-mini` inference in the local assis
 Lint, Next.js typecheck, runtime builds, focused assistant and actual-route controlled provider regressions pass. The final closed-RPC/keyless build and a real production OpenAI factory read pass, including connected-address context without an implicit read caller. The credential remains ignored and server-side; scanning 888 build files found zero key matches and eight trace manifests exclude environment/local state. Existing two tracing warnings remain. [Detailed evidence and limits](reviews/2026-10-04-live-assistant.md).
 
 Next: Anthropic/Gemini live inference as applicable, chat-to-wallet and human-controlled funded wallet/context/rejection acceptance, unfamiliar developer walkthrough, final demonstration and explicit release gates. OpenAI read acceptance does not complete all stages. No signature, funding, push, publication or submission occurred.
+
+## October 4 Hedera visual direction
+
+The user approved the recommended black landing, official violet/azure accents and neutral white/charcoal workspace, superseding Slush colors and shell geometry. Authentic Hedera SVGs identify the network separately from the product mark. The real contract preview exposes browser reads, current CLI commands and agent setup, with optional chat retained below the first screen. Parameterized functions open the exact tool in Workbench. Generic typed forms, inline validation, existing skill/MCP flows and wallet review remain.
+
+Lint, typecheck, **27 core + 1 Solidity tests**, all **28 CLI subprocess checks** and local MCP parity pass. The full ordered build and final production frontend build pass with RPC endpoints closed and all provider credentials/model empty. Actual testnet router, imported NFT and mainnet router reads complete. Keyless production boot, disabled assistant/setup, import/wallet prerequisites, both themes, desktop/narrow layouts and agent commands were inspected. No horizontal document overflow at 390px on landing/forms/agents. Official assets are unmodified; final trace/artifact checks contain no ignored state or strong credential-format matches. Existing two filesystem tracing warnings remain; 21st's five max-width warnings were checked against actual layouts. [Acceptance and screenshots](reviews/2026-10-04-hedera-brand.md).
+
+Next: resume the funded human-wallet and remaining provider acceptance, developer walkthrough, complete demonstration and explicit public release/submission gates. No signing, publication or submission occurred in this slice. No fresh installation is claimed; dependencies are unchanged.

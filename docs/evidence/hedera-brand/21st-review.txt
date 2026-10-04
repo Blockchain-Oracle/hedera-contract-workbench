@@ -1,0 +1,6 @@
+packages/nextjs/components/landing.tsx:125:37 warning responsive-fixed-width Large fixed width may overflow on smaller viewports.
+packages/nextjs/components/landing.tsx:177:39 warning responsive-fixed-width Large fixed width may overflow on smaller viewports.
+packages/nextjs/components/landing.tsx:282:37 warning responsive-fixed-width Large fixed width may overflow on smaller viewports.
+packages/nextjs/components/landing.tsx:500:43 warning responsive-fixed-width Large fixed width may overflow on smaller viewports.
+packages/nextjs/components/workbench.tsx:355:40 warning responsive-fixed-width Large fixed width may overflow on smaller viewports.
+4 file(s), 5 finding(s), 0 fixed.

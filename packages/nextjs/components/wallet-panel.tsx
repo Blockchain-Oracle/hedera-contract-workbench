@@ -64,13 +64,13 @@ export function WalletFooter({
   return (
     <div className="wb-wallet-footer flex items-center gap-2">
       <button
-        className="grid size-10 shrink-0 place-items-center rounded-full bg-card"
+        className="grid size-10 shrink-0 place-items-center rounded-[10px] border border-border bg-card"
         aria-label="Open accounts"
         onClick={open}
       >
         <Wallet className="size-5" />
       </button>
-      <div className="flex h-10 min-w-0 flex-1 items-center rounded-full bg-card px-3">
+      <div className="flex h-10 min-w-0 flex-1 items-center rounded-[10px] border border-border bg-card px-3">
         <button
           className="min-w-0 flex-1 truncate text-left text-sm"
           onClick={open}

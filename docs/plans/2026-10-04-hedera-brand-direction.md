@@ -8,21 +8,21 @@ Approved on 2026-10-04: the user instructed “Just continue … Follow your mos
 - [Official Hedera brand book](https://brand.hedera.com/): inspected colors, typography, logo usage, and trademark guidance.
 - [Official logo archive](https://hedera.com/wp-content/uploads/2026/05/hedera-logo-library-26.zip): followed the brand book’s download link. Downloaded for reference and extracted the original horizontal and standalone SVG variants.
 - Current local landing page and Functions workspace: captured at `http://127.0.0.1:3000/` using the SaucerSwap testnet example. Theme was dark at inspection time.
-- The earlier [template comparison](../../../docs/research/2026-10-04-template-landscape/gallery.md) includes the inspected StreamPay page.
+- The earlier [StreamPay page](https://hbar-streampay.vercel.app/) includes the inspected StreamPay page.
 
-Evidence: [Hedera homepage](../../../docs/research/2026-10-04-hedera-brand/hedera-home.jpg), [brand palette](../../../docs/research/2026-10-04-hedera-brand/hedera-colors.jpg), [current landing](../../../docs/research/2026-10-04-hedera-brand/workbench-home-before.jpg), [current functions](../../../docs/research/2026-10-04-hedera-brand/workbench-functions-before.jpg).
+Evidence: [Hedera homepage](../evidence/hedera-brand/references/hedera-home.jpg), [brand palette](../evidence/hedera-brand/references/hedera-colors.jpg), [current landing](../evidence/hedera-brand/references/workbench-home-before.jpg), [current functions](../evidence/hedera-brand/references/workbench-functions-before.jpg).
 
 Archive SHA-256: `8265710243681c68d4e7e5bd5b41ef138d281b8f046bfe74f6f53e5f8b032ba8`.
 
 ## Official brand facts
 
-| Role | Color |
-| --- | --- |
+| Role          | Color     |
+| ------------- | --------- |
 | Primary black | `#000000` |
 | Primary white | `#FFFFFF` |
-| Charcoal | `#11151D` |
-| Ultraviolet | `#8259EF` |
-| Azure | `#0031FF` |
+| Charcoal      | `#11151D` |
+| Ultraviolet   | `#8259EF` |
+| Azure         | `#0031FF` |
 
 The primary gradient runs from Ultraviolet to Azure. Hedera uses licensed Styrene A; its guide names Montserrat as a replacement for presentation/document use.
 
@@ -30,13 +30,13 @@ Use the supplied black/white logo intact, respecting clear space. Its network id
 
 ## What the actual pages teach us
 
-| Observation | Workbench implication |
-| --- | --- |
-| Hedera’s homepage uses a black foundation, large light typography, a clear primary action, and a limited violet/blue illustration. | Increase contrast and simplify hierarchy; use the brand accent selectively. |
-| StreamPay communicates its core job immediately and offers direct actions for its two audiences. | Put the contract workflow and a useful first action at the front of our landing page. |
-| Workbench’s dark landing uses blue across the whole canvas, mint actions, and a large assistant panel. | The current visual hierarchy gives chat more weight than the typed execution engine. |
-| Workbench’s workspace layers several blue surfaces and heavily rounded panels. | Make context, function selection, arguments, and results easier to distinguish through alignment, dividers, and surface contrast. |
-| The current `WorkbenchMark` is an H-shaped SVG drawn in application code. | It is not the official asset; replace that ambiguity with a clear product wordmark and a separate authentic network lockup. |
+| Observation                                                                                                                        | Workbench implication                                                                                                             |
+| ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Hedera’s homepage uses a black foundation, large light typography, a clear primary action, and a limited violet/blue illustration. | Increase contrast and simplify hierarchy; use the brand accent selectively.                                                       |
+| StreamPay communicates its core job immediately and offers direct actions for its two audiences.                                   | Put the contract workflow and a useful first action at the front of our landing page.                                             |
+| Workbench’s dark landing uses blue across the whole canvas, mint actions, and a large assistant panel.                             | The current visual hierarchy gives chat more weight than the typed execution engine.                                              |
+| Workbench’s workspace layers several blue surfaces and heavily rounded panels.                                                     | Make context, function selection, arguments, and results easier to distinguish through alignment, dividers, and surface contrast. |
+| The current `WorkbenchMark` is an H-shaped SVG drawn in application code.                                                          | It is not the official asset; replace that ambiguity with a clear product wordmark and a separate authentic network lockup.       |
 
 These are visual observations, not claims that a competitor’s complete product has been verified.
 

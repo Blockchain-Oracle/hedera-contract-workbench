@@ -15,71 +15,74 @@
   font-display: swap;
 }
 
-/* Blue Blizzard: computed light tokens and sampled saved dark reference.
-   Aeonik is not redistributed; Workbench Sans is a locally licensed substitute. */
+/* Hedera brand colors, with neutral surfaces for typed contract work. */
 :root {
   color-scheme: light;
-  --background: #cce5ff;
-  --foreground: #060d14;
-  --card: #fafcff;
-  --card-foreground: #060d14;
-  --popover: #fafcff;
-  --popover-foreground: #060d14;
-  --primary: #47e299;
-  --primary-foreground: #060d14;
-  --secondary: #e8f3ff;
-  --secondary-foreground: #060d14;
-  --muted: #e8f3ff;
-  --muted-foreground: rgba(6, 13, 20, 0.64);
-  --accent: #d7eaff;
-  --accent-foreground: #060d14;
+  --background: #f6f7f9;
+  --foreground: #11151d;
+  --card: #ffffff;
+  --card-foreground: #11151d;
+  --popover: #ffffff;
+  --popover-foreground: #11151d;
+  --primary: #0031ff;
+  --primary-foreground: #ffffff;
+  --secondary: #eceef2;
+  --secondary-foreground: #11151d;
+  --muted: #f0f1f5;
+  --muted-foreground: #5c6370;
+  --accent: #f0eafd;
+  --accent-foreground: #11151d;
   --destructive: #b42318;
-  --border: rgba(6, 13, 20, 0.14);
-  --input: rgba(6, 13, 20, 0.2);
-  --ring: #087749;
-  --radius: 1rem;
-  --wb-sidebar: #8fc5ff;
-  --wb-nav-active: #e8f3ff;
+  --border: #e0e3e9;
+  --input: #cbd0da;
+  --ring: #8259ef;
+  --radius: 0.75rem;
+  --wb-violet: #8259ef;
+  --wb-sidebar: #ffffff;
+  --wb-nav-active: #f0eafd;
   --wb-surface: var(--card);
-  --wb-secondary: var(--secondary);
-  --wb-network: #47e299;
-  --wb-network-foreground: #060d14;
-  --wb-scrim: rgba(8, 45, 87, 0.64);
-  --wb-panel-border: #060d14;
+  --wb-secondary: var(--card);
+  --wb-network: #e4f6ec;
+  --wb-network-foreground: #08673f;
+  --wb-scrim: rgba(0, 0, 0, 0.6);
+  --wb-panel-border: #e0e3e9;
   --wb-success: #087749;
-  --wb-code: #e8f3ff;
+  --wb-code: #f0f1f5;
 }
 .dark {
   color-scheme: dark;
-  --background: #082d57;
-  --foreground: #fafcff;
-  --card: #060d14;
-  --card-foreground: #fafcff;
-  --popover: #060d14;
-  --popover-foreground: #fafcff;
-  --secondary: #0e4078;
-  --secondary-foreground: #fafcff;
-  --muted: #0a2746;
-  --muted-foreground: rgba(250, 252, 255, 0.68);
-  --accent: #0e4078;
-  --accent-foreground: #fafcff;
-  --destructive: #ffa39b;
-  --border: rgba(250, 252, 255, 0.16);
-  --input: rgba(250, 252, 255, 0.24);
-  --ring: #47e299;
-  --wb-sidebar: #125eb0;
-  --wb-nav-active: #051b33;
-  --wb-panel-border: #000;
-  --wb-success: #47e299;
-  --wb-code: #051b33;
+  --background: #0c0e13;
+  --foreground: #f9fafc;
+  --card: #11151d;
+  --card-foreground: #f9fafc;
+  --popover: #191e28;
+  --popover-foreground: #f9fafc;
+  --secondary: #202632;
+  --secondary-foreground: #f9fafc;
+  --muted: #191e28;
+  --muted-foreground: #a5adbc;
+  --accent: #28213e;
+  --accent-foreground: #f9fafc;
+  --destructive: #ffaaa4;
+  --border: #2b303c;
+  --input: #444b5b;
+  --ring: #b89af8;
+  --wb-violet: #b89af8;
+  --wb-sidebar: #11151d;
+  --wb-nav-active: #28213e;
+  --wb-network: #123a2b;
+  --wb-network-foreground: #80e0ab;
+  --wb-panel-border: #2b303c;
+  --wb-success: #80e0ab;
+  --wb-code: #0c0e13;
 }
 :root[data-network="mainnet"] {
-  --primary: #4da2ff;
-  --wb-network: #4da2ff;
-  --ring: #135fa8;
+  --wb-network: #fff0dc;
+  --wb-network-foreground: #884800;
 }
 :root.dark[data-network="mainnet"] {
-  --ring: #8fc5ff;
+  --wb-network: #3a2b15;
+  --wb-network-foreground: #ffc984;
 }
 @theme inline {
   --color-background: var(--background);
@@ -100,11 +103,11 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
-  --radius-2xl: 2rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
   --font-sans: "Workbench Sans", Arial, Helvetica, sans-serif;
   --font-mono:
     "Workbench Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
@@ -144,8 +147,8 @@
     color: var(--muted-foreground);
   }
   ::selection {
-    background: var(--wb-network);
-    color: #060d14;
+    background: var(--accent);
+    color: var(--accent-foreground);
   }
 }
 @layer components {
@@ -168,7 +171,7 @@
   .wb-panel {
     min-width: 0;
     border: 1px solid var(--border);
-    border-radius: 24px;
+    border-radius: 16px;
     background: var(--wb-surface);
   }
   .wb-surface {
@@ -195,7 +198,7 @@
     max-height: calc(100dvh - 32px);
     overflow-y: auto;
     border: 1px solid var(--border);
-    border-radius: 32px;
+    border-radius: 20px;
     background: var(--popover);
     color: var(--popover-foreground);
   }
@@ -212,7 +215,7 @@
     width: 100%;
     min-width: 0;
     border: 1px solid var(--input);
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 10px 14px;
     background: var(--card);
     color: var(--foreground);
@@ -252,10 +255,10 @@
 }
 @media (max-width: 639px) {
   .wb-panel {
-    border-radius: 20px;
+    border-radius: 16px;
   }
   .wb-accounts-panel {
-    border-radius: 24px;
+    border-radius: 20px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -269,5 +272,62 @@
   }
   .wb-skeleton {
     opacity: 0.7;
+  }
+}
+
+@layer components {
+  .wb-brand {
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #11151d;
+    --card-foreground: #ffffff;
+    --secondary: #222633;
+    --secondary-foreground: #ffffff;
+    --muted: #191e28;
+    --muted-foreground: #aeb5c4;
+    --accent: #28213e;
+    --accent-foreground: #ffffff;
+    --border: #2b303c;
+    --input: #444b5b;
+    --ring: #b89af8;
+    color: var(--foreground);
+    background: var(--background);
+    color-scheme: dark;
+  }
+  .wb-brand-link {
+    color: #c4c8d1;
+  }
+  .wb-brand-link:hover {
+    color: #ffffff;
+  }
+  .wb-brand-accent {
+    color: #bea4ff;
+  }
+  .wb-brand-button {
+    --primary: #8259ef;
+    --primary-foreground: #ffffff;
+  }
+  .wb-preview {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--card);
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.35);
+  }
+  .wb-preview::before {
+    display: block;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+    background: linear-gradient(90deg, #8259ef, #0031ff);
+    content: "";
+  }
+  .wb-interface-number {
+    color: var(--wb-violet);
+  }
+  .wb-nav-item[aria-current="page"] {
+    box-shadow: inset 3px 0 var(--wb-violet);
+  }
+  .wb-function-item[aria-current="true"] {
+    background: var(--accent);
+    box-shadow: inset 2px 0 var(--wb-violet);
   }
 }

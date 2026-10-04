@@ -11,11 +11,11 @@ npm install
 npm run dev
 ```
 
-Open **http://127.0.0.1:3000** for the product home, then choose **Open workspace**. In `/workbench`, select `factory()` in the bundled testnet router and click **Run function**. Public RPC availability can affect reads; `doctor` reports endpoint failures.
+Open **http://127.0.0.1:3000** for the product home, then choose **Try the testnet example**. In `/workbench`, select `factory()` in the bundled testnet router and click **Run function**. Public RPC availability can affect reads; `doctor` reports endpoint failures.
 
 The repository is prepared for the technical template identifier `Blockchain-Oracle/hedera-contract-workbench`. Publication and external scaffold verification are recorded separately in [the delivery tracker](docs/DELIVERY.md). Until published, use this checkout; no similarly named npm package is required.
 
-The reusable browser interface follows the measured Slush blue shell and light/dark surfaces, with green testnet and blue mainnet accents. Accounts opens from the sidebar footer; actual installed EVM wallets provide connection and signing. Imported supported ABIs inherit the same forms, result cards and review drawers. [Design authority, rendered evidence and known limits](docs/design/2026-10-04-slush-fidelity.md).
+The home uses Hedera’s black, violet and azure palette with the official network logo shown separately from the product identity. A live catalog preview offers browser reads, current CLI commands and agent setup; optional chat remains below it. The workspace uses neutral light/charcoal surfaces, clear contract/function selection and typed forms. Accounts opens from the sidebar footer; actual installed EVM wallets provide connection and signing. Imported supported ABIs inherit the same result cards and review drawers. [Approved design](docs/plans/2026-10-04-hedera-brand-direction.md) · [Rendered acceptance and limits](docs/reviews/2026-10-04-hedera-brand.md).
 
 Ordinary reads work with or without a connected wallet: they omit the caller by default. Expand **Caller context · optional** only for an intentional caller-scoped read. Connecting MetaMask does not create a Hedera account; that account must exist on the selected network for caller-scoped calls and transactions. [Hedera account creation](https://docs.hedera.com/learn/core-concepts/accounts/auto-account-creation).
 
