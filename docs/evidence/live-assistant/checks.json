@@ -1,0 +1,95 @@
+{
+  "observedAt": "2026-10-04T09:39:29.438Z",
+  "provider": "openai",
+  "model": "gpt-4.1-mini",
+  "liveInference": true,
+  "localSecretFile": {
+    "path": "packages/nextjs/.env.local",
+    "ignored": true,
+    "tracked": false,
+    "permissions": "0600",
+    "keyPrinted": false
+  },
+  "browser": {
+    "developmentUrl": "http://127.0.0.1:3000",
+    "realNft": {
+      "contract": "0x0000000000000000000000000000000000A59b98",
+      "name": "Night Market",
+      "symbol": "NIGHT",
+      "matchesDirectCore": true
+    },
+    "missingTokenIdAsked": true,
+    "invalidTokenId": {
+      "value": "99999999999999999999",
+      "actualError": "INVALID_TOKEN_NFT_SERIAL_NUMBER"
+    },
+    "selectedContractSwitchResetsConversation": true,
+    "secondContract": {
+      "id": "saucerswap-testnet",
+      "factory": "0x00000000000000000000000000000000000026E7",
+      "whbar": "0x0000000000000000000000000000000000003aD2",
+      "matchesDirectCore": true
+    },
+    "initialModelOmittedZeroArgumentWrapper": true,
+    "initialCancelledConversationFailure": {
+      "providerStatus": 404,
+      "cause": "Cancelled streaming message referenced by unavailable OpenAI item ID"
+    },
+    "afterRepair": {
+      "previouslyBrokenConversationRead": true,
+      "stopRestoresComposer": true,
+      "readAfterSecondStop": true,
+      "uiError": false
+    }
+  },
+  "repairs": [
+    "OpenAI store:false replays local content rather than provider item references",
+    "Ignore unfinished tool calls when converting conversation history",
+    "Only ABI functions with zero parameters may omit the argument wrapper; required arguments, null and unknown ABI fields are still rejected"
+  ],
+  "automated": {
+    "lint": true,
+    "nextjsTypecheck": true,
+    "runtimeBuild": true,
+    "assistantMockWithLiveRpc": true,
+    "actualChatRouteWithControlledOpenAiHttp": true,
+    "controlledProviderErrorSafe": true,
+    "productionBuild": true,
+    "productionBuildRpcEndpoints": "closed loopback",
+    "productionBuildProviderKeysAndModel": "empty",
+    "credentialFilePresentDuringBuild": true,
+    "productionLiveProviderRead": true,
+    "productionConnectedAddressOmittedFromOrdinaryRead": true,
+    "scannedBuildFiles": 888,
+    "traceManifests": 8,
+    "keyMatchesInBuildFiles": 0,
+    "ignoredStateTraceEntries": 0,
+    "existingTracingWarnings": 2,
+    "stagedCredentialMatches": 0,
+    "stagedStrongCredentialFormatMatches": 0
+  },
+  "screenshots": [
+    "nft-read.png",
+    "missing-argument.png",
+    "contract-error.png",
+    "router-read.png",
+    "stopped.png",
+    "recovered-read.png",
+    "stopped-after-fix.png",
+    "after-stop-read.png"
+  ],
+  "limits": [
+    "Only OpenAI gpt-4.1-mini was tested with real inference; Anthropic/Gemini live inference remains unverified",
+    "Provider authentication failure was controlled HTTP data, not an induced outage of the supplied account",
+    "The first cancellation was during text streaming; the post-fix cancellation was before output, with unfinished tool calls covered by controlled route regression",
+    "No wallet connection/signing, funded Hedera transaction, chat-to-wallet review acceptance, push or publication in this slice",
+    "No token usage, cost or performance estimate is claimed; browser and production HTTP inference were live"
+  ],
+  "cleanup": {
+    "primaryPreviewRetained": true,
+    "userConversationNotNavigated": true,
+    "temporaryProductionStopped": true,
+    "temporaryBrowserTabClosed": true,
+    "primaryPreviewHttpStatus": 200
+  }
+}

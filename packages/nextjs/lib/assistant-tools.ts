@@ -114,12 +114,18 @@ export function assistantTools(
     ),
   });
   for (const definition of catalog.tools) {
+    const noArguments = definition.parameters.length === 0;
     tools[definition.id] = tool({
       description: `${definition.signature} on ${contract.network}. ${definition.action === "read" ? "Read actual on-chain output." : "Simulate and prepare an unsigned wallet review. Never submit."}`,
       inputSchema: jsonSchema({
         type: "object",
         properties: {
-          arguments: definition.inputSchema,
+          arguments: {
+            ...definition.inputSchema,
+            description: noArguments
+              ? "This function has no ABI arguments. Omit this field or pass an empty object."
+              : "Named ABI arguments. Supply every required field using the exact inspected types.",
+          },
           ...(definition.action === "read"
             ? {
                 from: {
@@ -139,23 +145,25 @@ export function assistantTools(
               }
             : {}),
         },
-        required: ["arguments"],
+        required: noArguments ? [] : ["arguments"],
         additionalProperties: false,
       }),
-      execute: bounded((args) =>
-        definition.action === "read"
-          ? engine.call(definition.id, args.arguments, {
+      execute: bounded((args) => {
+        const argumentsInput =
+          noArguments && args.arguments === undefined ? {} : args.arguments;
+        return definition.action === "read"
+          ? engine.call(definition.id, argumentsInput, {
               from: args.from,
               revision: definition.revision,
               signal,
             })
-          : engine.prepare(definition.id, args.arguments, {
+          : engine.prepare(definition.id, argumentsInput, {
               from: from!,
               revision: definition.revision,
               signal,
               valueHbar: args.valueHbar ?? "0",
-            }),
-      ),
+            });
+      }),
     });
   }
   return {

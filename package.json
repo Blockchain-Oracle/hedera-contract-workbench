@@ -27,6 +27,7 @@
     "verify:local": "npm run build:runtime && npm run compile -w @sh/hardhat && node scripts/verify-local.mjs",
     "verify:receipts": "npm run build:runtime && tsx --tsconfig packages/nextjs/tsconfig.json scripts/verify-receipt-adapters.mts",
     "verify:assistant": "npm run build:runtime && tsx scripts/verify-assistant.mts",
+    "verify:assistant-replay": "npm run build:runtime && tsx --tsconfig packages/nextjs/tsconfig.json scripts/verify-assistant-replay.mts",
     "verify:generic": "npm run build:runtime && tsx --tsconfig packages/nextjs/tsconfig.json scripts/verify-generic.mts",
     "verify:skills": "npm run build:runtime && node scripts/verify-skills.mjs",
     "verify:generic-network": "npm run build:runtime && tsx scripts/verify-generic-network.mts"

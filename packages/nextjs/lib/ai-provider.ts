@@ -3,6 +3,12 @@ import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogle } from "@ai-sdk/google";
 import { WorkbenchError } from "@sh/core";
 
+export function chatProviderOptions(provider: string) {
+  // Replay local conversation content instead of referencing provider items
+  // that may never have been persisted when the user stopped a stream.
+  return provider === "openai" ? { openai: { store: false } } : undefined;
+}
+
 export function chatModel(
   configuration: {
     provider: string;

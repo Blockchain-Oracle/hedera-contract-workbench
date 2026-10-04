@@ -1,0 +1,108 @@
+
+> hedera-contract-workbench@0.1.0 build
+> node scripts/build.mjs
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/hardhat@0.1.0 compile
+> hardhat compile
+
+Nothing to compile
+
+> @sh/nextjs@0.1.0 build
+> next build
+
+▲ Next.js 16.3.8 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 64ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.8s
+  Running TypeScript ...
+  Finished TypeScript in 3.0s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/5) ...
+  Generating static pages using 7 workers (1/5)
+  Generating static pages using 7 workers (2/5)
+  Generating static pages using 7 workers (3/5)
+✓ Generating static pages using 7 workers (5/5) in 427ms
+Turbopack build encountered 2 warnings:
+./packages/core/dist/agents.js:203:51
+Warning: Dynamic filesystem access causes tracing of the whole project
+  201 |                 if (name === "arguments" && !context.tools.length)
+  202 |                     continue;
+> 203 |                 await rename(join(staging, name), join(destination, name));
+      |                                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  204 |             }
+  205 |         }
+  206 |         catch (error) {
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import trace:
+  App Route:
+    ./packages/core/dist/agents.js
+    ./packages/nextjs/app/api/workbench/[...path]/route.ts
+
+
+./packages/core/dist/agents.js:172:25
+Warning: Dynamic filesystem access causes tracing of the whole project
+  170 | ...ll(engine, id, output) {
+  171 | ...Context(engine, id), files = await portableSkill(engine.store.root);
+> 172 | ...(output ??
+      |    ^^^^^^^^^^^^^^^^
+> 173 | ... ".workbench", "skills", `${context.contract.id}-${Date.now()}-${randomUUID().slice(0,...
+      |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  174 | ...ion}.tmp-${randomUUID()}`;
+  175 | ...tion), { recursive: true });
+  176 | ...
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.resolve(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import trace:
+  App Route:
+    ./packages/core/dist/agents.js
+    ./packages/nextjs/app/api/workbench/[...path]/route.ts
+
+
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /api/chat
+├ ƒ /api/workbench/[...path]
+└ ○ /workbench
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand

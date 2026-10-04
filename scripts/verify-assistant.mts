@@ -76,6 +76,32 @@ assert.equal(
   undefined,
   "A connected wallet is not an implicit read caller.",
 );
+const validation = assistantTools(
+  engine,
+  contract,
+  undefined,
+  new AbortController().signal,
+);
+const emptyCall: any = await validation.tools[factory.id].execute!(
+  {},
+  {} as any,
+);
+assert.equal(emptyCall.data.value, direct.value);
+for (const argumentsInput of [null, { unknown: "value" }]) {
+  const invalidCall: any = await validation.tools[factory.id].execute!(
+    { arguments: argumentsInput },
+    {} as any,
+  );
+  assert.equal(invalidCall.error.code, "INPUT");
+}
+const quote = toolsFor(contract).tools.find(
+  (t) => t.signature === "getAmountsOut(uint256,address[])",
+)!;
+const missingArguments: any = await validation.tools[quote.id].execute!(
+  {},
+  {} as any,
+);
+assert.equal(missingArguments.error.code, "INPUT");
 const contexts: unknown[] = [];
 const callerProbe = assistantTools(
   {
@@ -133,6 +159,7 @@ const evidence = {
     "cancellation",
     "six-execution budget",
     "connected wallet does not inject a read caller; explicit caller remains supported",
+    "empty calls work only for zero-argument ABIs; null, unknown and missing required arguments are rejected",
   ],
 };
 await writeFile(

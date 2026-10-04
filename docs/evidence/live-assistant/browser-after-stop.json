@@ -1,0 +1,32 @@
+{
+  "observedAt": "2026-10-04T09:37:31.657Z",
+  "scope": "Actual browser live OpenAI follow-up after Stop",
+  "toolInputs": [
+    {
+      "tool": "read_whbar_354dd542b45da2cd",
+      "input": {
+        "arguments": {}
+      }
+    }
+  ],
+  "toolOutputs": [
+    {
+      "schemaVersion": 1,
+      "ok": true,
+      "data": {
+        "schemaVersion": 1,
+        "contractId": "saucerswap-testnet",
+        "network": "testnet",
+        "chainId": 296,
+        "address": "0x0000000000000000000000000000000000004b40",
+        "toolId": "read_whbar_354dd542b45da2cd",
+        "revision": "0xece636193d5f793e3ab118e7a5fa5ca245caa8a0583314b21ba31d805ad47d64",
+        "signature": "whbar()",
+        "value": "0x0000000000000000000000000000000000003aD2",
+        "observedAt": "2026-10-04T09:35:44.355Z"
+      }
+    }
+  ],
+  "providerError": false,
+  "complete": true
+}
