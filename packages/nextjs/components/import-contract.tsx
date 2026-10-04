@@ -19,6 +19,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
+import { Choice } from "./picker";
 import { ErrorNotice } from "./result";
 export function ImportContract({
   open,
@@ -93,15 +94,16 @@ export function ImportContract({
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="import-network">Network</FieldLabel>
-                <select
+                <Choice
                   id="import-network"
+                  label="Network"
                   value={network}
-                  onChange={(e) => setNetwork(e.target.value as Network)}
-                  className="h-12 w-full rounded-xl border border-input bg-card px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <option value="testnet">Hedera Testnet</option>
-                  <option value="mainnet">Hedera Mainnet</option>
-                </select>
+                  onChange={(value) => setNetwork(value as Network)}
+                  options={[
+                    { value: "testnet", label: "Hedera Testnet · 296" },
+                    { value: "mainnet", label: "Hedera Mainnet · 295" },
+                  ]}
+                />
               </Field>
               <Field>
                 <FieldLabel htmlFor="import-address">

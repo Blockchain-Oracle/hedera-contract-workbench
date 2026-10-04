@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Dialog } from "radix-ui";
 import {
   useAccount,
@@ -16,7 +17,7 @@ import {
   EyeOff,
   Loader2,
   LogOut,
-  Plus,
+  ArrowUpRight,
   Wallet,
   X,
 } from "lucide-react";
@@ -221,7 +222,7 @@ export function WalletPanel({
           )}
           {!address && (
             <p className="mb-4 text-sm text-muted-foreground">
-              Connect your browser wallet. Reads and quotes work without an
+              Connect your browser wallet. Contract reads work without an
               account.
             </p>
           )}
@@ -241,7 +242,7 @@ export function WalletPanel({
                 .map((candidate) => (
                   <button
                     key={candidate.uid}
-                    className="flex min-h-14 w-full items-center gap-3 rounded-2xl bg-secondary px-4 py-3 text-left disabled:opacity-50"
+                    className="flex min-h-16 w-full items-center gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3 text-left transition-colors hover:bg-accent disabled:opacity-50"
                     disabled={isPending}
                     onClick={async () => {
                       setError(null);
@@ -259,11 +260,28 @@ export function WalletPanel({
                     <span className="grid size-8 place-items-center rounded-full bg-[#47e299] text-[#060d14]">
                       {isPending ? (
                         <Loader2 className="size-4 animate-spin" />
+                      ) : candidate.icon ? (
+                        <Image
+                          src={candidate.icon}
+                          alt=""
+                          width={32}
+                          height={32}
+                          unoptimized
+                          className="size-8 rounded-lg"
+                        />
                       ) : (
-                        <Plus className="size-5" />
+                        <Wallet className="size-5" />
                       )}
                     </span>
-                    <span className="flex-1">{candidate.name}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-medium">
+                        {candidate.name}
+                      </span>
+                      <span className="mt-1 block text-xs text-muted-foreground">
+                        Browser EVM wallet
+                      </span>
+                    </span>
+                    <ArrowUpRight className="size-4 text-muted-foreground" />
                   </button>
                 ))}
             </div>

@@ -6,22 +6,24 @@ import { useAccount } from "wagmi";
 import {
   ArrowUp,
   Square,
-  Sparkles,
   Loader2,
   ArrowUpRight,
-  LockKeyhole,
+  MessageCircle,
 } from "lucide-react";
 import type { ContractRecord, TransactionPlan } from "@sh/core";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { ProviderSetup } from "./provider-setup";
 import { ErrorNotice, PlanCard, ResultCard } from "./result";
 export function Assistant({
   contract,
   enabled,
   onReview,
+  embedded = false,
 }: {
   contract: ContractRecord;
   enabled: boolean;
+  embedded?: boolean;
   onReview: (p: TransactionPlan) => void;
 }) {
   const { address } = useAccount();
@@ -50,104 +52,64 @@ export function Assistant({
         (item) =>
           `Read ${"name" in item ? item.name : "this function"} from this contract`,
       ),
-    "Explain the arguments for a write function",
+    "Explain a function’s arguments",
   ];
   useEffect(() => {
     bottom.current?.scrollIntoView({ block: "nearest" });
   }, [messages]);
-  if (!enabled)
-    return (
-      <div className="mx-auto max-w-3xl space-y-6">
-        <div className="space-y-3">
-          <h2 className="text-[30px] font-semibold leading-[1.14] tracking-[-0.75px]">
-            A little help with your contract
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Ask questions, read functions, and prepare a wallet review.
-          </p>
-        </div>
-        <section className="space-y-6 rounded-[32px] border border-border/70 bg-card p-6 sm:p-8">
-          <span className="flex size-14 items-center justify-center rounded-full bg-muted">
-            <Sparkles className="size-6" />
-          </span>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold">
-              Add your model to get started
-            </h3>
-            <p className="max-w-lg text-sm leading-relaxed text-muted-foreground">
-              Chat needs a provider and an explicit model. You can already use
-              every supported function, the CLI, and MCP.
-            </p>
-          </div>
-          <div className="space-y-3 rounded-2xl bg-muted p-5">
-            <p className="text-sm font-medium">
-              1. Configure your local provider
-            </p>
-            <p className="text-xs text-muted-foreground">
-              packages/nextjs/.env.local
-            </p>
-            <pre className="overflow-x-auto text-xs leading-6">{`WORKBENCH_AI_PROVIDER=openai
-WORKBENCH_AI_MODEL=your-model-id
-OPENAI_API_KEY=your-provider-key
-# Or anthropic + ANTHROPIC_API_KEY
-# Or gemini + GEMINI_API_KEY`}</pre>
-          </div>
-          <p className="text-sm">
-            <span className="font-medium">2. Restart the app</span>
-            <span className="ml-2 text-muted-foreground">
-              Your assistant will appear here.
-            </span>
-          </p>
-          <div className="flex items-start gap-2 border-t border-border/70 pt-4 text-xs leading-relaxed text-muted-foreground">
-            <LockKeyhole className="mt-0.5 size-4 shrink-0" />
-            Credentials stay on your local server. Every transaction still needs
-            your wallet approval.
-          </div>
-        </section>
-      </div>
-    );
   const busy = status === "submitted" || status === "streaming";
   return (
-    <div className="mx-auto max-w-3xl space-y-5">
-      <div>
-        <h2 className="text-[30px] font-semibold leading-[1.14] tracking-[-0.75px]">
-          Let’s work through it
-        </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {contract.name} · {contract.network}. Uses the same typed tools as the
-          forms and CLI.
-        </p>
-      </div>
+    <section
+      className={`min-w-0 overflow-hidden rounded-3xl border border-border bg-card ${embedded ? "" : "mx-auto max-w-4xl"}`}
+      aria-label="Contract assistant"
+    >
+      <header className="flex items-center justify-between gap-3 border-b border-border px-5 py-4 sm:px-6">
+        <div className="flex min-w-0 items-center gap-3">
+          <MessageCircle className="size-5 shrink-0" />
+          <div className="min-w-0">
+            <h2 className="text-sm font-semibold">Contract assistant</h2>
+            <p className="mt-0.5 truncate text-xs text-muted-foreground">
+              {contract.name} · {contract.network}
+            </p>
+          </div>
+        </div>
+        <span className="flex shrink-0 items-center gap-1.5 text-[11px] text-muted-foreground">
+          <span
+            className={`size-1.5 rounded-full ${enabled ? "bg-primary" : "bg-foreground/30"}`}
+          />
+          {enabled ? "Ready" : "Optional"}
+        </span>
+      </header>
       <div
         role="log"
         aria-label="Conversation"
-        className="min-h-64 max-h-[55vh] space-y-6 overflow-y-auto rounded-[32px] border border-border/70 bg-card p-5 sm:p-7"
+        className={`${embedded ? "min-h-52 max-h-80" : "min-h-80 max-h-[55vh]"} space-y-6 overflow-y-auto overscroll-contain p-5 sm:p-6`}
       >
         {!messages.length && (
-          <div className="flex min-h-60 flex-col justify-center gap-5 py-5">
-            <span className="flex size-12 items-center justify-center rounded-full bg-muted">
-              <Sparkles className="size-5" />
-            </span>
-            <div>
-              <h3 className="text-xl font-semibold">
-                What would you like to explore?
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Connected to {contract.name}. Start with a question or a live
-                read.
-              </p>
-            </div>
-            <div className="flex flex-col items-start gap-2">
-              {suggestions.map((suggestion) => (
-                <Button
+          <div className="flex min-h-40 flex-col justify-center">
+            <p className="mb-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              Start with your contract
+            </p>
+            <h3
+              className={`${embedded ? "text-2xl" : "text-3xl"} font-semibold tracking-tight`}
+            >
+              What would you like to know?
+            </h3>
+            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+              Explore its functions, inspect arguments, or prepare a transaction
+              to review in your wallet.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {suggestions.slice(0, embedded ? 2 : 3).map((suggestion) => (
+                <button
                   key={suggestion}
-                  variant="outline"
-                  className="h-auto max-w-full justify-between gap-3 whitespace-normal py-2.5 text-left text-sm"
+                  disabled={!enabled}
+                  className="flex max-w-full items-center gap-2 rounded-lg border border-border px-3 py-2 text-left text-xs text-muted-foreground hover:bg-muted disabled:opacity-50"
                   onClick={() => setInput(suggestion)}
                 >
-                  {suggestion}
-                  <ArrowUpRight className="size-4 shrink-0" />
-                </Button>
+                  <span>{suggestion}</span>
+                  <ArrowUpRight className="size-3.5 shrink-0" />
+                </button>
               ))}
             </div>
           </div>
@@ -261,19 +223,23 @@ OPENAI_API_KEY=your-provider-key
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (input.trim() && !busy) {
+          if (enabled && input.trim() && !busy) {
             void sendMessage({ text: input });
             setInput("");
           }
         }}
-        className="rounded-[24px] border border-border/70 bg-card p-3"
+        className="mx-4 mb-4 rounded-[16px] border border-input bg-muted/30 p-3 sm:mx-5 sm:mb-5"
       >
         <Textarea
           aria-label="Message to the assistant"
-          placeholder="Ask a question or request a typed operation…"
+          placeholder={
+            enabled
+              ? "Ask about this contract…"
+              : "Configure a model to start chatting"
+          }
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          disabled={busy}
+          disabled={!enabled || busy}
           className="min-h-20 border-0 bg-transparent px-2 shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           onKeyDown={(event) => {
             if (
@@ -289,9 +255,13 @@ OPENAI_API_KEY=your-provider-key
           }}
         />
         <div className="flex items-center justify-between gap-3 px-2 pb-1">
-          <p className="text-xs text-muted-foreground">
-            Writes always need your wallet approval.
-          </p>
+          <div className="min-w-0 text-xs text-muted-foreground">
+            {enabled ? (
+              "Wallet approval for every transaction"
+            ) : (
+              <ProviderSetup />
+            )}
+          </div>
           {busy ? (
             <Button type="button" variant="outline" onClick={() => stop()}>
               <Square className="size-3" />
@@ -302,13 +272,13 @@ OPENAI_API_KEY=your-provider-key
               type="submit"
               size="icon"
               aria-label="Send message"
-              disabled={!input.trim()}
+              disabled={!enabled || !input.trim()}
             >
               <ArrowUp className="size-4" />
             </Button>
           )}
         </div>
       </form>
-    </div>
+    </section>
   );
 }

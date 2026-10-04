@@ -1,0 +1,29 @@
+# Generic workbench interface acceptance — October 4
+
+The latest user direction keeps the approved blue palette, removes Read/Write pills and the global Swap/file-upload interface, and asks for a connected home, useful function search and better controls. This revision applies that direction to the template on local `main`, starting from `565ca07`. It supersedes the earlier pending visual review of Agent access. Audio remains excluded.
+
+## Delivered behavior
+
+The home at `/` explains the template through several concise sections, links to `/workbench`, preserves the selected contract, and embeds the actual optional assistant. Its missing-provider state is disabled with real OpenAI, Anthropic and Gemini setup instructions. No fabricated chat messages or execution cards are shown.
+
+The workspace stays ABI-driven. There is no permanent Swap tab or protocol-specific automatic selection. An imported NFT exposes its own functions and overloads; another ABI uses the same catalog and forms. Optional protocol adapters remain in core/CLI. Read/Write list pills and the transaction-file uploader are removed. Prepared CLI/MCP/chat transactions still open exact wallet review links at `/workbench?plan=…`; older root plan links redirect there.
+
+Desktop function search matches names/full signatures, shows the result count, clears with Escape or its button, and selects a match with Enter. Narrow layouts use a compact searchable function picker. Contract and full-signature selection use cmdk with Radix focus/dismissal; simple boolean/network choices use Radix Select. Fields and action buttons use consistent 12px geometry and visible keyboard focus. Actual reads use **Run function**; writes prepare an exact wallet review. Integer precision and tuple/array positional handling remain in core.
+
+Assistant and agent setup use flatter layouts and the shared fixed result components. Agent access puts connection/setup first, uses licensed Codex/Claude Code/Cursor marks, and retains copy/download/read Markdown, references, current schemas, editable argument examples and canonical CLI commands. Changing contracts or overloads changes that context. Wallet choices show the actual injected connectors or the honest missing-wallet state.
+
+## Evidence
+
+- Ordinary pinned npm 10.9.3 install and dependency checks passed with cmdk 1.1.1, React 19.3 and existing Radix dependencies. No legacy peer flag was used. This slice did not repeat a fresh `npm ci`; earlier fresh-source evidence remains separate.
+- Lint, all-workspace typecheck, **22 core + 1 Solidity tests**, all **28 real CLI subprocess checks**, and three generic deployed local EVM fixtures across core/CLI/MCP/HTTP/assistant passed. Provider SDK tests use controlled provider HTTP and real core RPC calls; they are not paid inference evidence.
+- Full production build and the final Next build passed with both RPC endpoints closed and all three provider keys/model unset. There are two existing core skill-export filesystem tracing warnings. Inspection of all eight `.nft.json` traces found zero environment-file, ignored registry or `.workbench` references.
+- Actual testnet router `factory()` returned `0x0000000000000000000000000000000000000026E7`. A real NFT facade was imported through the revised dialog with supplied ABI: `0x0000000000000000000000000000000000A59b98`, token `0.0.10853272`. `ownerOf(3)` returned `0xA91F6F8C707B8115Bc07193AD181c6D181aEC4Ab`, including a fresh final-production browser run.
+- Production HTTP checked both page routes, logo assets, the legacy plan redirect, disabled chat, skill Markdown parity, both NFT transfer overloads and a live mainnet factory read. See [production smoke](../evidence/interface-refinement/production-smoke.json).
+- Actual desktop/narrow, light/dark, search, keyboard selection/Escape/focus, current agent commands, Gemini configuration copying, network context, missing-wallet/provider and isolated zero-contract states were inspected. The latter has a working import path and no stale content/loading loop. There was no horizontal document overflow at tested 390, 1280 and 1440px widths. The final production browser recorded zero errors.
+- Final 21st review of eight revised components has zero errors and two width warnings. Actual desktop/narrow layouts justify the bounded landing width and desktop sidebar. Keyboard rings were strengthened following review. See [review output](../evidence/interface-refinement/21st-review.txt) and [acceptance record](../evidence/interface-refinement/checks.json).
+
+Actual captures: [final production functions](../evidence/interface-refinement/functions-production-light.jpg), [dark desktop](../evidence/interface-refinement/functions-desktop-dark.jpg), [narrow functions](../evidence/interface-refinement/functions-mobile-dark.jpg), [home](../evidence/interface-refinement/home-desktop-light.jpg), [narrow home](../evidence/interface-refinement/home-mobile-light.jpg), [agent setup](../evidence/interface-refinement/agents-desktop-light.jpg), [Gemini setup](../evidence/interface-refinement/provider-setup-mobile.jpg), [empty home](../evidence/interface-refinement/empty-home-light.jpg), [empty workspace](../evidence/interface-refinement/empty-workspace-light.jpg).
+
+## Remaining acceptance
+
+This completes the requested interface refinement and manual agent-panel review. It does not close all eight original delivery stages. A human-controlled funded wallet flow, both-network rejection/account/network changes, actual configured-provider acceptance, an unfamiliar developer walkthrough, public-template installation, final demonstration and explicitly authorized publication/submission remain. No wallet signing, paid inference, push, public release or submission was performed. Temporary verification servers and their empty-registry fixture are cleaned up; the main development preview remains available.

@@ -1,0 +1,59 @@
+{
+  "observedAt": "2026-10-04T08:22:26.222044+00:00",
+  "scope": "Current source production build and live Hedera testnet read. No wallet or paid model execution.",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/workbench",
+      "status": 200
+    },
+    {
+      "path": "/agents/codex.svg",
+      "status": 200
+    },
+    {
+      "path": "/agents/claude.svg",
+      "status": 200
+    },
+    {
+      "path": "/agents/cursor.svg",
+      "status": 200
+    },
+    {
+      "path": "/?plan=review-routing-probe",
+      "status": 307,
+      "location": "/workbench?plan=review-routing-probe"
+    },
+    {
+      "name": "keyless assistant disabled",
+      "pass": true
+    },
+    {
+      "name": "production live NFT owner lookup",
+      "value": "0xA91F6F8C707B8115Bc07193AD181c6D181aEC4Ab"
+    },
+    {
+      "name": "portable Markdown equals current skill API",
+      "pass": true
+    },
+    {
+      "name": "NFT full signatures and two transfer overloads",
+      "signatures": [
+        "name()",
+        "symbol()",
+        "totalSupply()",
+        "ownerOf(uint256)",
+        "safeTransferFrom(address,address,uint256)",
+        "safeTransferFrom(address,address,uint256,bytes)"
+      ]
+    },
+    {
+      "name": "production live mainnet factory read",
+      "network": "mainnet",
+      "value": "0x0000000000000000000000000000000000103780"
+    }
+  ]
+}

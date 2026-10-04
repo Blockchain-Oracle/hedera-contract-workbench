@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+import { Picker } from "./picker";
+import { WorkbenchMark } from "./identity";
 import { RadioGroup } from "radix-ui";
 import { useAccount } from "wagmi";
 import { useTheme } from "next-themes";
@@ -16,7 +19,8 @@ import {
   Menu,
   Sun,
   Moon,
-  ArrowRightLeft,
+  ArrowUpRight,
+  X,
   RefreshCw,
   Search,
   Trash2,
@@ -33,8 +37,6 @@ import type {
 import { api } from "@/lib/api";
 import { recoveryRecords } from "@/lib/recovery";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import {
   Sheet,
@@ -44,7 +46,6 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { FunctionForm } from "./function-form";
-import { Swap } from "./swap";
 import { ImportContract } from "./import-contract";
 import { Receipt } from "./receipt";
 import { WalletFooter, WalletPanel } from "./wallet-panel";
@@ -92,7 +93,8 @@ export function Workbench() {
     [accountsOpen, setAccountsOpen] = useState(false),
     [networkOpen, setNetworkOpen] = useState(false),
     [error, setError] = useState<unknown>(null),
-    [loading, setLoading] = useState(true);
+    [loading, setLoading] = useState(true),
+    [initialised, setInitialised] = useState(false);
   const { address, chainId } = useAccount();
   const { resolvedTheme, setTheme } = useTheme();
   useEffect(() => {
@@ -122,18 +124,30 @@ export function Workbench() {
       setNetwork(c.network);
       setSelected(id);
     } else {
-      if (!selected) setNetwork(data.defaultNetwork);
-      setSelected(
-        (previous) => previous || `saucerswap-${data.defaultNetwork}`,
+      const current = data.contracts.find(
+        (c: ContractRecord) => c.id === selected,
       );
+      const fallback =
+        current ??
+        data.contracts.find(
+          (c: ContractRecord) =>
+            c.network === (selected ? network : data.defaultNetwork),
+        );
+      setNetwork(fallback?.network ?? data.defaultNetwork);
+      setSelected(fallback?.id ?? "");
     }
     setCatalogEpoch((previous) => previous + 1);
     setLoading(false);
   }
   useEffect(() => {
-    load()
+    const params = new URL(window.location.href).searchParams;
+    const view = params.get("view");
+    if (view && ["functions", "assistant", "agents", "activity"].includes(view))
+      setTab(view);
+    if (params.get("import") === "1") setImportOpen(true);
+    load(params.get("contract") || undefined)
       .then(async () => {
-        const planId = new URL(window.location.href).searchParams.get("plan");
+        const planId = params.get("plan");
         if (!planId) return;
         const prepared = await api<TransactionPlan>(`plans/${planId}`);
         setSelected(prepared.contractId);
@@ -143,15 +157,22 @@ export function Workbench() {
       .catch((e) => {
         setError(e);
         setLoading(false);
-      });
+      })
+      .finally(() => setInitialised(true));
   }, []);
   useEffect(() => {
-    if (!selected) return;
+    if (!selected) {
+      setCatalog(null);
+      setToolId("");
+      return;
+    }
+    setQuery("");
     const controller = new AbortController();
     setCatalog(null);
     setError(null);
     api<Catalog>(`contracts/${selected}`, undefined, "GET", controller.signal)
       .then((data) => {
+        if (controller.signal.aborted) return;
         setCatalog(data);
         setToolId(
           data.tools.find(
@@ -166,6 +187,17 @@ export function Workbench() {
       });
     return () => controller.abort();
   }, [selected, catalogEpoch]);
+  useEffect(() => {
+    if (!initialised) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set("view", tab);
+    if (selected) url.searchParams.set("contract", selected);
+    else url.searchParams.delete("contract");
+    if (plan) url.searchParams.set("plan", plan.id);
+    else url.searchParams.delete("plan");
+    url.searchParams.delete("import");
+    window.history.replaceState(null, "", url);
+  }, [initialised, selected, tab, plan]);
   const priorWallet = useRef({ address, chainId });
   useEffect(() => {
     const previous = priorWallet.current;
@@ -187,15 +219,16 @@ export function Workbench() {
   }, [address, chainId]);
   const select = (id: string) => {
     setSelected(id);
+    setQuery("");
     setPlan(null);
     setNavOpen(false);
-    setTab((previous) => (previous === "agents" ? "agents" : "functions"));
+    setTab((previous) => (previous === "activity" ? "functions" : previous));
   };
   const changeNetwork = (n: Network) => {
     setNetwork(n);
-    setSelected(`saucerswap-${n}`);
+    setSelected(contracts.find((c) => c.network === n)?.id ?? "");
+    setQuery("");
     setPlan(null);
-    setTab("functions");
     setNetworkOpen(false);
     setNavOpen(false);
   };
@@ -205,31 +238,26 @@ export function Workbench() {
     );
     setPlan(null);
   };
+  const visibleTools =
+    catalog?.tools.filter((t) =>
+      t.signature.toLowerCase().includes(query.trim().toLowerCase()),
+    ) ?? [];
   const tool = catalog?.tools.find((t) => t.id === toolId);
   const navigate = (value: string) => {
     setPlan(null);
     setTab(value);
     setNavOpen(false);
-    if (value === "swap" && !selected.startsWith("saucerswap-"))
-      setSelected(`saucerswap-${network}`);
   };
   const navigation = (
     <div className="flex h-full flex-col p-6">
       <div className="mb-10 flex items-center gap-2">
-        <div
-          className="grid size-12 shrink-0 place-items-center rounded-full bg-card"
-          aria-label="Contract Workbench"
+        <Link
+          href={selected ? `/?contract=${encodeURIComponent(selected)}` : "/"}
+          className="grid size-12 shrink-0 place-items-center rounded-2xl bg-card"
+          aria-label="Contract Workbench home"
         >
-          <svg viewBox="0 0 32 32" className="size-8" aria-hidden="true">
-            <path
-              d="M10 7v18M22 7v18M7 12h18M7 20h18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.8"
-              strokeLinecap="round"
-            />
-          </svg>
-        </div>
+          <WorkbenchMark className="size-8" />
+        </Link>
         <button
           onClick={() => {
             setNavOpen(false);
@@ -247,7 +275,6 @@ export function Workbench() {
           { value: "functions", label: "Contracts", Icon: Blocks },
           { value: "assistant", label: "Assistant", Icon: MessageCircle },
           { value: "agents", label: "Agent access", Icon: Terminal },
-          { value: "swap", label: "Swap", Icon: ArrowRightLeft },
           { value: "activity", label: "Activity", Icon: Activity },
         ].map(({ value, label, Icon }) => (
           <button
@@ -301,14 +328,11 @@ export function Workbench() {
         ? "Assistant"
         : tab === "agents"
           ? "Agent access"
-          : tab === "swap"
-            ? "Swap"
-            : "Activity";
+          : "Activity";
   const subtitles: Record<string, string> = {
-    functions: "Explore your contract. Read, simulate, and prepare.",
+    functions: "Your contract, one function at a time.",
     assistant: "A conversation with your contract.",
-    agents: "One portable skill. Current tools for your selected contract.",
-    swap: "HBAR to SAUCE, through SaucerSwap.",
+    agents: "Give your agent the skill and your contract’s current tools.",
     activity: "Your submitted transactions, all in one place.",
   };
   return (
@@ -410,25 +434,22 @@ export function Workbench() {
               </div>
             ) : catalog ? (
               <>
-                <div className="wb-secondary-surface flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-secondary p-4">
+                <div className="wb-secondary-surface flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-secondary px-4 py-3">
                   <div className="min-w-0 flex-1">
-                    <label htmlFor="contract-navigator" className="sr-only">
-                      Selected contract
-                    </label>
-                    <select
-                      id="contract-navigator"
-                      className="max-w-full rounded-lg bg-transparent pr-8 text-base font-medium"
+                    <Picker
+                      label="Selected contract"
+                      placeholder="Choose a contract"
                       value={selected}
-                      onChange={(e) => select(e.target.value)}
-                    >
-                      {contracts
+                      onChange={select}
+                      options={contracts
                         .filter((c) => c.network === network)
-                        .map((c) => (
-                          <option value={c.id} key={c.id}>
-                            {c.name}
-                          </option>
-                        ))}
-                    </select>
+                        .map((c) => ({
+                          value: c.id,
+                          label: c.name,
+                          description: c.hederaId || c.address,
+                        }))}
+                      className="min-h-8 max-w-xl border-transparent bg-transparent px-0 py-0 text-base"
+                    />
                     <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
                       <code className="truncate">
                         {catalog.contract.hederaId || catalog.contract.address}
@@ -517,51 +538,90 @@ export function Workbench() {
                 >
                   <TabsContent value="functions" className="mt-6">
                     <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
-                      <div className="space-y-3">
-                        <div className="relative">
-                          <Search className="absolute left-4 top-4 size-4 text-muted-foreground" />
-                          <Input
-                            aria-label="Filter functions"
-                            placeholder="Find a function…"
+                      <section
+                        className="min-w-0 space-y-4"
+                        aria-label="Function navigator"
+                      >
+                        <div className="flex items-center justify-between px-1">
+                          <h2 className="text-sm font-semibold">Functions</h2>
+                          <span className="hidden text-xs tabular-nums text-muted-foreground lg:inline">
+                            {visibleTools.length} / {catalog.tools.length}
+                          </span>
+                        </div>
+                        <div className="hidden h-11 items-center gap-2 rounded-[12px] border border-input bg-card/70 px-3 focus-within:ring-2 focus-within:ring-ring lg:flex">
+                          <Search className="size-4 shrink-0 text-muted-foreground" />
+                          <input
+                            aria-label="Search functions"
+                            placeholder="Name or signature"
+                            type="search"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            className="pl-10"
+                            onKeyDown={(event) => {
+                              if (event.key === "Escape") setQuery("");
+                              if (event.key === "Enter" && visibleTools[0]) {
+                                setToolId(visibleTools[0].id);
+                                setPlan(null);
+                              }
+                            }}
+                            className="h-full min-w-0 flex-1 border-0 bg-transparent text-sm outline-none focus-visible:ring-0 focus-visible:ring-offset-0 [&::-webkit-search-cancel-button]:appearance-none"
+                          />
+                          {query && (
+                            <button
+                              aria-label="Clear function search"
+                              onClick={() => setQuery("")}
+                              className="grid size-6 shrink-0 place-items-center rounded-md hover:bg-accent"
+                            >
+                              <X className="size-3.5" />
+                            </button>
+                          )}
+                        </div>
+                        <div className="lg:hidden">
+                          <Picker
+                            label="Function"
+                            placeholder="Choose a function"
+                            value={toolId}
+                            onChange={(id) => {
+                              setToolId(id);
+                              setPlan(null);
+                            }}
+                            options={catalog.tools.map((candidate) => ({
+                              value: candidate.id,
+                              label: candidate.signature,
+                            }))}
                           />
                         </div>
-                        <div className="max-h-64 space-y-1 overflow-y-auto lg:max-h-[65vh]">
-                          {catalog.tools
-                            .filter((t) =>
-                              t.signature
-                                .toLowerCase()
-                                .includes(query.toLowerCase()),
-                            )
-                            .map((t) => (
-                              <button
-                                key={t.id}
-                                onClick={() => {
-                                  setToolId(t.id);
-                                  setPlan(null);
-                                }}
-                                className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-3 text-left text-sm ${toolId === t.id ? "bg-accent" : "hover:bg-muted"}`}
-                              >
-                                <span className="min-w-0 break-all font-mono text-xs">
-                                  {t.signature}
+                        <div className="hidden max-h-[65vh] space-y-1 overflow-y-auto pr-1 lg:block">
+                          {visibleTools.map((t) => (
+                            <button
+                              key={t.id}
+                              onClick={() => {
+                                setToolId(t.id);
+                                setPlan(null);
+                              }}
+                              aria-current={
+                                toolId === t.id ? "true" : undefined
+                              }
+                              className={`group flex w-full items-start gap-3 rounded-[12px] px-3 py-3 text-left transition-colors ${toolId === t.id ? "bg-card shadow-sm" : "hover:bg-card/50"}`}
+                            >
+                              <span
+                                className={`mt-1.5 size-1.5 shrink-0 rounded-full ${toolId === t.id ? "bg-primary" : "bg-foreground/25"}`}
+                              />
+                              <span className="min-w-0 flex-1">
+                                <span className="block break-words text-sm font-medium">
+                                  {t.signature.split("(")[0]}
                                 </span>
-                                <Badge
-                                  variant="outline"
-                                  className="shrink-0 text-[10px]"
-                                >
-                                  {t.action === "read" ? "Read" : "Write"}
-                                </Badge>
-                              </button>
-                            ))}
+                                <span className="mt-1 block break-all font-mono text-[10px] leading-4 text-muted-foreground">
+                                  {t.signature.slice(t.signature.indexOf("("))}
+                                </span>
+                              </span>
+                              {toolId === t.id && (
+                                <ArrowUpRight className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
+                              )}
+                            </button>
+                          ))}
                         </div>
-                        {!catalog.tools.some((candidate) =>
-                          candidate.signature
-                            .toLowerCase()
-                            .includes(query.toLowerCase()),
-                        ) && (
-                          <p className="rounded-2xl bg-secondary p-4 text-sm text-muted-foreground">
+                        {!visibleTools.length && (
+                          <p className="hidden rounded-2xl bg-secondary p-4 text-sm text-muted-foreground lg:block">
                             {query
                               ? `No functions match “${query}”. Try another name.`
                               : "This ABI has no supported functions."}
@@ -580,7 +640,7 @@ export function Workbench() {
                             ))}
                           </details>
                         )}
-                      </div>
+                      </section>
                       <div className="wb-panel min-w-0 rounded-3xl bg-card p-5 md:p-6">
                         {tool ? (
                           <FunctionForm
@@ -598,17 +658,9 @@ export function Workbench() {
                       </div>
                     </div>
                   </TabsContent>
-                  <TabsContent value="swap" className="mt-6">
-                    <Swap
-                      key={network}
-                      network={network}
-                      onReview={setPlan}
-                      invalidate={() => setPlan(null)}
-                    />
-                  </TabsContent>
                   <TabsContent value="assistant" className="mt-6">
                     <Assistant
-                      key={selected}
+                      key={`${selected}:${catalog.contract.revision}`}
                       contract={catalog.contract}
                       enabled={assistantEnabled}
                       onReview={setPlan}
@@ -657,45 +709,6 @@ export function Workbench() {
                 </Button>
               </div>
             )}
-            <details className="text-xs text-muted-foreground">
-              <summary className="cursor-pointer">
-                Open a transaction plan from CLI or MCP
-              </summary>
-              <Input
-                type="file"
-                accept=".json"
-                aria-label="Import an unsigned transaction plan"
-                className="mt-3 max-w-sm"
-                onChange={async (e) => {
-                  try {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    if (file.size > 1048576)
-                      throw new Error("Plan exceeds 1 MiB.");
-                    const parsed = JSON.parse(await file.text());
-                    const candidate =
-                      typeof parsed.data === "object" && parsed.data !== null
-                        ? parsed.data
-                        : parsed;
-                    if (
-                      !candidate.id ||
-                      !candidate.from ||
-                      !candidate.data ||
-                      !candidate.valueWeibar
-                    )
-                      throw new Error("Choose a transaction-plan JSON file.");
-                    const validated = await api("plans/validate", {
-                      plan: candidate,
-                      from: candidate.from,
-                      chainId: candidate.chainId,
-                    });
-                    setPlan(validated.plan);
-                  } catch (e) {
-                    setError(e);
-                  }
-                }}
-              />
-            </details>
           </div>
         </main>
       </div>
@@ -751,7 +764,7 @@ export function Workbench() {
               >
                 <span>{value === "mainnet" ? "Mainnet" : "Testnet"}</span>
                 {network === value && (
-                  <Check className="size-5 text-[#0ca35d] dark:text-[#47e299]" />
+                  <Check className="size-5 text-[var(--wb-success)]" />
                 )}
               </RadioGroup.Item>
             ))}
@@ -759,7 +772,7 @@ export function Workbench() {
           <p className="text-sm text-muted-foreground">
             {network === "mainnet"
               ? "Mainnet transactions use real HBAR. Your wallet approves each transaction."
-              : "Testnet uses test HBAR. Reads and quotes need no wallet."}
+              : "Testnet uses test HBAR. Contract reads need no wallet."}
           </p>
           <p className="mt-auto text-xs text-muted-foreground">
             Hedera · chain {network === "mainnet" ? "295" : "296"}

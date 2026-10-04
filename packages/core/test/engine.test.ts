@@ -182,6 +182,8 @@ test("preparation binds calldata, caller, network, revision, expiry, and value",
       observedAt: new Date().toISOString(),
     });
     const plan = await runtime.prepare(tool.id, args, { from, valueHbar: "1" });
+    assert.equal(new URL(plan.reviewUrl).pathname, "/workbench");
+    assert.equal(new URL(plan.reviewUrl).searchParams.get("plan"), plan.id);
     await runtime.validatePlan(plan, from, 296);
     const verified = await runtime.validatePlan(
       {
@@ -194,6 +196,11 @@ test("preparation binds calldata, caller, network, revision, expiry, and value",
     );
     assert.equal(verified.plan.simulation.value, null);
     assert.ok(verified.plan.reviewUrl.startsWith("http://127.0.0.1:"));
+    assert.equal(new URL(verified.plan.reviewUrl).pathname, "/workbench");
+    assert.equal(
+      new URL(verified.plan.reviewUrl).searchParams.get("plan"),
+      plan.id,
+    );
     await assert.rejects(
       runtime.store.savePlan({ ...plan, id: "../../outside" }),
       (error: any) => error.code === "INPUT",

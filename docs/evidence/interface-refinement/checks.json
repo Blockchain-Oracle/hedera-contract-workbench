@@ -1,0 +1,66 @@
+{
+  "observedAt": "2026-10-04T08:38:56.960982+00:00",
+  "scope": "Interface refinement on local main; production browser acceptance and existing core/CLI/MCP regression checks. No paid inference or wallet signing.",
+  "toolchain": {
+    "node": "24.19.0",
+    "npm": "10.9.3",
+    "next": "16.3.8",
+    "cmdk": "1.1.1"
+  },
+  "automated": {
+    "ordinaryPinnedDependencyInstall": true,
+    "legacyPeerDepsUsed": false,
+    "cmdkReactRadixDependencyTree": "valid",
+    "lint": "pass",
+    "allWorkspaceTypecheck": "pass",
+    "coreTests": 22,
+    "solidityTests": 1,
+    "cliSubprocessChecks": 28,
+    "genericContractAdapters": "Three original deployed local EVM fixtures; all three configured SDK adapters use controlled provider HTTP, with real core RPC calls.",
+    "fullBuildWithClosedRpcAndEmptyProviderKeys": "pass",
+    "finalNextBuildWithClosedRpcAndEmptyProviderKeys": "pass",
+    "freshCiRepeatedInThisSlice": false,
+    "buildWarnings": 2,
+    "warningDescription": "Existing core skill-export dynamic filesystem tracing warnings.",
+    "tracedEnvironmentOrIgnoredRegistryReferences": 0,
+    "productionSmoke": "production-smoke.json"
+  },
+  "manual": [
+    "Actual light/dark desktop and 390px narrow layouts inspected; no horizontal document overflow at tested 390, 1280 and 1440px widths.",
+    "Function search filters actual signatures; owner query gives 1/6 results and Enter selects ownerOf(uint256). Clear restores 6/6.",
+    "Mobile function picker search, empty result, Escape and restored focus/input verified.",
+    "Final production contract picker has visible keyboard ring; Escape restores trigger focus and preserves tokenId=3.",
+    "Real testnet NFT imported through the custom import UI with a supplied ABI; ownerOf(3) returns 0xA91F6F8C707B8115Bc07193AD181c6D181aEC4Ab.",
+    "No permanent Swap or Read/Write list pills on the imported NFT; generic full signatures and transfer overloads remain distinct.",
+    "Agent selection and current four-argument transfer schema generate correct CLI commands; copied Claude Code installer selects --agent claude-code.",
+    "Copied Gemini provider instructions use WORKBENCH_AI_PROVIDER=gemini, explicit model placeholder and GEMINI_API_KEY.",
+    "Missing-provider composer, send button and suggestions are disabled; missing injected wallet is reported honestly.",
+    "Network switch preserves Assistant view and changes selected contract/network context to mainnet.",
+    "Home/workspace return navigation retains the actual selected NFT contract and URL.",
+    "Isolated zero-contract registry: home says No contracts yet / Your workspace is ready; workspace offers import without stale catalog, and custom import dialog opens.",
+    "Final production browser console has zero errors."
+  ],
+  "designReview": {
+    "files": 8,
+    "errors": 0,
+    "warnings": 2,
+    "warningDisposition": "Landing max-width and desktop sidebar fixed-width warnings checked at actual desktop/narrow viewports; no overflow."
+  },
+  "limitations": [
+    "No browser wallet extension was available; wallet signing, rejection and funded transaction acceptance remain pending.",
+    "No real paid provider inference session was performed.",
+    "Public publication, remote-template installation and bounty submission remain explicit release actions.",
+    "Audio is excluded by user instruction; contract examples are ABI test scenarios rather than UI categories."
+  ],
+  "screenshots": [
+    "agents-desktop-light.jpg",
+    "empty-home-light.jpg",
+    "empty-workspace-light.jpg",
+    "functions-desktop-dark.jpg",
+    "functions-mobile-dark.jpg",
+    "functions-production-light.jpg",
+    "home-desktop-light.jpg",
+    "home-mobile-light.jpg",
+    "provider-setup-mobile.jpg"
+  ]
+}

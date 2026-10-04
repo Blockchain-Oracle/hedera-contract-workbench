@@ -49,7 +49,7 @@ export function CopyButton({
     <Button
       type="button"
       variant="ghost"
-      size={iconOnly ? "icon" : "sm"}
+      size={iconOnly ? "icon-sm" : "sm"}
       aria-label={
         copied ? `${label}: copied` : failed ? `${label}: unavailable` : label
       }

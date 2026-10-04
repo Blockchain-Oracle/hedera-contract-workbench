@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Choice } from "./picker";
 import { Plus, X } from "lucide-react";
 export function initialValue(p: Parameter): Json {
   if (p.item)
@@ -120,21 +121,21 @@ export function TypedInput({
     <Field>
       <FieldLabel htmlFor={id}>
         {p.name || p.key}{" "}
-        <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-xs font-normal text-muted-foreground">
+        <span className="ml-auto font-mono text-xs font-normal text-muted-foreground">
           {p.type}
         </span>
       </FieldLabel>
       {p.type === "bool" ? (
-        <select
+        <Choice
           id={id}
+          label={p.name || p.key}
           value={String(value)}
-          onChange={(e) => onChange(e.target.value === "true")}
-          className="h-12 w-full rounded-xl border border-input bg-card px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          aria-describedby={/int/.test(p.type) ? `${id}-help` : undefined}
-        >
-          <option value="false">false</option>
-          <option value="true">true</option>
-        </select>
+          onChange={(next) => onChange(next === "true")}
+          options={[
+            { value: "false", label: "false" },
+            { value: "true", label: "true" },
+          ]}
+        />
       ) : (
         <Input
           id={id}

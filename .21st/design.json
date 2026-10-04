@@ -78,6 +78,10 @@
     {
       "date": "2026-10-04",
       "decision": "Keep Hedera identity/domain and generic ABI-driven forms. No Slush trademarks or cartoon cast copied."
+    },
+    {
+      "date": "2026-10-04",
+      "decision": "User requests full interface refinement retaining blue palette: connected product home, generic functions without Read/Write pills, real assistant states, searchable menus, branded agent access. Remove global Swap and plan-file upload. Controls use 12px radius; reduce nested surfaces."
     }
   ],
   "evidence": [

@@ -5,7 +5,8 @@ import { Download, FileText, Loader2, Terminal } from "lucide-react";
 import type { ContractRecord, skillView } from "@sh/core";
 import { api, ApiError } from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Picker } from "./picker";
+import { AgentMark, agentName } from "./identity";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton, ErrorNotice } from "./result";
 
@@ -18,7 +19,7 @@ function Command({ label, value }: { label: string; value: string }) {
         <p className="text-sm font-medium">{label}</p>
         <CopyButton value={value} label={`Copy ${label.toLowerCase()}`} />
       </div>
-      <pre className="overflow-x-auto rounded-2xl bg-muted p-4 text-xs leading-6">
+      <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded-[12px] bg-muted/60 p-4 text-xs leading-6">
         <code>{value}</code>
       </pre>
     </div>
@@ -96,11 +97,56 @@ export function AgentAccess({ contract }: { contract: ContractRecord }) {
   return (
     <div className="min-w-0 space-y-6">
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-        <Badge variant="outline">{view.contract.network}</Badge>
-        <span className="break-all">Revision {view.contract.revision}</span>
+        <span className="capitalize">Hedera {view.contract.network}</span>
+        <span title={view.contract.revision}>
+          Revision {view.contract.revision.slice(0, 10)}…
+          {view.contract.revision.slice(-6)}
+        </span>
         <span>{view.tools.length} current tools</span>
       </div>
-      <div className="grid min-w-0 gap-6 xl:grid-cols-2">
+      <div className="grid min-w-0 items-start gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+        <section className="wb-panel min-w-0 space-y-5 rounded-3xl bg-card p-5 sm:p-6">
+          <h2 className="flex items-center gap-2 text-lg font-semibold">
+            <Terminal className="size-5" /> Connect your agent
+          </h2>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Run this command from the project where you want the skill
+            installed. Vercel’s skills CLI copies the local skill into your
+            agent’s project folder.
+          </p>
+          <div
+            role="group"
+            aria-label="Choose your agent"
+            className="grid grid-cols-3 gap-2"
+          >
+            {view.skill.install.map((option) => (
+              <button
+                key={option.agent}
+                aria-pressed={agent === option.agent}
+                onClick={() => setAgent(option.agent)}
+                className={`flex min-h-24 flex-col items-center justify-center gap-3 rounded-xl border px-2 py-3 text-xs transition-colors ${agent === option.agent ? "border-ring bg-muted font-semibold" : "border-border hover:bg-muted/50"}`}
+              >
+                <AgentMark agent={option.agent} />
+                <span>{agentName(option.agent)}</span>
+              </button>
+            ))}
+          </div>
+          <Command label="Install skill" value={install.shell} />
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            These are examples. Other compatible hosts are available through CLI{" "}
+            <code>skills install-command --agent &lt;agent-id&gt;</code>. No
+            hosted service is needed.
+          </p>
+          <Command
+            label="Export full contract bundle"
+            value={view.commands.export.shell}
+          />
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            Export creates a new local folder containing the skill, current
+            catalog and argument files. Its output includes installation
+            commands for that bundle.
+          </p>
+        </section>
         <section className="wb-panel min-w-0 space-y-5 rounded-3xl bg-card p-5 sm:p-6">
           <h2 className="flex items-center gap-2 text-lg font-semibold">
             <FileText className="size-5" /> Portable skill
@@ -125,61 +171,18 @@ export function AgentAccess({ contract }: { contract: ContractRecord }) {
             <summary className="cursor-pointer font-medium">
               Read SKILL.md
             </summary>
-            <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-2xl bg-muted p-4 text-xs leading-6">
+            <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-xl bg-muted/60 p-4 text-xs leading-6">
               {view.markdown}
             </pre>
           </details>
           {Object.entries(view.references).map(([path, markdown]) => (
             <details key={path} className="text-sm">
               <summary className="cursor-pointer break-all">{path}</summary>
-              <pre className="mt-3 max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-2xl bg-muted p-4 text-xs leading-6">
+              <pre className="mt-3 max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-xl bg-muted/60 p-4 text-xs leading-6">
                 {markdown}
               </pre>
             </details>
           ))}
-        </section>
-        <section className="wb-panel min-w-0 space-y-5 rounded-3xl bg-card p-5 sm:p-6">
-          <h2 className="flex items-center gap-2 text-lg font-semibold">
-            <Terminal className="size-5" /> Connect your agent
-          </h2>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            Run this command from the project where you want the skill
-            installed. Vercel’s skills CLI copies the local skill into your
-            agent’s project folder.
-          </p>
-          <label className="block space-y-2 text-sm">
-            <span className="font-medium">Agent</span>
-            <select
-              className="w-full rounded-xl border border-border bg-muted p-3"
-              value={agent}
-              onChange={(event) => setAgent(event.target.value)}
-            >
-              {view.skill.install.map((option) => (
-                <option key={option.agent} value={option.agent}>
-                  {option.agent === "codex"
-                    ? "Codex"
-                    : option.agent === "claude-code"
-                      ? "Claude Code"
-                      : "Cursor"}
-                </option>
-              ))}
-            </select>
-          </label>
-          <Command label="Install skill" value={install.shell} />
-          <p className="text-xs leading-relaxed text-muted-foreground">
-            These are examples. Other compatible hosts are available through CLI{" "}
-            <code>skills install-command --agent &lt;agent-id&gt;</code>. No
-            hosted service is needed.
-          </p>
-          <Command
-            label="Export full contract bundle"
-            value={view.commands.export.shell}
-          />
-          <p className="text-xs leading-relaxed text-muted-foreground">
-            Export creates a new local folder containing the skill, current
-            catalog and argument files. Its output includes installation
-            commands for that bundle.
-          </p>
         </section>
       </div>
       <section className="wb-panel min-w-0 space-y-5 rounded-3xl bg-card p-5 sm:p-6">
@@ -197,20 +200,19 @@ export function AgentAccess({ contract }: { contract: ContractRecord }) {
         />
         {tool ? (
           <>
-            <label className="block space-y-2 text-sm">
-              <span className="font-medium">Function signature</span>
-              <select
-                className="w-full min-w-0 rounded-xl border border-border bg-muted p-3 font-mono text-xs"
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Function signature</p>
+              <Picker
+                label="Function signature"
+                placeholder="Choose a function"
                 value={toolId}
-                onChange={(event) => setToolId(event.target.value)}
-              >
-                {view.tools.map((candidate) => (
-                  <option key={candidate.id} value={candidate.id}>
-                    {candidate.signature}
-                  </option>
-                ))}
-              </select>
-            </label>
+                onChange={setToolId}
+                options={view.tools.map((candidate) => ({
+                  value: candidate.id,
+                  label: candidate.signature,
+                }))}
+              />
+            </div>
             <Command
               label="Inspect schema"
               value={tool.commands.inspect.shell}
@@ -266,7 +268,7 @@ export function AgentAccess({ contract }: { contract: ContractRecord }) {
               <summary className="cursor-pointer font-medium">
                 Input and output schemas
               </summary>
-              <pre className="mt-3 max-h-96 overflow-auto rounded-2xl bg-muted p-4 text-xs leading-6">
+              <pre className="mt-3 max-h-96 overflow-auto rounded-xl bg-muted/60 p-4 text-xs leading-6">
                 {JSON.stringify(
                   { input: tool.inputSchema, output: tool.outputSchema },
                   null,

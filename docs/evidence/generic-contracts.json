@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-04T07:12:20.295Z",
+  "observedAt": "2026-10-04T07:58:59.838Z",
   "scope": "Three original Solidity fixtures deployed on isolated local EVM. No Hedera submissions; no contract-category routing or extra per-contract skills.",
   "checks": [
     "CLI skill show/export/install-command, raw Markdown and conflicting machine/document flags exercised as real subprocesses",

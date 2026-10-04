@@ -558,7 +558,7 @@ export class Runtime {
       createdAt: new Date().toISOString(),
       expiresAt: new Date(Date.now() + settings.planExpiryMs).toISOString(),
       simulation,
-      reviewUrl: `${settings.webUrl}/?plan=${idPlan}`,
+      reviewUrl: `${settings.webUrl.replace(/\/+$/, "")}/workbench?plan=${idPlan}`,
     };
     const complete = { ...plan, digest: planDigest(plan) };
     await this.ensureCurrentContract(r.contract);
@@ -653,7 +653,7 @@ export class Runtime {
       plan: {
         ...plan,
         simulation,
-        reviewUrl: `${settings.webUrl}/?plan=${plan.id}`,
+        reviewUrl: `${settings.webUrl.replace(/\/+$/, "")}/workbench?plan=${plan.id}`,
       },
       simulation,
     };

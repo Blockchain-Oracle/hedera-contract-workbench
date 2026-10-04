@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Open **http://127.0.0.1:3000**. Select `factory()` in the SaucerSwap testnet router and click **Read function**, or open **Swap example** and get a live HBAR → SAUCE quote. Public RPC availability can affect reads; `doctor` reports endpoint failures.
+Open **http://127.0.0.1:3000** for the product home, then choose **Open workspace**. In `/workbench`, select `factory()` in the bundled testnet router and click **Run function**. Public RPC availability can affect reads; `doctor` reports endpoint failures.
 
 The repository is prepared for the technical template identifier `Blockchain-Oracle/hedera-contract-workbench`. Publication and external scaffold verification are recorded separately in [the delivery tracker](docs/DELIVERY.md). Until published, use this checkout; no similarly named npm package is required.
 
@@ -43,19 +43,19 @@ CLI, MCP, and chat simulate and prepare unsigned plans. They do not hold signing
 
 [CLI and machine protocol](docs/CLI.md) · [MCP and skill setup](docs/AGENTS.md) · [Architecture](docs/ARCHITECTURE.md)
 
-## Wallet and protocol example
+## Wallet transactions and protocol adapters
 
 Use an injected **EVM** wallet configured for Hedera testnet (296) or mainnet (295). The app can request a network switch. Both networks support reads, simulation, and wallet-approved transactions; testnet is selected by default.
 
-The guided SaucerSwap V1 workflow gets a live quote, verifies caller-scoped SAUCE association, prepares association if needed, then refreshes and prepares an HBAR → SAUCE swap. Default slippage is **0.5%**; changing it invalidates the quote and review. The exact minimum output and deadline appear in the wallet drawer. Have enough HBAR for value and network fees. [Get testnet HBAR](https://portal.hedera.com).
+The workspace stays generic: there is no permanent Swap tab. A selected router exposes its swap functions from its ABI; another contract exposes its own functions. Read/Write list pills and transaction-file upload are removed. CLI, MCP and assistant preparations still open an exact wallet review at `/workbench?plan=…`; older root review links redirect there.
 
-The router handles the native HBAR path. The guided workflow does not wrap WHBAR directly or request WHBAR allowance. [SaucerSwap advisory](https://docs.saucerswap.finance/developers/whbar/overview), [HRC-719](https://github.com/hiero-ledger/hiero-improvement-proposals/blob/main/HIP/hip-719.md).
+SaucerSwap remains a bundled ABI example and an optional core/CLI protocol adapter, including quote, explicit slippage/deadline and caller-scoped HRC-719 association checks. These adapters do not add a swap interface to unrelated contracts. The router handles the native HBAR path. [SaucerSwap advisory](https://docs.saucerswap.finance/developers/whbar/overview), [HRC-719](https://github.com/hiero-ledger/hiero-improvement-proposals/blob/main/HIP/hip-719.md).
 
 A returned transaction hash is saved immediately in browser recovery storage and the workspace journal. Receipt status and mirror indexing are separate. Pending status or a timeout never triggers automatic resubmission.
 
 ## Optional assistant
 
-Copy `packages/nextjs/.env.example` to `.env.local` in that directory. Configure OpenAI, Anthropic or Gemini plus an explicit compatible model ID, then restart. Credentials remain server-side. Provider errors leave deterministic functions available. The assistant uses a fixed set of result components; model-generated code is never executed. Audio is excluded at the user's request.
+The home and workspace share a real contract-scoped composer. Without configuration it is disabled and offers provider-specific setup instructions. Copy `packages/nextjs/.env.example` to `.env.local` in that directory. Configure OpenAI, Anthropic or Gemini plus an explicit compatible model ID, then restart. Credentials remain server-side. Provider errors leave deterministic functions available. The assistant uses a fixed set of result components; model-generated code is never executed. Audio is excluded at the user's request.
 
 ## Give your agent the current contract tools
 

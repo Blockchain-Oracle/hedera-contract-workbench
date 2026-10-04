@@ -98,21 +98,17 @@ export function FunctionForm({
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <div className="flex flex-wrap items-center gap-2 text-xs font-medium">
-          <span className="rounded-full bg-muted px-3 py-1.5 capitalize">
-            {tool.action === "read" ? "Read function" : "Wallet transaction"}
-          </span>
-          <span
-            className={`rounded-full px-3 py-1.5 capitalize ${contract.network === "mainnet" ? "bg-destructive/10 text-destructive" : "bg-muted"}`}
-          >
-            {contract.network}
-          </span>
-        </div>
+        <p className="text-xs font-medium text-muted-foreground">
+          Hedera {contract.network} ·{" "}
+          {tool.action === "read"
+            ? "No transaction required"
+            : "Wallet approval required"}
+        </p>
         <div className="flex items-start justify-between gap-3">
           <h2 className="min-w-0 break-words text-[30px] font-semibold leading-[1.14] tracking-[-0.75px]">
             {tool.signature.split("(")[0]}
           </h2>
-          <CopyButton value={tool.id} label="Tool ID" />
+          <CopyButton value={tool.id} label="Copy tool ID" iconOnly />
         </div>
         <p className="break-all font-mono text-xs text-muted-foreground">
           {tool.signature}
@@ -128,12 +124,12 @@ export function FunctionForm({
           e.preventDefault();
           void run(tool.action === "read" ? "call" : "prepare");
         }}
-        className={`rounded-[24px] border border-border/70 bg-card ${compactRead ? "space-y-3 p-4" : "space-y-6 p-5 sm:p-7"}`}
+        className={compactRead ? "space-y-5" : "space-y-6"}
         aria-busy={!!pending}
       >
         {!compactRead && (
           <div className="flex items-center justify-between gap-3 border-b border-border/70 pb-4">
-            <h3 className="text-base font-medium">Function inputs</h3>
+            <h3 className="text-base font-medium">Arguments</h3>
             <span className="text-xs text-muted-foreground">
               {tool.parameters.length}{" "}
               {tool.parameters.length === 1 ? "argument" : "arguments"}
@@ -240,7 +236,7 @@ export function FunctionForm({
           )}
         </FieldGroup>
         <ErrorNotice error={error} />
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 border-t border-border pt-5">
           <Button
             type="submit"
             disabled={!!pending}
@@ -254,28 +250,30 @@ export function FunctionForm({
             ) : tool.action === "read" ? (
               <>
                 <Play className="size-4" />
-                Read function
+                Run function
               </>
             ) : (
               <>
                 <FileCheck className="size-4" />
-                Prepare transaction
+                Review transaction
               </>
             )}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            disabled={!!pending || !(address || caller)}
-            onClick={() => run("simulate")}
-          >
-            {pending === "simulate" ? (
-              <Loader2 className="size-4 animate-spin motion-reduce:animate-none" />
-            ) : (
-              <FlaskConical className="size-4" />
-            )}
-            {pending === "simulate" ? "Simulating…" : "Simulate"}
-          </Button>
+          {(tool.action === "prepare" || !!(address || caller)) && (
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={!!pending || !(address || caller)}
+              onClick={() => run("simulate")}
+            >
+              {pending === "simulate" ? (
+                <Loader2 className="size-4 animate-spin motion-reduce:animate-none" />
+              ) : (
+                <FlaskConical className="size-4" />
+              )}
+              {pending === "simulate" ? "Simulating…" : "Simulate"}
+            </Button>
+          )}
         </div>
         {tool.action === "prepare" && (
           <p className="text-xs text-muted-foreground">
@@ -284,7 +282,7 @@ export function FunctionForm({
         )}
       </form>
       {result && <ResultCard result={result} simulation={simulation} />}
-      <details className="rounded-2xl bg-muted/50 p-4 text-xs">
+      <details className="border-t border-border pt-5 text-xs">
         <summary className="cursor-pointer font-medium text-muted-foreground">
           Developer details · schema and positional mapping
         </summary>
