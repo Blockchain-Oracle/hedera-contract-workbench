@@ -330,4 +330,20 @@
     background: var(--accent);
     box-shadow: inset 2px 0 var(--wb-violet);
   }
+  .wb-workspace-tab[aria-current="page"]::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: var(--wb-violet);
+    content: "";
+  }
+  .wb-function-form [data-slot="field"] {
+    gap: 8px;
+  }
+  .wb-function-form [data-slot="field-description"] {
+    font-size: 12px;
+    line-height: 1.5;
+  }
 }

@@ -19,6 +19,7 @@ import {
   LogOut,
   ArrowUpRight,
   Wallet,
+  ChevronDown,
   X,
 } from "lucide-react";
 import type { Network } from "@sh/core";
@@ -43,9 +44,11 @@ function readableBalance(value: bigint, decimals: number) {
 export function WalletFooter({
   network,
   open,
+  compact = false,
 }: {
   network: Network;
   open: () => void;
+  compact?: boolean;
 }) {
   const { address, status } = useAccount();
   const [visible, setVisible] = useState(true);
@@ -61,6 +64,28 @@ export function WalletFooter({
       : balance.data
         ? `${readableBalance(balance.data.value, balance.data.decimals)} HBAR`
         : "Balance unavailable";
+  if (compact)
+    return (
+      <button
+        className="flex h-9 min-w-0 items-center gap-2 rounded-lg border border-border px-3 text-sm font-medium hover:bg-muted"
+        onClick={open}
+        aria-label={
+          address
+            ? `Open account ${shortAddress(address)} on ${network}`
+            : "Connect an EVM wallet"
+        }
+      >
+        <Wallet className="size-4 shrink-0" />
+        <span className="hidden sm:inline">
+          {status === "reconnecting"
+            ? "Reconnecting…"
+            : address
+              ? shortAddress(address)
+              : "Connect wallet"}
+        </span>
+        <ChevronDown className="hidden size-3 text-muted-foreground sm:block" />
+      </button>
+    );
   return (
     <div className="wb-wallet-footer flex items-center gap-2">
       <button
@@ -173,7 +198,7 @@ export function WalletPanel({
           {address && (
             <div className="mb-4 space-y-3">
               <div className="flex items-center gap-3 rounded-2xl bg-secondary p-4">
-                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#47e299] text-[#060d14]">
+                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-muted text-[var(--wb-success)]">
                   <Check className="size-4" />
                 </span>
                 <Wallet className="size-6 shrink-0" />
@@ -271,7 +296,7 @@ export function WalletPanel({
                       }
                     }}
                   >
-                    <span className="grid size-8 place-items-center rounded-full bg-[#47e299] text-[#060d14]">
+                    <span className="grid size-8 place-items-center rounded-full bg-muted text-[var(--wb-success)]">
                       {isPending ? (
                         <Loader2 className="size-4 animate-spin" />
                       ) : candidate.icon ? (

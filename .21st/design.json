@@ -40,14 +40,14 @@
     },
     "spacing": {},
     "radius": {
-      "rail": "16px",
-      "nav": "10px",
-      "row": "10px",
-      "control": "12px"
+      "layout": "continuous surfaces with dividers",
+      "nav": "underline tabs",
+      "row": "6px",
+      "control": "8\u201312px"
     },
     "shadows": {},
     "motion": {},
-    "density": "Compact neutral workspace; 224px rail, clear context bar and function/result hierarchy"
+    "density": "Continuous developer workspace: compact header and tabs, contract context bar, 256px function navigator, arguments and response side by side on wide screens"
   },
   "components": {
     "installed": [],
@@ -94,6 +94,10 @@
     {
       "date": "2026-10-04",
       "decision": "User approved the recommended black landing and neutral white/charcoal workspace with official Hedera colors and separate Built on Hedera logo. Supersedes Slush colors and shell geometry. Real contract preview leads; working assistant stays lower on landing. No fake data, global swap, contract classification or changes to core execution."
+    },
+    {
+      "date": "2026-10-04",
+      "decision": "User rejected the preceding rendered design. Keep the agreed Hedera identity and neutral themes, replace the floating rail and stacked context cards with a compact full-width header, underline navigation, contract toolbar and continuous function workspace. Put arguments and response beside each other on wide screens; show actual ABI return types before execution. This records the implemented revision, not user acceptance of its appearance."
     }
   ],
   "evidence": [

@@ -129,7 +129,7 @@ export function ResultCard({
 }) {
   return (
     <section
-      className="space-y-5 rounded-[24px] border border-border/70 bg-card p-5 sm:p-6"
+      className="space-y-4 rounded-lg border border-border bg-card p-4"
       aria-live="polite"
     >
       <div className="flex items-center justify-between gap-2">
@@ -154,7 +154,7 @@ export function ResultCard({
         </div>
         <CopyButton value={JSON.stringify(result, null, 2)} label="Copy JSON" />
       </div>
-      <div className="rounded-2xl bg-muted/40 p-4">
+      <div className="rounded-md bg-muted/40 p-3">
         <ValueTree value={result.value} />
       </div>
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">

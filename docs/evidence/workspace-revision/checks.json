@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-04",
+  "scope": "workspace composition; no dependencies or execution changes",
+  "lint": "passed",
+  "all_workspace_typecheck": "passed",
+  "core_tests": 27,
+  "solidity_tests": 1,
+  "next_production_build": "passed with both RPC endpoints closed and all provider keys/model empty",
+  "existing_build_warnings": 2,
+  "browser": {
+    "desktop": {
+      "width": 1280,
+      "height": 720,
+      "document_width": 1280,
+      "owner_lookup_run_button_bottom": 645.25
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "functions_document_width": 390,
+      "agents_document_width": 390,
+      "assistant_document_width": 390
+    },
+    "live_testnet_nft_name": "Night Market",
+    "checks": [
+      "required tokenId validation and first-invalid focus",
+      "distinct NFT overload fields and correct signature URL",
+      "function filter and Escape reset",
+      "light/dark production layouts",
+      "contract-specific skill commands",
+      "production keyless boot",
+      "production NFT name read without a wallet or provider key",
+      "production required-field focus",
+      "disabled assistant and agent setup in revised shell"
+    ],
+    "production_console_errors": 0
+  },
+  "limitations": [
+    "user aesthetic acceptance not yet obtained",
+    "funded wallet workflow and remaining release gates are separate",
+    "no fresh install or paid provider inference in this slice"
+  ],
+  "temporary_production_server": "stopped"
+}

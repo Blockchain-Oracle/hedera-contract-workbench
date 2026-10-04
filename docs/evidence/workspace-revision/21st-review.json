@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "summary": {
+    "errors": 0,
+    "warnings": 4,
+    "suggestions": 0
+  },
+  "filesReviewed": 4,
+  "findings": [
+    {
+      "ruleId": "responsive-fixed-width",
+      "severity": "warning",
+      "category": "responsive",
+      "file": "packages/nextjs/components/workbench.tsx",
+      "line": 297,
+      "column": 47,
+      "message": "Large fixed width may overflow on smaller viewports.",
+      "confidence": 0.9,
+      "autofix": false,
+      "fixable": false
+    },
+    {
+      "ruleId": "responsive-fixed-width",
+      "severity": "warning",
+      "category": "responsive",
+      "file": "packages/nextjs/components/workbench.tsx",
+      "line": 352,
+      "column": 42,
+      "message": "Large fixed width may overflow on smaller viewports.",
+      "confidence": 0.9,
+      "autofix": false,
+      "fixable": false
+    },
+    {
+      "ruleId": "responsive-fixed-width",
+      "severity": "warning",
+      "category": "responsive",
+      "file": "packages/nextjs/components/workbench.tsx",
+      "line": 381,
+      "column": 52,
+      "message": "Large fixed width may overflow on smaller viewports.",
+      "confidence": 0.9,
+      "autofix": false,
+      "fixable": false
+    },
+    {
+      "ruleId": "responsive-fixed-width",
+      "severity": "warning",
+      "category": "responsive",
+      "file": "packages/nextjs/components/workbench.tsx",
+      "line": 716,
+      "column": 43,
+      "message": "Large fixed width may overflow on smaller viewports.",
+      "confidence": 0.9,
+      "autofix": false,
+      "fixable": false
+    }
+  ],
+  "fixed": []
+}
