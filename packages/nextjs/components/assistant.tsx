@@ -9,6 +9,8 @@ import {
   Loader2,
   ArrowUpRight,
   MessageCircle,
+  Braces,
+  FileCheck,
 } from "lucide-react";
 import type { ContractRecord, TransactionPlan } from "@sh/core";
 import { Button } from "@/components/ui/button";
@@ -38,7 +40,7 @@ export function Assistant({
     }),
   });
   const suggestions = [
-    "What can I do with this contract?",
+    `What can I do with ${contract.name}?`,
     ...contract.abi
       .filter(
         (item) =>
@@ -52,15 +54,15 @@ export function Assistant({
         (item) =>
           `Read ${"name" in item ? item.name : "this function"} from this contract`,
       ),
-    "Explain a function’s arguments",
+    "Which getters can help me find valid arguments?",
   ];
   useEffect(() => {
-    bottom.current?.scrollIntoView({ block: "nearest" });
+    if (messages.length) bottom.current?.scrollIntoView({ block: "nearest" });
   }, [messages]);
   const busy = status === "submitted" || status === "streaming";
   return (
     <section
-      className={`min-w-0 overflow-hidden rounded-2xl border border-border bg-card ${embedded ? "" : "mx-auto max-w-4xl"}`}
+      className={`min-w-0 overflow-hidden rounded-xl border border-border bg-card ${embedded ? "" : "mx-auto max-w-4xl"}`}
       aria-label="Contract assistant"
     >
       <header className="flex items-center justify-between gap-3 border-b border-border px-5 py-4 sm:px-6">
@@ -83,41 +85,48 @@ export function Assistant({
       <div
         role="log"
         aria-label="Conversation"
-        className={`${embedded ? "min-h-52 max-h-80" : "min-h-80 max-h-[55vh]"} space-y-6 overflow-y-auto overscroll-contain p-5 sm:p-6`}
+        className={`${embedded ? "min-h-52 max-h-80" : "min-h-72 max-h-[52vh]"} space-y-6 overflow-y-auto overscroll-contain p-5 sm:p-6`}
       >
         {!messages.length && (
-          <div className="flex min-h-40 flex-col justify-center">
-            <p className="mb-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">
-              Start with your contract
-            </p>
+          <div className="flex min-h-48 flex-col justify-center">
+            <div className="mb-5 flex items-center gap-2 text-xs text-muted-foreground">
+              <Braces className="size-4" /> Scoped to {contract.name}
+            </div>
             <h3
-              className={`${embedded ? "text-2xl" : "text-3xl"} font-semibold tracking-tight`}
+              className={`${embedded ? "text-xl" : "text-2xl"} font-semibold tracking-tight`}
             >
-              What would you like to know?
+              {enabled
+                ? "Start with a question about this contract."
+                : "Add your model when you’re ready."}
             </h3>
-            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-              Explore its functions, inspect arguments, or prepare a transaction
-              to review in your wallet.
+            <p className="mt-3 max-w-lg text-sm leading-6 text-muted-foreground">
+              {enabled
+                ? "Explore the ABI, read live state, or prepare a transaction. Tool results appear here with their network and execution context."
+                : "Functions, terminal commands and MCP already work. Chat uses an optional provider configured on your local server."}
             </p>
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="mt-6 divide-y divide-border border-y border-border">
               {suggestions.slice(0, embedded ? 2 : 3).map((suggestion) => (
                 <button
                   key={suggestion}
                   disabled={!enabled}
-                  className="flex max-w-full items-center gap-2 rounded-lg border border-border px-3 py-2 text-left text-xs text-muted-foreground hover:bg-muted disabled:opacity-50"
+                  className="flex min-h-11 w-full items-center justify-between gap-4 py-3 text-left text-sm hover:text-primary disabled:opacity-50"
                   onClick={() => setInput(suggestion)}
                 >
                   <span>{suggestion}</span>
-                  <ArrowUpRight className="size-3.5 shrink-0" />
+                  <ArrowUpRight className="size-4 shrink-0 text-muted-foreground" />
                 </button>
               ))}
             </div>
+            <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+              <FileCheck className="size-3.5 shrink-0" /> Your wallet approves
+              every transaction.
+            </p>
           </div>
         )}
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`space-y-3 rounded-2xl p-4 ${message.role === "user" ? "ml-6 bg-muted sm:ml-16" : "mr-2 sm:mr-8"}`}
+            className={`space-y-3 rounded-lg p-4 ${message.role === "user" ? "ml-6 bg-muted sm:ml-16" : "mr-2 sm:mr-8"}`}
           >
             <p className="text-xs font-medium text-muted-foreground">
               {message.role === "user" ? "You" : "Assistant"}
@@ -153,7 +162,7 @@ export function Assistant({
                     return (
                       <div
                         key={index}
-                        className="space-y-3 rounded-2xl bg-muted p-4 text-sm"
+                        className="space-y-3 rounded-lg bg-muted p-4 text-sm"
                       >
                         <p className="font-medium capitalize">
                           {output.data.state} · {output.data.network}
@@ -177,7 +186,7 @@ export function Assistant({
                   return (
                     <details
                       key={index}
-                      className="rounded-2xl bg-muted p-4 text-xs"
+                      className="rounded-lg bg-muted p-4 text-xs"
                     >
                       <summary>Tool result</summary>
                       <pre className="mt-2 overflow-x-auto">
@@ -228,7 +237,7 @@ export function Assistant({
             setInput("");
           }
         }}
-        className="mx-4 mb-4 rounded-[16px] border border-input bg-muted/30 p-3 sm:mx-5 sm:mb-5"
+        className="mx-4 mb-4 rounded-lg border border-input bg-background p-3 sm:mx-5 sm:mb-5"
       >
         <Textarea
           aria-label="Message to the assistant"
@@ -240,7 +249,7 @@ export function Assistant({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={!enabled || busy}
-          className="min-h-20 border-0 bg-transparent px-2 shadow-none "
+          className="min-h-16 rounded-md border-0 bg-transparent px-2 text-sm shadow-none"
           onKeyDown={(event) => {
             if (
               event.key === "Enter" &&

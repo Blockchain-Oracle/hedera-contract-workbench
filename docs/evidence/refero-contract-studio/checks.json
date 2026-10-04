@@ -1,0 +1,93 @@
+{
+  "observedAt": "2026-10-04T11:43:15.648500+00:00",
+  "scope": "Refero-guided local UI redesign. No signing, deployment, publication or funded transaction.",
+  "direction": "Contract Studio",
+  "references": [
+    "Linear",
+    "HTTPie",
+    "Exa Search and Assist",
+    "Cohere API Request Composer",
+    "SST"
+  ],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "checks": {
+    "lint": "pass",
+    "all_workspace_typecheck": "pass",
+    "core_tests": 27,
+    "solidity_tests": 1,
+    "ordered_build": "pass; keys/model empty and RPCs closed",
+    "final_frontend_build": "pass; Node 24; keys/model empty and RPCs closed",
+    "actual_cli_subprocess_checks": 28,
+    "local_core_cli_mcp_parity": "pass",
+    "official_skills_installer_agents": ["codex", "claude-code", "cursor"],
+    "downloaded_skill_equals_canonical": true,
+    "fresh_final_production_console_errors": 0
+  },
+  "observed_results": {
+    "testnet_nft_name": "Night Market",
+    "testnet_nft_symbol_after_assistant_stop": "NIGHT",
+    "mainnet_router_factory": "0x0000000000000000000000000000000000103780",
+    "required_input_focus": "arg-tokenId",
+    "assistant_container_at_1440": 1024,
+    "tablet_function_navigator_height": 121,
+    "phone_import_drawer_x": [8, 382],
+    "final_checked_horizontal_overflow": false
+  },
+  "contrast_ratios": {
+    "soft_white_on_near_black": 18.73,
+    "muted_dark_text_on_graphite": 7.17,
+    "muted_light_text_on_white": 5.98,
+    "white_on_azure": 7.28,
+    "white_on_violet": 4.54
+  },
+  "artifact_checks": {
+    "production_trace_manifests": 8,
+    "traces_with_local_state": 0,
+    "production_files_scanned": 270,
+    "strong_credential_format_matches_in_production": 0,
+    "exclusions": ["ignored development cache and cache outputs"],
+    "existing_dynamic_filesystem_build_warnings": 2
+  },
+  "screenshots": [
+    "activity-phone-dark.png",
+    "agents-desktop-dark.png",
+    "agents-phone-dark.png",
+    "assistant-live-read-desktop.png",
+    "assistant-phone-dark.png",
+    "cli-desktop-dark.png",
+    "cli-phone-dark.png",
+    "functions-desktop-light.png",
+    "functions-phone-dark.png",
+    "functions-tablet-dark.png",
+    "import-error-phone-dark.png",
+    "import-phone-dark.png",
+    "landing-desktop.png",
+    "landing-phone.png",
+    "mainnet-phone-dark.png",
+    "provider-phone-light.png",
+    "required-desktop-dark.png",
+    "required-phone-dark.png",
+    "wallet-phone-dark.png"
+  ],
+  "remaining_limits": [
+    "OS clipboard paste not verified by virtual browser clipboard",
+    "Real wallet signing and funded wallet workflow not repeated",
+    "Live Anthropic/Gemini inference not tested",
+    "Physical phone and screen reader not tested",
+    "Fresh dependency install and unfamiliar developer walkthrough not performed",
+    "User appearance acceptance and release actions remain separate"
+  ]
+}

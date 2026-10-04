@@ -49,7 +49,7 @@ export function TypedInput({
         tabIndex={error ? -1 : undefined}
         aria-invalid={!!error || undefined}
         aria-describedby={errorId}
-        className="rounded-2xl border border-border/70 bg-muted/40 p-4 sm:p-5 aria-invalid:border-destructive"
+        className="rounded-lg border border-border/70 bg-muted/40 p-4 sm:p-5 aria-invalid:border-destructive"
       >
         <legend className="px-2 text-sm font-medium">
           {p.name || p.key}{" "}
@@ -94,7 +94,7 @@ export function TypedInput({
         tabIndex={error ? -1 : undefined}
         aria-invalid={!!error || undefined}
         aria-describedby={errorId}
-        className="space-y-4 rounded-2xl border border-border/70 bg-muted/40 p-4 sm:p-5 aria-invalid:border-destructive"
+        className="space-y-4 rounded-lg border border-border/70 bg-muted/40 p-4 sm:p-5 aria-invalid:border-destructive"
       >
         <legend className="px-2 text-sm font-medium">
           {p.name || p.key}{" "}

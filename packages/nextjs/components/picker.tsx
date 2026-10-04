@@ -40,7 +40,7 @@ export function Picker({
           aria-expanded={open}
           disabled={disabled || !options.length}
           className={cn(
-            "wb-picker flex min-h-12 w-full min-w-0 items-center justify-between gap-3 rounded-[12px] border border-input bg-card px-4 py-3 text-left text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50",
+            "wb-picker flex min-h-11 w-full min-w-0 items-center justify-between gap-3 rounded-lg border border-input bg-card px-3 py-2.5 text-left text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50",
             className,
           )}
         >
@@ -54,7 +54,7 @@ export function Picker({
         <Popover.Content
           align="start"
           sideOffset={8}
-          className="wb-picker-menu z-[70] w-[var(--radix-popover-trigger-width)] min-w-0 max-w-[calc(100vw-32px)] overflow-hidden rounded-xl border border-border bg-popover p-1.5 text-popover-foreground shadow-xl"
+          className="wb-picker-menu z-[70] w-[var(--radix-popover-trigger-width)] min-w-0 max-w-[calc(100vw-32px)] overflow-hidden rounded-xl border border-border bg-popover p-1.5 text-popover-foreground shadow-lg"
         >
           <Command label={label} defaultValue={value} loop>
             <div className="flex items-center gap-2 border-b border-border px-3 py-1">
@@ -79,7 +79,7 @@ export function Picker({
                       onChange(option.value);
                       setOpen(false);
                     }}
-                    className="flex cursor-pointer items-center gap-3 rounded-[12px] px-3 py-3 text-sm data-[selected=true]:bg-accent"
+                    className="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-sm data-[selected=true]:bg-accent"
                   >
                     <span className="min-w-0 flex-1">
                       <span className="block break-words font-medium">
@@ -133,7 +133,7 @@ export function Choice({
         aria-invalid={invalid || undefined}
         aria-describedby={describedBy}
         onBlur={onBlur}
-        className="flex h-12 w-full items-center justify-between gap-3 rounded-[12px] border border-input bg-card px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring aria-invalid:border-destructive"
+        className="flex h-11 w-full items-center justify-between gap-3 rounded-lg border border-input bg-card px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring aria-invalid:border-destructive"
       >
         <Select.Value />
         <Select.Icon>
@@ -144,7 +144,7 @@ export function Choice({
         <Select.Content
           position="popper"
           sideOffset={8}
-          className="z-[70] min-w-[var(--radix-select-trigger-width)] rounded-[12px] border border-border bg-popover p-1.5 text-popover-foreground shadow-xl"
+          className="z-[70] min-w-[var(--radix-select-trigger-width)] rounded-lg border border-border bg-popover p-1.5 text-popover-foreground shadow-lg"
         >
           <Select.Viewport>
             {options.map((option) => (

@@ -71,12 +71,14 @@ export function ImportContract({
         if (!value && !pending) close();
       }}
     >
-      <SheetContent className="w-full overflow-y-auto sm:max-w-xl">
+      <SheetContent className="overflow-y-auto sm:max-w-xl">
         <SheetHeader className="px-6 pb-3 pt-8 sm:px-8">
-          <span className="mb-4 flex size-12 items-center justify-center rounded-full bg-muted">
+          <span className="mb-4 flex size-9 items-center justify-center rounded-lg border border-border">
             <ArrowDownToLine className="size-5" />
           </span>
-          <SheetTitle>Import a deployed contract</SheetTitle>
+          <SheetTitle className="text-xl font-semibold tracking-tight">
+            Import a deployed contract
+          </SheetTitle>
           <SheetDescription>
             Enter its network and address. We look for a verified ABI, or you
             can supply one.
@@ -136,14 +138,14 @@ export function ImportContract({
             <Button
               type="button"
               variant="ghost"
-              className="w-full justify-start rounded-2xl bg-muted px-4"
+              className="w-full justify-start rounded-lg bg-muted px-4"
               onClick={() => setShowAbi(!showAbi)}
             >
               <Braces className="size-4" />
               {showAbi ? "Hide ABI input" : "Have an ABI? Add it here"}
             </Button>
             {showAbi && (
-              <Field className="rounded-2xl bg-muted/50 p-4">
+              <Field className="rounded-lg bg-muted/50 p-4">
                 <FieldLabel htmlFor="import-abi">ABI JSON</FieldLabel>
                 <Textarea
                   id="import-abi"

@@ -155,7 +155,7 @@ export function TransactionReview({
         if (!open && !pending) onClose();
       }}
     >
-      <SheetContent className="w-full overflow-y-auto sm:max-w-xl">
+      <SheetContent className="overflow-y-auto sm:max-w-xl">
         <SheetHeader className="px-6 pb-3 pt-8 sm:px-8">
           <span className="mb-4 flex size-12 items-center justify-center rounded-full bg-muted">
             <ShieldCheck className="size-5" />
@@ -169,7 +169,7 @@ export function TransactionReview({
         {plan && (
           <div className="space-y-6 px-6 pb-8 sm:px-8">
             <div
-              className={`rounded-2xl border p-5 ${plan.network === "mainnet" ? "border-destructive/40 bg-destructive/10 text-destructive" : "border-border/60 bg-muted"}`}
+              className={`rounded-lg border p-5 ${plan.network === "mainnet" ? "border-destructive/40 bg-destructive/10 text-destructive" : "border-border/60 bg-muted"}`}
             >
               <p className="font-semibold">
                 Hedera {plan.network} · chain {plan.chainId}
@@ -180,7 +180,7 @@ export function TransactionReview({
                   : "Testnet uses test funds."}
               </p>
             </div>
-            <dl className="divide-y divide-border/70 rounded-2xl bg-muted/40 px-4 text-sm">
+            <dl className="divide-y divide-border/70 rounded-lg bg-muted/40 px-4 text-sm">
               {[
                 ["From", plan.from],
                 ["To", plan.to],
@@ -212,11 +212,11 @@ export function TransactionReview({
             </dl>
             <div>
               <h3 className="mb-2 text-sm font-medium">Exact arguments</h3>
-              <pre className="overflow-x-auto rounded-2xl bg-muted p-4 text-xs leading-6">
+              <pre className="overflow-x-auto rounded-lg bg-muted p-4 text-xs leading-6">
                 {JSON.stringify(plan.args, null, 2)}
               </pre>
             </div>
-            <details className="rounded-2xl bg-muted/40 p-4 text-xs">
+            <details className="rounded-lg bg-muted/40 p-4 text-xs">
               <summary className="cursor-pointer">
                 Calldata and interface revision
               </summary>
@@ -229,7 +229,7 @@ export function TransactionReview({
             <ResultCard result={plan.simulation} simulation />
             <ErrorNotice error={error} />
             {!address && (
-              <p className="flex items-start gap-2 rounded-2xl bg-muted p-4 text-sm">
+              <p className="flex items-start gap-2 rounded-lg bg-muted p-4 text-sm">
                 <Wallet className="mt-0.5 size-4 shrink-0" />
                 Connect the prepared account to continue.
               </p>
@@ -252,7 +252,7 @@ export function TransactionReview({
               </Button>
             )}
             {expired && (
-              <p className="flex items-start gap-2 rounded-2xl bg-destructive/10 p-4 text-sm text-destructive">
+              <p className="flex items-start gap-2 rounded-lg bg-destructive/10 p-4 text-sm text-destructive">
                 <Clock3 className="mt-0.5 size-4 shrink-0" />
                 This plan expired. Prepare a new one.
               </p>

@@ -178,13 +178,13 @@ export function WalletPanel({
     >
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-[var(--wb-scrim)]" />
-        <Dialog.Content className="wb-accounts-panel fixed left-1/2 top-1/2 z-50 w-[calc(100%-32px)] max-w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-card p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+        <Dialog.Content className="wb-accounts-panel fixed left-1/2 top-1/2 z-50 w-[calc(100%-32px)] max-w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-card p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
           <div className="mb-6 flex items-center justify-between gap-3">
-            <Dialog.Title className="text-[30px] font-bold leading-[1.14] tracking-[-.75px]">
+            <Dialog.Title className="text-xl font-semibold tracking-tight">
               Accounts
             </Dialog.Title>
             <Dialog.Close
-              className="grid size-10 place-items-center rounded-full bg-secondary"
+              className="grid size-10 place-items-center rounded-lg bg-secondary"
               aria-label="Close accounts"
             >
               <X className="size-5" />
@@ -197,7 +197,7 @@ export function WalletPanel({
           <ErrorNotice error={error} />
           {address && (
             <div className="mb-4 space-y-3">
-              <div className="flex items-center gap-3 rounded-2xl bg-secondary p-4">
+              <div className="flex items-center gap-3 rounded-lg bg-secondary p-4">
                 <span className="grid size-6 shrink-0 place-items-center rounded-full bg-muted text-[var(--wb-success)]">
                   <Check className="size-4" />
                 </span>
@@ -215,7 +215,7 @@ export function WalletPanel({
                 />
               </div>
               {chainId !== target && (
-                <div className="rounded-2xl bg-secondary p-4">
+                <div className="rounded-lg bg-secondary p-4">
                   <p className="mb-3 text-sm">
                     Your wallet is on chain {chainId ?? "unknown"}. Switch to
                     Hedera {network} to review transactions.
@@ -325,7 +325,7 @@ export function WalletPanel({
                 ))}
             </div>
           ) : (
-            <div className="rounded-2xl bg-secondary p-4">
+            <div className="rounded-lg bg-secondary p-4">
               <p className="font-medium">No browser wallet detected</p>
               <p className="mt-2 text-sm text-muted-foreground">
                 Install or enable an EVM wallet extension, then reopen Accounts.

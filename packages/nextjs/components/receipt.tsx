@@ -76,7 +76,7 @@ export function Receipt({
   ]);
   return (
     <section
-      className="space-y-4 rounded-[24px] border border-border/70 bg-card p-5 sm:p-6"
+      className="space-y-4 rounded-xl border border-border/70 bg-card p-5 sm:p-6"
       aria-live="polite"
     >
       <div className="flex items-center justify-between gap-2">
@@ -114,7 +114,7 @@ export function Receipt({
         </Button>
       </div>
       <a
-        className="flex items-center gap-3 rounded-2xl bg-muted p-4 font-mono text-xs underline-offset-4 hover:underline"
+        className="flex items-center gap-3 rounded-lg bg-muted p-4 font-mono text-xs underline-offset-4 hover:underline"
         href={`https://hashscan.io/${record.network}/transaction/${record.hash}`}
         target="_blank"
         rel="noreferrer"

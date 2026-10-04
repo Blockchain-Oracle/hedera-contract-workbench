@@ -2,7 +2,7 @@
 │
 ●   codex  Agent detected — installing non-interactively
 │
-◇  Source: /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-skills-r5Lp8C/export
+◇  Source: /var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-skills-DUzDUn/export
 │
 ◇  Local path validated
 │

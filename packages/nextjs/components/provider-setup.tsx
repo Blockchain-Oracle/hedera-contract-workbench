@@ -24,7 +24,7 @@ export function ProviderSetup() {
         <Dialog.Overlay className="fixed inset-0 z-50 bg-[var(--wb-scrim)]" />
         <Dialog.Content className="wb-accounts-panel fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 p-6 sm:p-8">
           <div className="flex items-start justify-between gap-3">
-            <Dialog.Title className="text-2xl font-semibold tracking-tight">
+            <Dialog.Title className="text-xl font-semibold tracking-tight">
               Bring your model
             </Dialog.Title>
             <Dialog.Close

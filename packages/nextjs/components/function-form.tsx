@@ -170,9 +170,14 @@ export function FunctionForm({
       <div className="wb-function-form space-y-6">
         <header className="space-y-3 border-b border-border pb-5">
           <div className="flex items-start justify-between gap-3">
-            <h2 className="min-w-0 break-all font-mono text-lg font-medium leading-8 tracking-tight sm:text-xl">
-              {tool.signature}
-            </h2>
+            <div className="min-w-0">
+              <h2 className="break-words text-2xl font-semibold tracking-tight">
+                {tool.signature.split("(")[0]}
+              </h2>
+              <p className="mt-2 break-all font-mono text-xs text-muted-foreground">
+                {tool.signature}
+              </p>
+            </div>
             <CopyButton value={tool.id} label="Copy tool ID" iconOnly />
           </div>
           <p className="text-xs text-muted-foreground">
@@ -182,7 +187,7 @@ export function FunctionForm({
               : "Wallet approval required"}
           </p>
         </header>
-        <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)]">
+        <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <div className="min-w-0 space-y-5">
             <form
               noValidate
@@ -239,7 +244,7 @@ export function FunctionForm({
                     className="border-t border-border pt-3"
                   >
                     <summary className="cursor-pointer text-sm text-muted-foreground">
-                      Caller context · optional
+                      Read as another account
                     </summary>
                     <Field
                       className="mt-4"
@@ -393,8 +398,20 @@ export function FunctionForm({
             </form>
             <details className="border-t border-border pt-4 text-xs">
               <summary className="cursor-pointer font-medium text-muted-foreground">
-                Developer details · schema and positional mapping
+                Tool schema & CLI
               </summary>
+              <div className="my-3 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs text-muted-foreground">
+                  Inspect this function from your terminal
+                </span>
+                <CopyButton
+                  value={`npm run --silent workbench -- tools inspect ${tool.id} --json`}
+                  label="Copy inspect command"
+                />
+              </div>
+              <pre className="mb-3 overflow-x-auto whitespace-pre-wrap break-all rounded-lg border border-border bg-background p-3 text-xs">
+                <code>{`npm run --silent workbench -- tools inspect ${tool.id} --json`}</code>
+              </pre>
               <pre className="mt-3 overflow-x-auto rounded-lg bg-muted p-4">
                 {JSON.stringify(
                   {
@@ -409,7 +426,10 @@ export function FunctionForm({
               </pre>
             </details>
           </div>
-          <section className="min-w-0 space-y-4" aria-label="Function response">
+          <section
+            className="min-w-0 space-y-4 border-t border-border pt-5 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0"
+            aria-label="Function response"
+          >
             <div className="flex items-center justify-between text-sm">
               <h3 className="font-semibold">Response</h3>
               <span className="font-mono text-xs text-muted-foreground">
@@ -422,7 +442,7 @@ export function FunctionForm({
               <ResultCard result={result} simulation={simulation} />
             ) : (
               <div
-                className="space-y-5 rounded-lg border border-border bg-muted/30 p-5"
+                className="space-y-5 rounded-lg border border-border bg-background p-5"
                 aria-busy={!!pending}
               >
                 {pending ? (

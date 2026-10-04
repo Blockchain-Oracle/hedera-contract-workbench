@@ -123,7 +123,7 @@ export function Landing({ initialContract }: { initialContract?: string }) {
     <div className="min-h-screen">
       <div className="wb-brand px-5 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-[1240px]">
-          <header className="flex min-h-22 items-center justify-between gap-3 border-b border-border">
+          <header className="flex min-h-18 items-center justify-between gap-3 border-b border-border">
             <Link
               href={
                 selected ? `/?contract=${encodeURIComponent(selected)}` : "/"
@@ -176,48 +176,49 @@ export function Landing({ initialContract }: { initialContract?: string }) {
         <div className="wb-brand px-5 sm:px-8 lg:px-12">
           <div className="mx-auto max-w-[1240px]">
             <section
-              className="grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_1fr] lg:gap-16"
+              className="space-y-10 py-10 sm:space-y-12 sm:py-14"
               aria-labelledby="home-title"
             >
-              <div>
-                <div className="mb-9">
-                  <HederaIdentity light />
+              <div className="flex flex-wrap items-end justify-between gap-8">
+                <div className="max-w-3xl">
+                  <p className="mb-4 text-xs font-medium text-muted-foreground">
+                    Contract Workbench / Hedera EVM
+                  </p>
+                  <h1
+                    id="home-title"
+                    className="text-[clamp(2.3rem,4.3vw,3.5rem)] font-medium leading-[1.12] tracking-[-.04em]"
+                  >
+                    A deployed contract.
+                    <br />A workspace to make it useful.
+                  </h1>
+                  <p className="mt-5 max-w-xl text-sm leading-6 text-muted-foreground">
+                    Explore functions, run a call, and take the same typed tools
+                    into your terminal or agent. Start with an address and ABI.
+                  </p>
                 </div>
-                <h1
-                  id="home-title"
-                  className="max-w-xl text-[clamp(2.8rem,5vw,4.5rem)] font-medium leading-[1.04] tracking-[-.055em]"
-                >
-                  Your contract.
-                  <br />
-                  <span className="wb-brand-accent">Every interface.</span>
-                </h1>
-                <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">
-                  Bring a deployed contract. Get typed functions in your
-                  browser, terminal, and AI agent — from the same ABI.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Button asChild className="wb-brand-button">
-                    <Link href="/workbench?import=1">
-                      Import your contract <ArrowRight className="size-4" />
-                    </Link>
-                  </Button>
-                  <Button variant="outline" asChild>
-                    <Link href={exampleLink}>
-                      {example ? "Try the testnet example" : "Open workspace"}
-                    </Link>
-                  </Button>
-                </div>
-                <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-muted-foreground">
-                  {[
-                    "Runs locally",
-                    "Testnet & mainnet",
-                    "Wallet-approved transactions",
-                  ].map((label) => (
-                    <span key={label} className="flex items-center gap-1.5">
-                      <Check className="size-3.5" />
-                      {label}
-                    </span>
-                  ))}
+                <div className="space-y-5">
+                  <div className="flex flex-wrap gap-3">
+                    <Button asChild className="wb-brand-button">
+                      <Link href="/workbench?import=1">
+                        Import your contract <ArrowRight className="size-4" />
+                      </Link>
+                    </Button>
+                    <Button variant="outline" asChild>
+                      <Link href={exampleLink}>
+                        {example ? "Try testnet" : "Open workspace"}
+                      </Link>
+                    </Button>
+                  </div>
+                  <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
+                    {["Runs locally", "No wallet needed for reads"].map(
+                      (label) => (
+                        <span key={label} className="flex items-center gap-1.5">
+                          <Check className="size-3.5" />
+                          {label}
+                        </span>
+                      ),
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="min-w-0">
@@ -268,7 +269,7 @@ export function Landing({ initialContract }: { initialContract?: string }) {
               </div>
             </section>
             <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border py-5 text-xs text-muted-foreground">
-              <span>One contract. One typed catalog.</span>
+              <HederaIdentity light />
               <span className="flex items-center gap-3">
                 <span>Browser</span>
                 <span className="text-border">/</span>

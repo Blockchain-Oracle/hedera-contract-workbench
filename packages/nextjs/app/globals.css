@@ -18,23 +18,23 @@
 /* Hedera brand colors, with neutral surfaces for typed contract work. */
 :root {
   color-scheme: light;
-  --background: #f6f7f9;
-  --foreground: #11151d;
+  --background: #f7f7f8;
+  --foreground: #18191b;
   --card: #ffffff;
-  --card-foreground: #11151d;
+  --card-foreground: #18191b;
   --popover: #ffffff;
-  --popover-foreground: #11151d;
+  --popover-foreground: #18191b;
   --primary: #0031ff;
   --primary-foreground: #ffffff;
-  --secondary: #eceef2;
-  --secondary-foreground: #11151d;
-  --muted: #f0f1f5;
-  --muted-foreground: #5c6370;
+  --secondary: #ededf0;
+  --secondary-foreground: #18191b;
+  --muted: #f3f3f5;
+  --muted-foreground: #62636a;
   --accent: #f0eafd;
   --accent-foreground: #11151d;
   --destructive: #b42318;
-  --border: #e0e3e9;
-  --input: #cbd0da;
+  --border: #e4e4e8;
+  --input: #d5d5dc;
   --ring: #8259ef;
   --radius: 0.75rem;
   --wb-violet: #8259ef;
@@ -45,36 +45,34 @@
   --wb-network: #e4f6ec;
   --wb-network-foreground: #08673f;
   --wb-scrim: rgba(0, 0, 0, 0.6);
-  --wb-panel-border: #e0e3e9;
   --wb-success: #087749;
-  --wb-code: #f0f1f5;
+  --wb-code: #f3f3f5;
 }
 .dark {
   color-scheme: dark;
-  --background: #0c0e13;
-  --foreground: #f9fafc;
-  --card: #11151d;
-  --card-foreground: #f9fafc;
-  --popover: #191e28;
-  --popover-foreground: #f9fafc;
-  --secondary: #202632;
-  --secondary-foreground: #f9fafc;
-  --muted: #191e28;
-  --muted-foreground: #a5adbc;
+  --background: #08090a;
+  --foreground: #f7f8f8;
+  --card: #0f1011;
+  --card-foreground: #f7f8f8;
+  --popover: #161718;
+  --popover-foreground: #f7f8f8;
+  --secondary: #23252a;
+  --secondary-foreground: #f7f8f8;
+  --muted: #161718;
+  --muted-foreground: #9a9fa9;
   --accent: #28213e;
   --accent-foreground: #f9fafc;
   --destructive: #ffaaa4;
-  --border: #2b303c;
-  --input: #444b5b;
+  --border: #2c2e33;
+  --input: #3f4248;
   --ring: #b89af8;
   --wb-violet: #b89af8;
-  --wb-sidebar: #11151d;
+  --wb-sidebar: #0f1011;
   --wb-nav-active: #28213e;
   --wb-network: #123a2b;
   --wb-network-foreground: #80e0ab;
-  --wb-panel-border: #2b303c;
   --wb-success: #80e0ab;
-  --wb-code: #0c0e13;
+  --wb-code: #08090a;
 }
 :root[data-network="mainnet"] {
   --wb-network: #fff0dc;
@@ -105,7 +103,7 @@
   --color-ring: var(--ring);
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
-  --radius-lg: 0.625rem;
+  --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
   --font-sans: "Workbench Sans", Arial, Helvetica, sans-serif;
@@ -171,7 +169,7 @@
   .wb-panel {
     min-width: 0;
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 12px;
     background: var(--wb-surface);
   }
   .wb-surface {
@@ -198,7 +196,7 @@
     max-height: calc(100dvh - 32px);
     overflow-y: auto;
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 12px;
     background: var(--popover);
     color: var(--popover-foreground);
   }
@@ -255,10 +253,10 @@
 }
 @media (max-width: 639px) {
   .wb-panel {
-    border-radius: 16px;
+    border-radius: 12px;
   }
   .wb-accounts-panel {
-    border-radius: 20px;
+    border-radius: 12px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -277,18 +275,18 @@
 
 @layer components {
   .wb-brand {
-    --background: #000000;
+    --background: #08090a;
     --foreground: #ffffff;
-    --card: #11151d;
+    --card: #0f1011;
     --card-foreground: #ffffff;
-    --secondary: #222633;
+    --secondary: #23252a;
     --secondary-foreground: #ffffff;
-    --muted: #191e28;
-    --muted-foreground: #aeb5c4;
+    --muted: #161718;
+    --muted-foreground: #9a9fa9;
     --accent: #28213e;
     --accent-foreground: #ffffff;
-    --border: #2b303c;
-    --input: #444b5b;
+    --border: #2c2e33;
+    --input: #3f4248;
     --ring: #b89af8;
     color: var(--foreground);
     background: var(--background);
@@ -309,16 +307,9 @@
   }
   .wb-preview {
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 12px;
     background: var(--card);
-    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.35);
-  }
-  .wb-preview::before {
-    display: block;
-    height: 3px;
-    border-radius: 16px 16px 0 0;
-    background: linear-gradient(90deg, #8259ef, #0031ff);
-    content: "";
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
   }
   .wb-interface-number {
     color: var(--wb-violet);

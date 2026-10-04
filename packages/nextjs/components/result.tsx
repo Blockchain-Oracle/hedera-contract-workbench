@@ -29,7 +29,7 @@ export function ErrorNotice({ error }: { error: unknown }) {
     NETWORK_MISMATCH: "Check the selected network",
   };
   return (
-    <Alert variant="destructive" role="alert" className="rounded-2xl p-4">
+    <Alert variant="destructive" role="alert" className="rounded-lg p-4">
       <AlertCircle className="size-4" />
       <AlertTitle>
         {(e.code && titles[e.code]) ||
@@ -92,7 +92,7 @@ function ValueTree({ value }: { value: unknown }) {
     );
   if (value && typeof value === "object")
     return (
-      <dl className="divide-y divide-border/60 rounded-2xl bg-muted/60">
+      <dl className="divide-y divide-border/60 rounded-lg bg-muted/60">
         {Object.entries(value).map(([key, child]) => (
           <div
             key={key}
@@ -134,15 +134,15 @@ export function ResultCard({
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-3">
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted">
             {simulation ? (
               <FlaskConical className="size-4" />
             ) : (
-              <CircleCheck className="size-4" />
+              <CircleCheck className="size-4 text-[var(--wb-success)]" />
             )}
           </span>
           <div>
-            <h3 className="font-medium">
+            <h3 className="text-sm font-medium">
               {simulation ? "Simulation succeeded" : "Read complete"}
             </h3>
             <p className="mt-0.5 text-xs text-muted-foreground">
@@ -190,9 +190,9 @@ export function PlanCard({
   onReview: (plan: TransactionPlan) => void;
 }) {
   return (
-    <section className="space-y-4 rounded-[24px] border border-border/70 bg-muted p-5">
+    <section className="space-y-4 rounded-xl border border-border/70 bg-muted p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="font-medium">Ready for wallet review</h3>
+        <h3 className="text-sm font-medium">Ready for wallet review</h3>
         <span
           className={`rounded-full px-3 py-1 text-xs font-medium capitalize ${plan.network === "mainnet" ? "bg-destructive/10 text-destructive" : "bg-card"}`}
         >

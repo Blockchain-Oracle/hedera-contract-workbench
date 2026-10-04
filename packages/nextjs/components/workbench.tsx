@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Picker } from "./picker";
 import { WorkbenchMark, HederaIdentity } from "./identity";
-import { RadioGroup } from "radix-ui";
+import { DropdownMenu, RadioGroup } from "radix-ui";
 import { useAccount } from "wagmi";
 import { useTheme } from "next-themes";
 import {
@@ -15,7 +15,7 @@ import {
   ChevronDown,
   ArrowLeft,
   Plus,
-  Menu,
+  MoreHorizontal,
   Sun,
   Moon,
   X,
@@ -87,7 +87,7 @@ export function Workbench() {
     } | null>(null),
     [assistantEnabled, setAssistantEnabled] = useState(false),
     [importOpen, setImportOpen] = useState(false),
-    [navOpen, setNavOpen] = useState(false),
+    [refreshing, setRefreshing] = useState(false),
     [accountsOpen, setAccountsOpen] = useState(false),
     [networkOpen, setNetworkOpen] = useState(false),
     [error, setError] = useState<unknown>(null),
@@ -228,7 +228,6 @@ export function Workbench() {
     setSelected(id);
     setQuery("");
     setPlan(null);
-    setNavOpen(false);
     setTab((previous) => (previous === "activity" ? "functions" : previous));
   };
   const changeNetwork = (n: Network) => {
@@ -237,7 +236,6 @@ export function Workbench() {
     setQuery("");
     setPlan(null);
     setNetworkOpen(false);
-    setNavOpen(false);
   };
   const submitted = (record: TransactionRecord) => {
     setRecords((previous) =>
@@ -253,7 +251,6 @@ export function Workbench() {
   const navigate = (value: string) => {
     setPlan(null);
     setTab(value);
-    setNavOpen(false);
   };
   const views = [
     { value: "functions", label: "Functions", Icon: Blocks },
@@ -261,50 +258,11 @@ export function Workbench() {
     { value: "agents", label: "Agent access", Icon: Terminal },
     { value: "activity", label: "Activity", Icon: Activity },
   ];
-  const navigation = (
-    <div className="flex h-full flex-col p-6">
-      <Link href="/" className="mb-8 flex items-center gap-2.5 font-semibold">
-        <WorkbenchMark className="size-6" /> Contract Workbench
-      </Link>
-      <nav aria-label="Mobile workbench" className="space-y-2">
-        {views.map(({ value, label, Icon }) => (
-          <button
-            key={value}
-            onClick={() => navigate(value)}
-            aria-current={tab === value ? "page" : undefined}
-            className="wb-nav-item flex h-11 w-full items-center gap-3 rounded-lg px-3 text-left text-sm"
-          >
-            <Icon className="size-4" />
-            {label}
-          </button>
-        ))}
-      </nav>
-      <div className="mt-auto space-y-5 border-t border-border pt-5">
-        <HederaIdentity />
-        <WalletFooter
-          network={network}
-          open={() => {
-            setNavOpen(false);
-            setAccountsOpen(true);
-          }}
-        />
-      </div>
-    </div>
-  );
   return (
     <div className="wb-shell min-h-screen bg-card" data-network={network}>
       <header className="wb-workspace-header border-b border-border bg-card">
-        <div className="mx-auto flex h-16 max-w-[1800px] items-center justify-between gap-3 px-4 sm:px-6">
+        <div className="mx-auto flex h-14 max-w-[1800px] items-center justify-between gap-3 px-4 sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              aria-label="Open navigation"
-              onClick={() => setNavOpen(true)}
-            >
-              <Menu className="size-5" />
-            </Button>
             <Link
               href={
                 selected ? `/?contract=${encodeURIComponent(selected)}` : "/"
@@ -350,13 +308,13 @@ export function Workbench() {
           </div>
         </div>
         <div className="mx-auto flex max-w-[1800px] items-center justify-between gap-3 px-4 sm:px-6">
-          <nav aria-label="Workbench" className="flex min-w-0 gap-1 sm:gap-5">
+          <nav aria-label="Workbench" className="flex min-w-0 gap-3 sm:gap-5">
             {views.map(({ value, label, Icon }) => (
               <button
                 key={value}
                 onClick={() => navigate(value)}
                 aria-current={tab === value ? "page" : undefined}
-                className={`wb-workspace-tab relative flex h-12 items-center gap-2 px-1 text-sm font-medium ${tab === value ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                className={`wb-workspace-tab relative flex h-11 items-center gap-2 px-1 text-sm font-medium ${tab === value ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
               >
                 <Icon className="hidden size-4 sm:block" />
                 <span className="hidden sm:inline">{label}</span>
@@ -369,12 +327,13 @@ export function Workbench() {
           <Button
             variant="ghost"
             size="sm"
-            className="shrink-0"
+            className="size-10 shrink-0 px-0 sm:h-8 sm:w-auto sm:px-3"
+            aria-label="Import contract"
+            title="Import contract"
             onClick={() => setImportOpen(true)}
           >
             <Plus className="size-4" />
             <span className="hidden sm:inline">Import contract</span>
-            <span className="sm:hidden">Import</span>
           </Button>
         </div>
       </header>
@@ -434,10 +393,10 @@ export function Workbench() {
             </div>
           ) : catalog ? (
             <>
-              <div className="wb-contract-bar flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-border bg-muted/30 px-4 py-3 sm:px-6">
-                <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-6 gap-y-2">
-                  <div className="w-full min-w-0 sm:w-80">
-                    <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+              <div className="wb-contract-bar flex flex-wrap items-center justify-between gap-x-5 gap-y-2 border-b border-border bg-background/50 px-4 py-3 sm:px-6">
+                <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-5 gap-y-2">
+                  <div className="flex w-[calc(100%-44px)] min-w-0 items-center gap-3 sm:w-80">
+                    <p className="hidden text-xs text-muted-foreground sm:block">
                       Contract
                     </p>
                     <Picker
@@ -452,10 +411,10 @@ export function Workbench() {
                           label: c.name,
                           description: c.hederaId || c.address,
                         }))}
-                      className="min-h-10 rounded-lg px-3 py-2 text-sm"
+                      className="min-h-10 flex-1 rounded-lg px-3 py-2 text-sm"
                     />
                   </div>
-                  <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-4 gap-y-1">
+                  <div className="hidden min-w-0 flex-1 flex-wrap items-center gap-x-4 gap-y-1 sm:flex">
                     <div className="flex min-w-0 items-center gap-1 text-xs text-muted-foreground">
                       <code className="truncate">
                         {catalog.contract.hederaId || catalog.contract.address}
@@ -490,51 +449,75 @@ export function Workbench() {
                     </details>
                   </div>
                 </div>
-                <div className="flex gap-1">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Refresh ABI"
-                    onClick={() => {
-                      setPlan(null);
-                      api(`contracts/${selected}/refresh`, {})
-                        .then(() => {
-                          setCatalog(null);
-                          return load(selected);
-                        })
-                        .catch(setError);
-                    }}
-                  >
-                    <RefreshCw className="size-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Remove contract"
-                    onClick={async () => {
-                      if (
-                        window.confirm(
-                          `Remove ${catalog.contract.name} from this local catalog?`,
-                        )
-                      ) {
-                        try {
-                          await api(
-                            `contracts/${selected}?revision=${encodeURIComponent(catalog.contract.revision)}`,
-                            undefined,
-                            "DELETE",
-                          );
-                          setSelected("");
+                <DropdownMenu.Root>
+                  <DropdownMenu.Trigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      aria-label="Contract options"
+                    >
+                      <MoreHorizontal className="size-4" />
+                    </Button>
+                  </DropdownMenu.Trigger>
+                  <DropdownMenu.Portal>
+                    <DropdownMenu.Content
+                      align="end"
+                      sideOffset={8}
+                      className="z-50 min-w-48 rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
+                    >
+                      <DropdownMenu.Item
+                        disabled={refreshing}
+                        onSelect={async () => {
                           setPlan(null);
-                          await load();
-                        } catch (error) {
-                          setError(error);
-                        }
-                      }
-                    }}
-                  >
-                    <Trash2 className="size-4" />
-                  </Button>
-                </div>
+                          setRefreshing(true);
+                          setError(null);
+                          try {
+                            await api(`contracts/${selected}/refresh`, {});
+                            setCatalog(null);
+                            await load(selected);
+                          } catch (failure) {
+                            setError(failure);
+                          } finally {
+                            setRefreshing(false);
+                          }
+                        }}
+                        className="flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus:bg-accent data-[disabled]:opacity-50"
+                      >
+                        <RefreshCw
+                          className={`size-4 ${refreshing ? "animate-spin motion-reduce:animate-none" : ""}`}
+                        />
+                        {refreshing ? "Refreshing ABI…" : "Refresh ABI"}
+                      </DropdownMenu.Item>
+                      <DropdownMenu.Separator className="my-1 h-px bg-border" />
+                      <DropdownMenu.Item
+                        onSelect={async () => {
+                          if (
+                            window.confirm(
+                              `Remove ${catalog.contract.name} from this local catalog?`,
+                            )
+                          ) {
+                            try {
+                              await api(
+                                `contracts/${selected}?revision=${encodeURIComponent(catalog.contract.revision)}`,
+                                undefined,
+                                "DELETE",
+                              );
+                              setSelected("");
+                              setPlan(null);
+                              await load();
+                            } catch (failure) {
+                              setError(failure);
+                            }
+                          }
+                        }}
+                        className="flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-3 text-sm text-destructive outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus:bg-destructive/10"
+                      >
+                        <Trash2 className="size-4" />
+                        Remove contract
+                      </DropdownMenu.Item>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Portal>
+                </DropdownMenu.Root>
               </div>
               <Tabs
                 value={tab}
@@ -544,7 +527,7 @@ export function Workbench() {
                 }}
               >
                 <TabsContent value="functions" className="mt-0">
-                  <div className="grid min-h-[calc(100dvh-200px)] lg:grid-cols-[256px_minmax(0,1fr)]">
+                  <div className="grid min-h-[calc(100dvh-160px)] grid-rows-[auto_1fr] lg:grid-cols-[256px_minmax(0,1fr)] lg:grid-rows-1">
                     <section
                       className="min-w-0 space-y-3 border-b border-border bg-muted/30 p-4 lg:border-b-0 lg:border-r"
                       aria-label="Function navigator"
@@ -597,7 +580,7 @@ export function Workbench() {
                           }))}
                         />
                       </div>
-                      <div className="hidden max-h-[calc(100dvh-300px)] space-y-0.5 overflow-y-auto lg:block">
+                      <div className="hidden max-h-[calc(100dvh-260px)] space-y-0.5 overflow-y-auto lg:block">
                         {visibleTools.map((t) => (
                           <button
                             key={t.id}
@@ -659,7 +642,7 @@ export function Workbench() {
                 </TabsContent>
                 <TabsContent
                   value="assistant"
-                  className="mx-auto mt-0 max-w-5xl p-4 sm:p-8"
+                  className="mx-auto mt-0 w-full max-w-5xl p-4 sm:p-6"
                 >
                   <Assistant
                     key={`${selected}:${catalog.contract.revision}`}
@@ -668,10 +651,14 @@ export function Workbench() {
                     onReview={setPlan}
                   />
                 </TabsContent>
-                <TabsContent value="agents" className="mt-0 p-4 sm:p-8">
+                <TabsContent
+                  value="agents"
+                  className="mx-auto mt-0 w-full max-w-6xl p-4 sm:p-6"
+                >
                   <AgentAccess
                     key={`${catalog.contract.id}:${catalog.contract.revision}`}
                     contract={catalog.contract}
+                    initialToolId={toolId}
                   />
                 </TabsContent>
               </Tabs>
@@ -703,7 +690,6 @@ export function Workbench() {
               <Button
                 className="mt-4"
                 onClick={() => {
-                  setNavOpen(false);
                   setImportOpen(true);
                 }}
               >
@@ -720,18 +706,6 @@ export function Workbench() {
           Hedera Hashgraph, LLC.
         </p>
       </footer>
-      <Sheet open={navOpen} onOpenChange={setNavOpen}>
-        <SheetContent
-          side="left"
-          className="wb-sidebar w-[280px] bg-[var(--wb-sidebar)] p-0"
-        >
-          <SheetHeader className="sr-only">
-            <SheetTitle>Contracts</SheetTitle>
-            <SheetDescription>Select a network and contract.</SheetDescription>
-          </SheetHeader>
-          {navigation}
-        </SheetContent>
-      </Sheet>
       <WalletPanel
         open={accountsOpen}
         close={() => setAccountsOpen(false)}
@@ -739,7 +713,7 @@ export function Workbench() {
       />
       <Sheet open={networkOpen} onOpenChange={setNetworkOpen}>
         <SheetContent
-          className="wb-network-drawer w-full gap-6 border-0 bg-card p-6 sm:max-w-[384px]"
+          className="wb-network-drawer gap-6 bg-card p-6 sm:max-w-[384px]"
           showCloseButton={false}
         >
           <SheetHeader className="relative p-0 text-center">
@@ -768,7 +742,7 @@ export function Workbench() {
               <RadioGroup.Item
                 value={value}
                 key={value}
-                className={`flex min-h-16 w-full items-center justify-between rounded-2xl px-4 py-4 text-lg font-semibold ${network === value ? "bg-secondary" : "hover:bg-secondary"}`}
+                className={`flex min-h-16 w-full items-center justify-between rounded-lg px-4 py-4 text-base font-semibold ${network === value ? "bg-secondary" : "hover:bg-secondary"}`}
               >
                 <span>{value === "mainnet" ? "Mainnet" : "Testnet"}</span>
                 {network === value && (

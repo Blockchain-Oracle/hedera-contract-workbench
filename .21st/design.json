@@ -23,14 +23,14 @@
   "design": {
     "colorMode": "Neutral light/charcoal dark workspace; black brand landing",
     "colors": {
-      "canvas": "#F6F7F9",
+      "canvas": "#F7F7F8",
       "sidebar": "#FFFFFF",
       "surface": "#FFFFFF",
-      "ink": "#11151D",
+      "ink": "#18191B",
       "primary": "#0031FF",
       "ultraviolet": "#8259EF",
-      "darkCanvas": "#0C0E13",
-      "darkSidebar": "#11151D",
+      "darkCanvas": "#08090A",
+      "darkSidebar": "#0F1011",
       "testnet": "#087749"
     },
     "typography": {
@@ -38,16 +38,21 @@
       "code": "locally bundled licensed Geist Mono",
       "heading": "clear editorial landing; compact application hierarchy"
     },
-    "spacing": {},
+    "spacing": {
+      "base": "4px",
+      "panel": "16\u201324px",
+      "section": "24\u201332px"
+    },
     "radius": {
       "layout": "continuous surfaces with dividers",
       "nav": "underline tabs",
       "row": "6px",
-      "control": "8\u201312px"
+      "control": "8px",
+      "overlay": "12px"
     },
     "shadows": {},
     "motion": {},
-    "density": "Continuous developer workspace: compact header and tabs, contract context bar, 256px function navigator, arguments and response side by side on wide screens"
+    "density": "Refero Contract Studio: compact continuous workspace; wide interactive catalog on landing; adjacent arguments/results; progressive agent setup"
   },
   "components": {
     "installed": [],
@@ -98,12 +103,20 @@
     {
       "date": "2026-10-04",
       "decision": "User rejected the preceding rendered design. Keep the agreed Hedera identity and neutral themes, replace the floating rail and stacked context cards with a compact full-width header, underline navigation, contract toolbar and continuous function workspace. Put arguments and response beside each other on wide screens; show actual ABI return types before execution. This records the implemented revision, not user acceptance of its appearance."
+    },
+    {
+      "date": "2026-10-04",
+      "decision": "User requested Refero-led redesign and explicitly reinforced color guidance. Chose Contract Studio over sequential Guided Console, grounded in inspected Linear, HTTPie, Exa, Cohere and SST references. Linear neutral surface palette drives light/dark themes; Hedera marks and action accents retained in bounded roles. Product media is real catalog interaction. This is implementation, not user aesthetic acceptance."
     }
   ],
   "evidence": [
     {
       "fact": "project.instructions",
       "source": "AGENTS.md"
+    },
+    {
+      "fact": "refero.research-and-direction-lock",
+      "source": "docs/reviews/2026-10-04-refero-contract-studio.md"
     }
   ],
   "generatedAt": "2026-10-04T06:07:48.672Z"

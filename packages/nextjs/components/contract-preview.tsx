@@ -75,178 +75,217 @@ export function ContractPreview({
       className="wb-preview min-w-0 overflow-hidden"
       aria-label="Live contract preview"
     >
-      <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3 sm:px-5">
         <span className="flex items-center gap-2 text-xs font-medium">
-          <Blocks className="size-4 wb-brand-accent" /> Your contract workspace
+          <Blocks className="size-4" /> Live workspace
         </span>
-        <span className="shrink-0 rounded-md border border-border px-2 py-1 text-[10px] font-medium uppercase tracking-wider">
-          {contract.network}
+        <span className="text-xs text-muted-foreground">
+          Hedera {contract.network} · {tools.length} functions
         </span>
       </div>
-      <div className="border-b border-border px-5 py-5">
-        <p className="mb-2 text-[11px] uppercase tracking-wider text-muted-foreground">
-          Selected contract
-        </p>
-        <Picker
-          label="Preview contract"
-          value={contract.id}
-          options={contracts.map((c) => ({
-            value: c.id,
-            label: c.name,
-            description: `Hedera ${c.network}`,
-          }))}
-          onChange={select}
-          className="bg-background/50"
-        />
-        <div className="mt-3 flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
-          <code className="min-w-0 truncate">
+      <div className="grid md:grid-cols-[240px_minmax(0,1fr)]">
+        <aside className="min-w-0 border-b border-border bg-background/40 p-4 md:border-b-0 md:border-r">
+          <p className="mb-2 text-xs text-muted-foreground">Contract</p>
+          <Picker
+            label="Preview contract"
+            value={contract.id}
+            options={contracts.map((c) => ({
+              value: c.id,
+              label: c.name,
+              description: `Hedera ${c.network}`,
+            }))}
+            onChange={select}
+          />
+          <code className="mt-3 block truncate text-[11px] text-muted-foreground">
             {contract.hederaId || contract.address}
           </code>
-          <span className="shrink-0">
-            {tools.length} functions · {contract.provenance.source} ABI
-          </span>
-        </div>
-      </div>
-      <Tabs defaultValue="browser" className="gap-0">
-        <TabsList
-          variant="line"
-          className="mx-4 my-2"
-          aria-label="Contract interfaces"
-        >
-          <TabsTrigger value="browser" className="text-xs">
-            <Blocks /> Browser
-          </TabsTrigger>
-          <TabsTrigger value="cli" className="text-xs">
-            <Terminal /> CLI
-          </TabsTrigger>
-          <TabsTrigger value="agent" className="text-xs">
-            <Braces /> Agent
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="browser" className="min-h-64 space-y-4 p-5">
-          {tool ? (
-            <>
-              <Picker
-                label="Preview function"
-                value={toolId}
-                onChange={(id) => {
-                  request.current?.abort();
-                  setPending(false);
-                  setResult(null);
-                  setError(null);
-                  setToolId(id);
-                }}
-                options={tools.map((t) => ({
-                  value: t.id,
-                  label: t.signature,
-                }))}
-                className="font-mono text-xs"
-              />
-              <div className="grid gap-3 text-xs sm:grid-cols-2">
-                <div className="border-l border-border pl-3">
-                  <p className="mb-1 text-muted-foreground">Arguments</p>
-                  <p className="break-all font-mono">
-                    {tool.parameters.map((p) => p.type).join(", ") ||
-                      "None required"}
-                  </p>
-                </div>
-                <div className="border-l border-border pl-3">
-                  <p className="mb-1 text-muted-foreground">Returns</p>
-                  <p className="break-all font-mono">
-                    {tool.outputs.map((p) => p.type).join(", ") ||
-                      "No return value"}
-                  </p>
-                </div>
-              </div>
-              <ErrorNotice error={error} />
-              {canRead ? (
-                <Button
-                  size="sm"
-                  className="w-full"
-                  disabled={pending}
-                  onClick={() => void read()}
+          <div className="mt-6 hidden md:block">
+            <p className="mb-2 px-2 text-xs text-muted-foreground">Functions</p>
+            <div className="max-h-60 space-y-1 overflow-y-auto">
+              {tools.map((candidate) => (
+                <button
+                  key={candidate.id}
+                  aria-current={toolId === candidate.id ? "true" : undefined}
+                  onClick={() => {
+                    request.current?.abort();
+                    setPending(false);
+                    setResult(null);
+                    setError(null);
+                    setToolId(candidate.id);
+                  }}
+                  className="wb-function-item block w-full rounded-md px-2 py-2 text-left text-xs hover:bg-muted"
                 >
-                  {pending ? (
-                    <Loader2 className="size-4 animate-spin" />
-                  ) : (
-                    <Play className="size-4" />
-                  )}
-                  {pending ? "Reading contract…" : "Run a live read"}
-                </Button>
-              ) : (
-                <Button size="sm" className="w-full" asChild>
-                  <Link href={open}>
-                    Enter arguments in Workbench <ArrowUpRight />
-                  </Link>
-                </Button>
-              )}
-              {result ? (
-                <ResultCard result={result} />
-              ) : (
-                <p className="text-center text-[11px] leading-5 text-muted-foreground">
-                  {canRead
-                    ? "Read directly from the selected network. No wallet or AI key needed."
-                    : "Typed inputs and wallet review are available in the full workspace."}
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              This ABI has no supported functions. Inspect it in Workbench.
-            </p>
-          )}
-        </TabsContent>
-        <TabsContent value="cli" className="min-h-64 space-y-4 p-5">
-          <div className="flex items-center justify-between text-xs">
-            <span>Inspect this function’s current schema</span>
-            <CopyButton
-              value={inspect}
-              label="Copy preview CLI command"
-              iconOnly
-            />
+                  <span className="block truncate font-medium">
+                    {candidate.signature.split("(")[0]}
+                  </span>
+                  <span className="mt-1 block truncate font-mono text-[10px] text-muted-foreground">
+                    {candidate.signature.slice(
+                      candidate.signature.indexOf("("),
+                    )}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
-          <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded-xl border border-border bg-background/50 p-4 font-mono text-xs leading-6">
-            <code>{inspect}</code>
-          </pre>
-          <p className="text-xs leading-6 text-muted-foreground">
-            The CLI uses the same revision and argument types. Read, simulate,
-            or prepare an unsigned transaction from your terminal.
-          </p>
-          <Link
-            className="inline-flex items-center gap-2 text-xs font-medium"
-            href={`/workbench?view=agents${context}`}
+        </aside>
+        <Tabs defaultValue="browser" className="min-w-0 gap-0">
+          <TabsList
+            variant="line"
+            className="mx-4 mt-2"
+            aria-label="Contract interfaces"
           >
-            Get current commands <ArrowUpRight className="size-3.5" />
-          </Link>
-        </TabsContent>
-        <TabsContent value="agent" className="min-h-64 space-y-5 p-5">
-          <p className="text-base font-medium">Your contract, in your agent.</p>
-          <p className="text-sm leading-6 text-muted-foreground">
-            A portable skill discovers the current ABI tools and their argument
-            schemas. Import another contract; the skill stays the same.
-          </p>
-          <div className="flex flex-wrap gap-2 text-[11px] text-muted-foreground">
-            {["Discover", "Inspect", "Read or prepare"].map((step) => (
-              <span
-                key={step}
-                className="rounded-md border border-border px-2.5 py-1.5"
-              >
-                {step}
-              </span>
-            ))}
-          </div>
-          <Button size="sm" asChild>
-            <Link href={`/workbench?view=agents${context}`}>
-              Connect your agent <ArrowUpRight />
+            <TabsTrigger value="browser" className="text-xs">
+              <Blocks /> Browser
+            </TabsTrigger>
+            <TabsTrigger value="cli" className="text-xs">
+              <Terminal /> CLI
+            </TabsTrigger>
+            <TabsTrigger value="agent" className="text-xs">
+              <Braces /> Agent
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="browser" className="min-h-64 p-4 sm:p-6">
+            {tool ? (
+              <>
+                <div className="md:hidden">
+                  <Picker
+                    label="Preview function"
+                    value={toolId}
+                    onChange={(id) => {
+                      request.current?.abort();
+                      setPending(false);
+                      setResult(null);
+                      setError(null);
+                      setToolId(id);
+                    }}
+                    options={tools.map((t) => ({
+                      value: t.id,
+                      label: t.signature,
+                    }))}
+                    className="font-mono text-xs"
+                  />
+                </div>
+                <h2 className="mb-5 hidden break-all font-mono text-lg md:block">
+                  {tool.signature}
+                </h2>
+                <div className="mt-4 grid items-start gap-6 lg:grid-cols-2 md:mt-0">
+                  <div className="space-y-5">
+                    <div>
+                      <p className="mb-2 text-xs font-medium">Arguments</p>
+                      <p className="break-all font-mono text-xs text-muted-foreground">
+                        {tool.parameters.map((p) => p.type).join(", ") ||
+                          "No arguments needed"}
+                      </p>
+                    </div>
+                    {canRead ? (
+                      <Button
+                        size="sm"
+                        disabled={pending}
+                        onClick={() => void read()}
+                      >
+                        {pending ? (
+                          <Loader2 className="size-4 animate-spin motion-reduce:animate-none" />
+                        ) : (
+                          <Play className="size-4" />
+                        )}
+                        {pending ? "Reading…" : "Run a live read"}
+                      </Button>
+                    ) : (
+                      <Button size="sm" asChild>
+                        <Link href={open}>
+                          Enter arguments <ArrowUpRight />
+                        </Link>
+                      </Button>
+                    )}
+                    <p className="max-w-xs text-xs leading-5 text-muted-foreground">
+                      {canRead
+                        ? "A real network call. No wallet or model key needed."
+                        : "Typed inputs and wallet review are available in the full workspace."}
+                    </p>
+                  </div>
+                  <div className="min-w-0 space-y-3">
+                    <p className="text-xs font-medium">Response</p>
+                    <ErrorNotice error={error} />
+                    {result ? (
+                      <ResultCard result={result} />
+                    ) : (
+                      <div className="rounded-lg border border-border bg-background/40 p-4">
+                        <p
+                          role={pending ? "status" : undefined}
+                          className="mb-5 text-xs text-muted-foreground"
+                        >
+                          {pending
+                            ? "Waiting for the contract…"
+                            : "Run the function to see its result."}
+                        </p>
+                        <div className="flex flex-wrap justify-between gap-3 border-t border-border pt-3 text-xs">
+                          <span className="text-muted-foreground">
+                            Return type
+                          </span>
+                          <code className="break-all">
+                            {tool.outputs.map((p) => p.type).join(", ") ||
+                              "No return value"}
+                          </code>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                This ABI has no supported functions. Inspect it in Workbench.
+              </p>
+            )}
+          </TabsContent>
+          <TabsContent value="cli" className="min-h-64 space-y-4 p-4 sm:p-6">
+            <div className="flex items-center justify-between text-xs">
+              <span>Inspect this function’s current schema</span>
+              <CopyButton
+                value={inspect}
+                label="Copy preview CLI command"
+                iconOnly
+              />
+            </div>
+            <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded-lg border border-border bg-background/40 p-4 font-mono text-xs leading-6">
+              <code>{inspect}</code>
+            </pre>
+            <p className="max-w-lg text-xs leading-6 text-muted-foreground">
+              Read, simulate, or prepare a transaction from your terminal.
+              Commands use the same catalog and argument types.
+            </p>
+            <Link
+              className="inline-flex items-center gap-2 text-xs font-medium"
+              href={`/workbench?view=agents${context}`}
+            >
+              Get current commands <ArrowUpRight className="size-3.5" />
             </Link>
-          </Button>
-        </TabsContent>
-      </Tabs>
+          </TabsContent>
+          <TabsContent value="agent" className="min-h-64 space-y-5 p-4 sm:p-6">
+            <p className="text-lg font-medium">
+              Use this contract with your agent.
+            </p>
+            <p className="max-w-lg text-sm leading-6 text-muted-foreground">
+              Install the portable skill or connect MCP. Your agent discovers
+              the current functions, inspects their schemas, then reads or
+              prepares a wallet review.
+            </p>
+            <Button size="sm" asChild>
+              <Link href={`/workbench?view=agents${context}`}>
+                Connect your agent <ArrowUpRight />
+              </Link>
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              Import a different ABI; the same skill keeps working.
+            </p>
+          </TabsContent>
+        </Tabs>
+      </div>
       <Link
         href={open}
-        className="flex items-center justify-between border-t border-border px-5 py-3.5 text-xs font-medium hover:bg-muted"
+        className="flex items-center justify-between border-t border-border px-4 py-3 text-xs font-medium hover:bg-muted sm:px-5"
       >
-        Explore all {tools.length} functions <ArrowUpRight className="size-4" />
+        Open full workspace <ArrowUpRight className="size-4" />
       </Link>
     </section>
   );

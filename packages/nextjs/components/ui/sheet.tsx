@@ -58,20 +58,20 @@ function SheetContent({
         className={cn(
           "fixed z-50 flex min-w-0 flex-col gap-4 overflow-y-auto bg-card text-card-foreground",
           side === "right" &&
-            "inset-y-2 right-2 w-[calc(100%_-_16px)] rounded-[32px] border-2 border-[var(--wb-panel-border)] sm:inset-y-6 sm:right-6 sm:w-[440px]",
+            "inset-y-2 right-2 w-[calc(100%_-_16px)] rounded-xl border border-border sm:inset-y-6 sm:right-6 sm:w-[440px]",
           side === "left" &&
-            "inset-y-2 left-2 w-[calc(100%_-_16px)] rounded-[32px] border-2 border-[var(--wb-panel-border)] sm:inset-y-6 sm:left-6 sm:w-[360px]",
+            "inset-y-2 left-2 w-[calc(100%_-_16px)] rounded-xl border border-border sm:inset-y-6 sm:left-6 sm:w-[360px]",
           side === "top" &&
-            "inset-x-2 top-2 h-auto max-h-[calc(100dvh_-_16px)] rounded-[32px] border-2 border-[var(--wb-panel-border)]",
+            "inset-x-2 top-2 h-auto max-h-[calc(100dvh_-_16px)] rounded-xl border border-border",
           side === "bottom" &&
-            "inset-x-2 bottom-2 h-auto max-h-[calc(100dvh_-_16px)] rounded-[32px] border-2 border-[var(--wb-panel-border)]",
+            "inset-x-2 bottom-2 h-auto max-h-[calc(100dvh_-_16px)] rounded-xl border border-border",
           className,
         )}
         {...props}
       >
         {children}
         {showCloseButton && (
-          <SheetPrimitive.Close className="absolute top-4 right-4 flex size-10 items-center justify-center rounded-full bg-secondary transition-colors hover:bg-accent focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none">
+          <SheetPrimitive.Close className="absolute top-4 right-4 flex size-10 items-center justify-center rounded-lg bg-secondary transition-colors hover:bg-accent focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none">
             <XIcon className="size-4" />
             <span className="sr-only">Close</span>
           </SheetPrimitive.Close>
