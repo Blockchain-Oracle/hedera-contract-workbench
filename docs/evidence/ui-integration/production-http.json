@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-10-04T07:17:51Z",
+  "scope": "Fresh merged source production server; public Hedera reads and isolated imports/skill exports; no browser wallet or paid provider inference.",
+  "node": "24.19.0",
+  "npm": "10.9.3",
+  "checks": [
+    {
+      "name": "production boot, keyless state, local font asset",
+      "ok": true
+    },
+    {
+      "name": "testnet real factory read and revision-bound skill JSON/Markdown",
+      "ok": true,
+      "value": "0x00000000000000000000000000000000000026E7"
+    },
+    {
+      "name": "actual core-generated export command executes and writes a complete skill bundle",
+      "ok": true
+    },
+    {
+      "name": "mainnet real factory read and revision-bound skill JSON/Markdown",
+      "ok": true,
+      "value": "0x0000000000000000000000000000000000103780"
+    },
+    {
+      "name": "real NFT HTTP import changes the skill catalog and produces a live symbol read",
+      "ok": true,
+      "value": "NIGHT"
+    }
+  ],
+  "localStateCopied": false,
+  "credentialsCopied": false,
+  "transactionsSubmitted": false,
+  "freshVisualInspection": false,
+  "harnessCorrection": "HTTP header names normalized to lowercase after the first smoke assertion used a case-sensitive dictionary key."
+}

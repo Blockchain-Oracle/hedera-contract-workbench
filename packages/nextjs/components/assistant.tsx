@@ -89,7 +89,8 @@ export function Assistant({
             <pre className="overflow-x-auto text-xs leading-6">{`WORKBENCH_AI_PROVIDER=openai
 WORKBENCH_AI_MODEL=your-model-id
 OPENAI_API_KEY=your-provider-key
-# Or anthropic + ANTHROPIC_API_KEY`}</pre>
+# Or anthropic + ANTHROPIC_API_KEY
+# Or gemini + GEMINI_API_KEY`}</pre>
           </div>
           <p className="text-sm">
             <span className="font-medium">2. Restart the app</span>

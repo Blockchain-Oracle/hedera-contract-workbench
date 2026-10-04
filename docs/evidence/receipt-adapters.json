@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-10-04T06:42:58.201Z",
+  "observedAt": "2026-10-04T07:12:08.852Z",
   "scope": "Real local RPC HTTP cancellation; production Next route handlers, assistant tools and official MCP stdio client. No Hedera submission.",
   "checks": [
     "HTTP route: receipt abort closes RPC connection and subsequent request succeeds",

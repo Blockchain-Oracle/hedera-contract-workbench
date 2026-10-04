@@ -67,7 +67,7 @@ npm run --silent workbench -- skills show --contract CONTRACT_ID --json
 npm run --silent workbench -- skills export --contract CONTRACT_ID --json
 ```
 
-Use an actual contract alias from `contracts list`. `show` provides Markdown, typed argument examples and copyable commands. `export` bundles the portable skill with its current catalog and workspace location for another agent/project. Inspect again before execution and fill intended arguments. [Local installation and agent setup](docs/AGENTS.md).
+In the browser, open **Agent access** for the selected contract to read/download SKILL.md, copy a local installation command, inspect schemas and edit argument examples. Selecting another contract reloads its current tools. Use an actual contract alias from `contracts list`. `show` provides Markdown, typed argument examples and copyable commands. `export` bundles the portable skill with its current catalog and workspace location for another agent/project. Inspect again before execution and fill intended arguments. [Local installation and agent setup](docs/AGENTS.md).
 
 ## Development
 

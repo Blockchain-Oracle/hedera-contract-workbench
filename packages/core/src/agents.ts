@@ -138,6 +138,7 @@ export async function agentContext(engine: Runtime, id: string) {
       discover: cli("contracts", "list"),
       list: cli("tools", "list", "--contract", contract.id),
       context: cli("skills", "show", "--contract", contract.id),
+      export: cli("skills", "export", "--contract", contract.id),
     },
     rules: {
       integers: "canonical decimal strings",

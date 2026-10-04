@@ -21,6 +21,7 @@ import {
   Search,
   Trash2,
   Loader2,
+  Terminal,
 } from "lucide-react";
 import type {
   ContractRecord,
@@ -60,6 +61,10 @@ const Assistant = dynamic(
       <p className="text-sm text-muted-foreground">Loading assistant…</p>
     ),
   },
+);
+const AgentAccess = dynamic(
+  () => import("./agent-access").then((module) => module.AgentAccess),
+  { loading: () => <p role="status">Loading agent access…</p> },
 );
 type Catalog = {
   contract: ContractRecord;
@@ -184,7 +189,7 @@ export function Workbench() {
     setSelected(id);
     setPlan(null);
     setNavOpen(false);
-    setTab("functions");
+    setTab((previous) => (previous === "agents" ? "agents" : "functions"));
   };
   const changeNetwork = (n: Network) => {
     setNetwork(n);
@@ -241,6 +246,7 @@ export function Workbench() {
         {[
           { value: "functions", label: "Contracts", Icon: Blocks },
           { value: "assistant", label: "Assistant", Icon: MessageCircle },
+          { value: "agents", label: "Agent access", Icon: Terminal },
           { value: "swap", label: "Swap", Icon: ArrowRightLeft },
           { value: "activity", label: "Activity", Icon: Activity },
         ].map(({ value, label, Icon }) => (
@@ -293,12 +299,15 @@ export function Workbench() {
       ? "Contracts"
       : tab === "assistant"
         ? "Assistant"
-        : tab === "swap"
-          ? "Swap"
-          : "Activity";
+        : tab === "agents"
+          ? "Agent access"
+          : tab === "swap"
+            ? "Swap"
+            : "Activity";
   const subtitles: Record<string, string> = {
     functions: "Explore your contract. Read, simulate, and prepare.",
     assistant: "A conversation with your contract.",
+    agents: "One portable skill. Current tools for your selected contract.",
     swap: "HBAR to SAUCE, through SaucerSwap.",
     activity: "Your submitted transactions, all in one place.",
   };
@@ -603,6 +612,12 @@ export function Workbench() {
                       contract={catalog.contract}
                       enabled={assistantEnabled}
                       onReview={setPlan}
+                    />
+                  </TabsContent>
+                  <TabsContent value="agents" className="mt-6">
+                    <AgentAccess
+                      key={`${catalog.contract.id}:${catalog.contract.revision}`}
+                      contract={catalog.contract}
                     />
                   </TabsContent>
                 </Tabs>

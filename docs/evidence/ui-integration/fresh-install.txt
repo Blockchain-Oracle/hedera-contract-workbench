@@ -1,0 +1,7 @@
+npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+npm warn deprecated @metamask/sdk-analytics@0.0.5: No longer maintained, superseded by @metamask/connect-analytics
+npm warn tar TAR_ENTRY_ERROR ENOSPC: no space left on device, open '/private/var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-merged-fresh-fdovjqoa/node_modules/@coinbase/wallet-sdk/node_modules/@scure/base/index.ts'
+npm warn tar TAR_ENTRY_ERROR ENOSPC: no space left on device, write
+npm warn tar TAR_ENTRY_ERROR ENOSPC: no space left on device, write
+npm warn tar TAR_ENTRY_ERROR ENOSPC: no space left on device, open '/private/var/folders/6j/2lm0q4ys51z35p75tygp_q9h0000gn/T/workbench-merged-fresh-fdovjqoa/node_modules/@coinbase/wallet-sdk/node_modules/ox/_cjs/core/internal/abiEvent.js'
+npm error A complete log of this run can be found in: /Users/abu/.npm/_logs/2026-10-04T07_12_31_255Z-debug-0.log

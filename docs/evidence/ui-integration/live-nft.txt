@@ -1,0 +1,35 @@
+
+> hedera-contract-workbench@0.1.0 verify:generic-network
+> npm run build:runtime && tsx scripts/verify-generic-network.mts
+
+
+> hedera-contract-workbench@0.1.0 build:runtime
+> npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp
+
+
+> @sh/core@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/cli@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> @sh/mcp@0.1.0 build
+> tsc -p tsconfig.json
+
+node:internal/fs/promises:697
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOSPC: no space left on device, open 'docs/examples/erc721-read.abi.json'
+    at async open (node:internal/fs/promises:697:25)
+    at async writeFile (node:internal/fs/promises:1317:14)
+    at async <anonymous> (/Users/abu/dev/hackathon/hedera-bounties/workbench/scripts/verify-generic-network.mts:193:3) {
+  errno: -28,
+  code: 'ENOSPC',
+  syscall: 'open',
+  path: 'docs/examples/erc721-read.abi.json'
+}
+
+Node.js v24.19.0

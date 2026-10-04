@@ -13,3 +13,7 @@ The human flow is one agent-access section for whichever contract is selected:
 - Copy the CLI `skills export --contract <actualId> --json` action when a full bundle for another project is wanted. The CLI creates a new ignored directory and returns installer commands for that bundle. Do not advertise a GitHub install until publication.
 
 The original portable skill stays the same across imported contracts. The schema/command context changes deterministically from core, without model generation or executable UI code. Existing wallet review remains the only signing path. Audio is removed from scope; optional chat supports OpenAI/Anthropic/Gemini with a compatible explicit model. These backend capabilities still need to be surfaced in the other agent's UI; no completed UI integration is claimed by this handoff.
+
+## Integration update
+
+The local-main merge of the Slush branch now includes `packages/nextjs/components/agent-access.tsx`, loaded from the shared Workbench navigation. It consumes the above API, binds ID/revision, cancels abandoned fetches and provides copy/download instructions and current tool templates. Gemini is included in assistant setup copy. New verification and visual-inspection limits are recorded in [the merged acceptance record](2026-10-04-ui-integration.md). The original handoff above describes the pre-integration state.
