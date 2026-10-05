@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-05",
+  "scope": "Demo showcase and recording configuration",
+  "references": ["https://masayume.app/demo", "https://useagari.xyz/demo"],
+  "designAuthority": "docs/reviews/2026-10-04-refero-contract-studio.md",
+  "checks": {
+    "lint": true,
+    "frontendTypecheck": true,
+    "orderedKeylessClosedRpcBuild": true,
+    "finalFrontendBuild": true,
+    "supportedYoutubeUrlShapes": 5,
+    "rejectedMissingUnsafeUrls": 13,
+    "guideAnchors": true,
+    "screenshotAssets200": true,
+    "singleH1": true,
+    "pendingVideoIframes": 0,
+    "browserRead": true,
+    "httpRead": true,
+    "documentedStdinCliRead": true,
+    "consoleErrorsObserved": 0
+  },
+  "liveRead": {
+    "network": "testnet",
+    "signature": "factory()",
+    "caller": null,
+    "value": "0x00000000000000000000000000000000000026E7"
+  },
+  "visual": {
+    "desktopCssWidth": 1280,
+    "phoneCssWidth": 390,
+    "phoneDocumentWidth": 390,
+    "phonePosterWidth": 348,
+    "themes": ["light", "dark"],
+    "captureScale": 2,
+    "phoneCaptureCssHeight": 700,
+    "captureScrollCoordinates": "actual current visible viewport",
+    "fixed": ["busy video backdrop", "aspect-ratio/min-height phone clipping"]
+  },
+  "video": { "status": "pending", "actualRecordingPlaybackVerified": false },
+  "transactionSubmitted": false,
+  "formSubmitted": false,
+  "newDependencies": false,
+  "production": { "status": "pending release" }
+}

@@ -4,7 +4,9 @@
 
 **Bring a deployed Hedera EVM contract. Get typed forms, CLI commands and agent tools from its ABI.** Contract Workbench is a Scaffold HBAR template for developers exploring or integrating existing contracts. Import once and use the same validated catalog in the browser, terminal, MCP client or optional AI assistant. Your browser wallet reviews and signs transactions.
 
-[**Try the public preview**](https://hedera-contract-workbench.vercel.app) · [**Run a real read**](https://hedera-contract-workbench.vercel.app/demo) · [**Read the guides**](https://hedera-contract-workbench.vercel.app/docs) · [**Architecture**](docs/ARCHITECTURE.md)
+[**Try the public preview**](https://hedera-contract-workbench.vercel.app) · [**Demo & walkthrough**](https://hedera-contract-workbench.vercel.app/demo) · [**Read the guides**](https://hedera-contract-workbench.vercel.app/docs) · [**Architecture**](docs/ARCHITECTURE.md)
+
+The demo page includes actual product screenshots, a live testnet read and verification links. Its YouTube walkthrough is pending. Add the recording through [`WORKBENCH_DEMO_YOUTUBE_URL`](docs/CONFIGURATION.md#publish-the-demo-video) when ready; a pending video slot is not submission evidence.
 
 The full template runs locally. The public preview offers bundled **reads and unsigned simulation** on testnet and mainnet; contract import, persistent state, optional chat and wallet transactions run in your own workspace. No wallet or API key is needed for your first read.
 

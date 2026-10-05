@@ -56,6 +56,14 @@ OPENAI_API_KEY=your-provider-key
 
 Restart the app after changes. Keys remain server-side; do not use `NEXT_PUBLIC_` credential variables. Model tool support, API access and billing depend on your provider/model. Missing configuration disables chat; provider errors do not block forms, CLI or MCP. The public Vercel preview disables chat and contains no provider credentials. Live voice is outside this release.
 
+## Publish the demo video
+
+`/demo` combines a product walkthrough, captured screens, a live testnet read and dated verification links. Until a real video URL is configured, it clearly shows **YouTube video pending**. No video or completed wallet transaction is implied.
+
+Set `WORKBENCH_DEMO_YOUTUBE_URL` in your ignored `packages/nextjs/.env.local` to your actual public HTTPS YouTube watch or `youtu.be` URL. Watch, short, and embed URLs are normalized to one watch link and a `youtube-nocookie.com` player. Invalid URLs leave the pending state intact. No external player loads until the visitor presses play; the page also offers a direct YouTube link.
+
+For Vercel, add this variable to the existing project's Production environment, then redeploy. The demo page is generated during build, so a production setting change requires a new build. Do not add a model key for this feature. Check the real recording is accessible and meets the submission duration requirement before using its URL in the form. The current recording is being prepared separately.
+
 ## Override network endpoints
 
 | Environment variable        | Default / meaning                                                                  |

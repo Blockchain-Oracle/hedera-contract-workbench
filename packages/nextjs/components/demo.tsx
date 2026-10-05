@@ -61,11 +61,14 @@ export function Demo() {
     <div className="space-y-10">
       <div className="max-w-2xl">
         <p className="mb-4 text-xs text-muted-foreground">
-          Interactive demo / Hedera testnet
+          03 / Try it live · Hedera testnet
         </p>
-        <h1 className="text-4xl font-medium tracking-tight sm:text-5xl">
+        <h2
+          id="try-title"
+          className="text-3xl font-medium tracking-tight sm:text-4xl"
+        >
           Start with a real response.
-        </h1>
+        </h2>
         <p className="mt-5 text-sm leading-7 text-muted-foreground">
           Choose a function and run a live read. No wallet or model key is
           needed. This is the same typed dispatcher used by the CLI, MCP and
@@ -104,9 +107,9 @@ export function Demo() {
           <p className="text-xs text-muted-foreground">
             Continue in your terminal
           </p>
-          <h2 className="mt-3 text-xl font-medium tracking-tight">
+          <h3 className="mt-3 text-xl font-medium tracking-tight">
             The same functions, as tools.
-          </h2>
+          </h3>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
             From your local clone, inspect the catalog before filling arguments.
             Switch contracts and the schemas change with them.
@@ -130,9 +133,9 @@ export function Demo() {
           <p className="text-xs text-muted-foreground">
             Continue with your own contract
           </p>
-          <h2 className="mt-3 text-xl font-medium tracking-tight">
+          <h3 className="mt-3 text-xl font-medium tracking-tight">
             Bring an address and ABI.
-          </h2>
+          </h3>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
             Run the full template locally to import any supported deployed
             Hedera EVM contract, configure optional chat, simulate writes and

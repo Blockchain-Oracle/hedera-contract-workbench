@@ -29,7 +29,7 @@ The [official brief](https://hedera.com/blog/scaffold-hbar-template-bounty/) req
 | Funded testnet transaction with independent explorer evidence | Confirmed human-approved transaction and public Hashscan/mirror link                                                                 | Outstanding                              |
 | Demo video, survey and declarations                           | Entrant's completed submission materials                                                                                             | Outstanding                              |
 
-Documentation is generated from the same committed Markdown at [the public docs site](https://hedera-contract-workbench.vercel.app/docs). The [interactive demo](https://hedera-contract-workbench.vercel.app/demo) performs actual reads; it is not the required video. The entrant is preparing a new video separately.
+Documentation is generated from the same committed Markdown at [the public docs site](https://hedera-contract-workbench.vercel.app/docs). The [demo showcase](https://hedera-contract-workbench.vercel.app/demo) includes product screenshots, actual reads and dated evidence. Its YouTube video is explicitly pending; it is not yet the required recording. The entrant is preparing that separately. [Add the actual recording when ready](CONFIGURATION.md#publish-the-demo-video).
 
 The [official schedule](https://hedera.com/scaffold-hbar-template-bounty/) closes submissions on October 4 at 11:59 PM Eastern, which is October 5 at 04:59 in Africa/Lagos. That scheduled deadline has passed. An accessible submission form does not establish that late entries are accepted; no extension has been verified.
 
