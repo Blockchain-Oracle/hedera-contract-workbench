@@ -2,22 +2,38 @@
 
 A local Scaffold HBAR template for **already deployed Hedera EVM contracts**. Import a contract and its ABI once, then use the same typed catalog through browser forms, CLI, MCP, and an optional assistant. The browser wallet signs transactions on testnet and mainnet.
 
+**Source preview:** deterministic reads, typed arguments, CLI/MCP and live OpenAI inference have recorded acceptance evidence. A human-controlled funded Hedera transaction, the complete wallet demonstration and the remaining release gates are still pending. See [delivery status](docs/DELIVERY.md) and [submission readiness](docs/SUBMISSION.md).
+
+![Contract Studio](docs/evidence/refero-contract-studio/functions-desktop-light.png)
+
 ## Quickstart
 
 Use Node 24 LTS and npm 10.9.3 (the pinned package manager). If your Node installation includes another npm version, use `npx --yes npm@10.9.3 install` for the installation step below. No wallet, secrets, or contract deployment are needed for the bundled testnet read.
 
 ```sh
+git clone https://github.com/Blockchain-Oracle/hedera-contract-workbench.git
+cd hedera-contract-workbench
 npm install
 npm run dev
 ```
 
 Open **http://127.0.0.1:3000** for the product home, then choose **Try the testnet example**. In `/workbench`, select `factory()` in the bundled testnet router and click **Run function**. Public RPC availability can affect reads; `doctor` reports endpoint failures.
 
-The repository is prepared for the technical template identifier `Blockchain-Oracle/hedera-contract-workbench`. Publication and external scaffold verification are recorded separately in [the delivery tracker](docs/DELIVERY.md). Until published, use this checkout; no similarly named npm package is required.
+The technical template identifier is `Blockchain-Oracle/hedera-contract-workbench`. Publication and fresh public-template verification are recorded separately in [the delivery tracker](docs/DELIVERY.md). No similarly named npm package is required.
+
+The official generator can also create a new project from the public template:
+
+```sh
+npx --yes create-scaffold-hbar@0.4.1 my-workbench --template Blockchain-Oracle/hedera-contract-workbench --frontend nextjs-app --solidity-framework hardhat --network testnet --package-manager npm --yes --skip-hedera-skills
+cd my-workbench
+npm run dev
+```
+
+`--skip-hedera-skills` skips the generator's separate Hedera marketplace installation. This template's portable contract skill is included in the source; install it using the commands below when needed.
 
 The home uses Hedera’s black, violet and azure palette with the official network logo shown separately from the product identity. A live catalog preview offers browser reads, current CLI commands and agent setup; optional chat remains below it. The workspace uses neutral light/charcoal surfaces, a compact header and contract toolbar, searchable functions and typed forms with a response pane. Accounts opens from the wallet control in the header; actual installed EVM wallets provide connection and signing. Imported supported ABIs inherit the same result cards and review drawers. [Approved design](docs/plans/2026-10-04-hedera-brand-direction.md) · [Rendered acceptance and limits](docs/reviews/2026-10-04-hedera-brand.md).
 
-Ordinary reads work with or without a connected wallet: they omit the caller by default. Expand **Caller context · optional** only for an intentional caller-scoped read. Connecting MetaMask does not create a Hedera account; that account must exist on the selected network for caller-scoped calls and transactions. [Hedera account creation](https://docs.hedera.com/learn/core-concepts/accounts/auto-account-creation).
+Ordinary reads work with or without a connected wallet: they omit the caller by default. Expand **Read as another account** only for an intentional caller-scoped read. Connecting MetaMask does not create a Hedera account; that account must exist on the selected network for caller-scoped calls and transactions. [Hedera account creation](https://docs.hedera.com/learn/core-concepts/accounts/auto-account-creation).
 
 Required arguments show inline errors before RPC. Nested tuples, array elements and integer bounds use the same validator as core execution. **Find a value** offers compatible getters from the selected ABI, reads only the chosen getter, and lets you explicitly apply a validated result with its source path, network and revision. Confirm its meaning and units; a returned count is not a list of existing IDs. Without a suitable getter, provide the value from an authoritative source. ABI types alone cannot infer recipients, routes or permissions.
 

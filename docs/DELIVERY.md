@@ -1,6 +1,6 @@
 # Delivery and acceptance tracker
 
-Updated 2026-10-04. Checkout: `workbench/`, local `main`. The project is **not yet accepted as a completed first release**. Source implementation and independently verified behavior are distinguished below. Publication, submission, and funded wallet approval have not happened. The [October 4 plan coverage review](reviews/2026-10-04-plan-coverage-review.md) reproduced four defects; all four are now repaired and verified in the [follow-up acceptance record](reviews/2026-10-04-fixes-and-e2e.md). UI appearance and layout are excluded from that review at the user's request.
+Updated 2026-10-05. Checkout: `workbench/`, `main`. The project is **not yet accepted as a completed first release**. Source implementation and independently verified behavior are distinguished below. Publication, submission, and funded wallet approval have not happened. The [October 4 plan coverage review](reviews/2026-10-04-plan-coverage-review.md) reproduced four defects; all four are now repaired and verified in the [follow-up acceptance record](reviews/2026-10-04-fixes-and-e2e.md). UI appearance and layout are excluded from that review at the user's request.
 
 ## Resume here
 
@@ -166,3 +166,9 @@ Refero research inspected actual Linear and HTTPie screens, every screen in the 
 Lint, typecheck, **27 core + 1 Solidity tests**, ordered/final keyless closed-RPC builds, all **28 CLI subprocess checks**, local MCP parity and the official skills installer for Codex/Claude Code/Cursor pass. Actual testnet NFT and mainnet router reads, inline required-field focus, overload filtering, keyboard agent tabs, Markdown download, import errors, keyless setup and live OpenAI read/Stop/follow-up were checked. Rendered desktop, tablet and phone layouts were inspected in both themes; visual defects found during inspection were fixed. Production traces exclude local state, and production output has no strong credential-format matches. Two existing tracing warnings remain.
 
 [Research, screenshots and acceptance limits](reviews/2026-10-04-refero-contract-studio.md). User aesthetic acceptance, operating-system clipboard paste, real wallet signing, remaining live providers, physical-device/accessibility acceptance, fresh installation and release gates remain separate. No signing, purchase, deployment, push or submission occurred. Resume from this record and actual files; do not mark all stages complete based on the UI pass.
+
+## October 5 publication and submission preparation
+
+The user requested repository publication/documentation and help completing the official bounty form as a solo entrant. The README now identifies this as a source preview, includes the current Contract Studio screenshot and public-template command, and links to [submission readiness](SUBMISSION.md). The reachable `main` history was scanned before publication: 546 file versions, zero strong credential-pattern matches and zero committed local environment/config files. Private entrant information is kept out of this public repository.
+
+The official schedule was checked again: October 4, 11:59 PM Eastern / October 5, 04:59 Africa/Lagos has passed. Form availability is not proof of late-entry eligibility. Public-template verification is the next release check after publishing. Verifiable Hedera testnet transaction evidence, real wallet acceptance, the complete wallet video and developer survey remain outstanding. Publication is not submission or completion of every stage.
