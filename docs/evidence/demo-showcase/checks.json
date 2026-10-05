@@ -36,9 +36,55 @@
     "captureScrollCoordinates": "actual current visible viewport",
     "fixed": ["busy video backdrop", "aspect-ratio/min-height phone clipping"]
   },
-  "video": { "status": "pending", "actualRecordingPlaybackVerified": false },
+  "video": {
+    "status": "pending",
+    "actualRecordingPlaybackVerified": false
+  },
   "transactionSubmitted": false,
   "formSubmitted": false,
   "newDependencies": false,
-  "production": { "status": "pending release" }
+  "production": {
+    "status": "READY",
+    "deployment": "dpl_CisRKrcMRRk4CdqCheTDTj7yKqwt",
+    "sourceCommit": "c0988f7a317b04f3f785f9454808043b93ac3db9",
+    "url": "https://hedera-contract-workbench.vercel.app/demo",
+    "checkedAt": "2026-10-05T09:36:23.899629+00:00",
+    "routes": [
+      {
+        "route": "/demo",
+        "status": 200
+      },
+      {
+        "route": "/docs/overview",
+        "status": 200
+      },
+      {
+        "route": "/docs/configuration",
+        "status": 200
+      },
+      {
+        "route": "/docs/submission",
+        "status": 200
+      },
+      {
+        "route": "/demo/functions.png",
+        "status": 200
+      },
+      {
+        "route": "/demo/agents.png",
+        "status": 200
+      }
+    ],
+    "assetsMatchSource": true,
+    "pendingVideo": true,
+    "hostedBoundary": true,
+    "assistantEnabled": false,
+    "bundledContracts": 4,
+    "actualTestnetRead": "0x00000000000000000000000000000000000026E7",
+    "ordinaryRemoteCi": true,
+    "remoteProductionBuild": true,
+    "browserContentVerified": true,
+    "renderedScreenshot": "Blocked: in-app browser CDP capture timed out after reconnect; local desktop/phone screenshots verified",
+    "actualRecordingPlaybackVerified": false
+  }
 }
