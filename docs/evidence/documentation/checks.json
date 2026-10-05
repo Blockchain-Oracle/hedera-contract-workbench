@@ -128,5 +128,98 @@
     "funded Hedera transaction",
     "full real-wallet acceptance",
     "late submission eligibility"
-  ]
+  ],
+  "production": {
+    "source_commit": "164929c10e3f84973f8532562b79512898456cae",
+    "deployment_id": "dpl_9CSxo16516HdoHPSYh8VNC1Z42i6",
+    "url": "https://hedera-contract-workbench.vercel.app",
+    "clean_git_export": true,
+    "ordinary_npm_ci": true,
+    "remote_build": true,
+    "endpoint_checks": [
+      {
+        "path": "/docs",
+        "status": 200
+      },
+      {
+        "path": "/docs/overview",
+        "status": 200
+      },
+      {
+        "path": "/docs/quickstart",
+        "status": 200
+      },
+      {
+        "path": "/docs/cli",
+        "status": 200
+      },
+      {
+        "path": "/docs/agents",
+        "status": 200
+      },
+      {
+        "path": "/docs/architecture",
+        "status": 200
+      },
+      {
+        "path": "/docs/configuration",
+        "status": 200
+      },
+      {
+        "path": "/docs/support",
+        "status": 200
+      },
+      {
+        "path": "/docs/hosting",
+        "status": 200
+      },
+      {
+        "path": "/docs/submission",
+        "status": 200
+      },
+      {
+        "path": "/demo",
+        "status": 200
+      },
+      {
+        "path": "/workbench",
+        "status": 200
+      },
+      {
+        "path": "/brand/readme-banner.svg",
+        "status": 200,
+        "matches_source": true
+      },
+      {
+        "path": "/brand/architecture.svg",
+        "status": 200,
+        "matches_source": true
+      },
+      {
+        "path": "/api/workbench/state",
+        "hosted_demo": true,
+        "assistant_disabled": true
+      },
+      {
+        "path": "factory() call",
+        "ok": true,
+        "network": "testnet",
+        "value": "0x00000000000000000000000000000000000026E7"
+      }
+    ],
+    "github_banner_loaded": true,
+    "all_document_images_loaded": true,
+    "deep_links": true,
+    "fresh_tab_console_errors": 0,
+    "phone_viewport": {
+      "width": 390,
+      "height": 844,
+      "display_scale": 2,
+      "document_width": 390,
+      "captured_css_height": 700,
+      "png_width": 780,
+      "png_height": 1400
+    },
+    "overrides_cleared": true
+  }
 }

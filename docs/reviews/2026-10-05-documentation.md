@@ -29,6 +29,14 @@ The docs site serves the new artwork locally, marks the current navigation page,
 
 Screenshots are in [the evidence directory](../evidence/documentation/). Command/link/route results are in [checks.json](../evidence/documentation/checks.json). Deployment and public verification are recorded after they occur.
 
+## Published acceptance
+
+Source `164929c10e3f84973f8532562b79512898456cae` is pushed to public main and deployed as `dpl_9CSxo16516HdoHPSYh8VNC1Z42i6`. Vercel's ordinary pinned npm ci and runtime/Next build pass. A clean Git export excludes provider credentials, local registry and journals. The existing production alias is [hedera-contract-workbench.vercel.app](https://hedera-contract-workbench.vercel.app).
+
+Twelve public pages, both new artwork routes and the hosted state API pass. Served SVG bytes match committed source. The actual public testnet factory call returns the expected address, with hosted mode enabled and assistant disabled. The published README banner also renders on GitHub. Production desktop and narrow layouts, loaded images, section anchors and active navigation were inspected; the fresh production QA tab reports zero console errors.
+
+The browser viewport helper did not reliably target the second QA tab, so the production phone check used the documented tab-scoped DevTools capability at 390×844 CSS pixels and display scale 2. Document width remained 390. Its saved screenshot captures the top 700 CSS pixels at native scale (780×1400 PNG); the full desktop view and earlier local phone views provide additional context. Both viewport overrides were cleared afterward. These are browser inspections, not physical-device acceptance.
+
 ## Limits and next action
 
 The browser tool's virtual clipboard returned an empty value after the page reported copy success; operating-system paste remains unverified. This documentation pass does not repeat the fresh-generator/dependency suite or claim funded-wallet, live Anthropic/Gemini, physical-device or unfamiliar-developer acceptance. Earlier dated evidence remains separate.
