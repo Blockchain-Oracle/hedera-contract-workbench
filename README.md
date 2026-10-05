@@ -4,6 +4,10 @@ A local Scaffold HBAR template for **already deployed Hedera EVM contracts**. Im
 
 **Source preview:** deterministic reads, typed arguments, CLI/MCP and live OpenAI inference have recorded acceptance evidence. A human-controlled funded Hedera transaction, the complete wallet demonstration and the remaining release gates are still pending. See [delivery status](docs/DELIVERY.md) and [submission readiness](docs/SUBMISSION.md).
 
+[Public preview](https://hedera-contract-workbench.vercel.app) · [Documentation](https://hedera-contract-workbench.vercel.app/docs) · [Interactive demo](https://hedera-contract-workbench.vercel.app/demo)
+
+The Vercel preview supports bundled reads and unsigned simulation. Import, optional chat and wallet transactions run in your local template; this public deployment does not share a writable developer registry. [Hosting boundary and setup](docs/HOSTING.md).
+
 ![Contract Studio](docs/evidence/refero-contract-studio/functions-desktop-light.png)
 
 ## Quickstart

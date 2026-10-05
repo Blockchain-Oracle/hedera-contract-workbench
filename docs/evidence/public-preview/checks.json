@@ -1,0 +1,76 @@
+{
+  "observedAt": "2026-10-05T07:45:23.351630+00:00",
+  "url": "https://hedera-contract-workbench.vercel.app",
+  "sourceCommit": "37756d5",
+  "deployment": "dpl_71S9R9AwuRijN3x6BBZXKorMr3Fc",
+  "checks": [
+    "Public anonymous state: four bundled contracts, preview flag, no assistant or journal",
+    "testnet real factory() read without caller",
+    "testnet strict input rejection",
+    "mainnet real factory() read without caller",
+    "mainnet strict input rejection",
+    "POST contracts blocked before persistence",
+    "DELETE contracts/saucerswap-testnet blocked before persistence",
+    "POST tools/id/prepare blocked before persistence",
+    "POST plans/validate blocked before persistence",
+    "POST transactions blocked before persistence",
+    "POST swap/prepare blocked before persistence",
+    "Cross-origin read rejected",
+    "Canonical portable skill and local commands served",
+    "Provider chat disabled without deployed keys",
+    "testnet unsigned factory() simulation with existing router address; no wallet submission",
+    "mainnet unsigned factory() simulation with existing router address; no wallet submission"
+  ],
+  "liveReadValues": {
+    "testnet": "0x00000000000000000000000000000000000026E7",
+    "mainnet": "0x0000000000000000000000000000000000103780"
+  },
+  "transactionSubmitted": false,
+  "publicRoutes": [
+    "/",
+    "/workbench",
+    "/demo",
+    "/docs",
+    "/docs/quickstart",
+    "/docs/overview",
+    "/docs/cli",
+    "/docs/agents",
+    "/docs/architecture",
+    "/docs/configuration",
+    "/docs/support",
+    "/docs/hosting",
+    "/docs/submission"
+  ],
+  "publicRouteStatus": 200,
+  "visualAcceptance": {
+    "browser": "Codex in-app browser",
+    "desktop": "1280 pixel wide rendered production preview",
+    "phone": "390x844",
+    "screens": [
+      "demo-desktop.png",
+      "demo-phone.png",
+      "docs-desktop.png",
+      "docs-phone-dark.png"
+    ],
+    "phoneDocumentOverflow": false,
+    "consoleErrors": [],
+    "copyFeedbackVerified": "local production quickstart",
+    "zenLimitation": "The user brought the saved form into view. Native screenshots showed the draft, but subsequent screenshot and field click actions returned noWindowsAvailable after reconnecting. Deployed links were not entered; existing draft remains unsubmitted."
+  },
+  "localChecks": [
+    "ordinary pinned npm install and dependency tree",
+    "lint",
+    "all-workspace typecheck",
+    "no-key no-RPC ordered production build",
+    "focused hosted route acceptance",
+    "local HTTP/MCP/assistant receipt cancellation and stale removal regression"
+  ],
+  "remoteBuild": {
+    "node": "24.x",
+    "npm": "10.9.3",
+    "ordinaryCi": true,
+    "providerCredentialsAdded": false,
+    "gitExportOnly": true,
+    "readyState": "READY"
+  }
+}

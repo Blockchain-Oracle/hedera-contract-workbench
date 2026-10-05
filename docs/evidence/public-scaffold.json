@@ -33,5 +33,24 @@
       "exit": 0,
       "seconds": 26.262
     }
+  },
+  "httpAcceptance": {
+    "sourceCommit": "c45f441",
+    "checks": [
+      "keyless production state with four bundled contracts",
+      "testnet live factory() read",
+      "CLI and HTTP value equivalence",
+      "mainnet live factory() read",
+      "canonical skill JSON and Markdown equivalence",
+      "landing and workbench production boot"
+    ],
+    "noTransactionSubmitted": true
+  },
+  "artifactExclusion": {
+    "productionFiles": 263,
+    "credentialPatternHitPaths": [],
+    "traceManifests": 8,
+    "tracesIncludingLocalState": [],
+    "sourceHasAllFiveWorkspaces": true
   }
 }
