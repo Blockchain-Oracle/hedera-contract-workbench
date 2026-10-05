@@ -34,7 +34,13 @@ const Assistant = dynamic(
   },
 );
 
-export function Landing({ initialContract }: { initialContract?: string }) {
+export function Landing({
+  initialContract,
+  hostedDemo = false,
+}: {
+  initialContract?: string;
+  hostedDemo?: boolean;
+}) {
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
   const [contracts, setContracts] = useState<ContractRecord[]>([]);
@@ -147,6 +153,15 @@ export function Landing({ initialContract }: { initialContract?: string }) {
               >
                 How it works
               </a>
+              <Link href="/docs" className="wb-brand-link text-xs">
+                Docs
+              </Link>
+              <Link
+                href="/demo"
+                className="wb-brand-link hidden text-xs sm:block"
+              >
+                Demo
+              </Link>
               <Link
                 href={`/workbench?view=agents${context}`}
                 className="wb-brand-link hidden text-xs sm:block"
@@ -199,8 +214,17 @@ export function Landing({ initialContract }: { initialContract?: string }) {
                 <div className="space-y-5">
                   <div className="flex flex-wrap gap-3">
                     <Button asChild className="wb-brand-button">
-                      <Link href="/workbench?import=1">
-                        Import your contract <ArrowRight className="size-4" />
+                      <Link
+                        href={
+                          hostedDemo
+                            ? "/docs/quickstart"
+                            : "/workbench?import=1"
+                        }
+                      >
+                        {hostedDemo
+                          ? "Get the template"
+                          : "Import your contract"}{" "}
+                        <ArrowRight className="size-4" />
                       </Link>
                     </Button>
                     <Button variant="outline" asChild>
@@ -221,6 +245,19 @@ export function Landing({ initialContract }: { initialContract?: string }) {
                   </div>
                 </div>
               </div>
+              {hostedDemo && (
+                <p className="text-xs leading-5 text-muted-foreground">
+                  Public preview · Live bundled contract reads and unsigned
+                  simulation. Imports, chat and wallet transactions run in your
+                  local template.{" "}
+                  <Link
+                    href="/docs/quickstart"
+                    className="underline underline-offset-4"
+                  >
+                    Set up locally
+                  </Link>
+                </p>
+              )}
               <div className="min-w-0">
                 {Boolean(error) ? (
                   <div className="wb-preview space-y-5 p-6">

@@ -70,7 +70,7 @@ type Catalog = {
   tools: ToolDefinition[];
   unsupported: { name: string; reason: string }[];
 };
-export function Workbench() {
+export function Workbench({ hostedDemo = false }: { hostedDemo?: boolean }) {
   const [contracts, setContracts] = useState<ContractRecord[]>([]),
     [selected, setSelected] = useState(""),
     [network, setNetwork] = useState<Network>("testnet"),
@@ -103,7 +103,7 @@ export function Workbench() {
     setContracts(data.contracts);
     setAssistantEnabled(data.assistant);
     setPolling(data.polling);
-    const browserRecords = recoveryRecords();
+    const browserRecords = hostedDemo ? [] : recoveryRecords();
     for (const record of browserRecords)
       void api("transactions", record).catch(() => {});
     const merged = new Map(
@@ -142,11 +142,11 @@ export function Workbench() {
     const view = params.get("view");
     if (view && ["functions", "assistant", "agents", "activity"].includes(view))
       setTab(view);
-    if (params.get("import") === "1") setImportOpen(true);
+    if (params.get("import") === "1" && !hostedDemo) setImportOpen(true);
     load(params.get("contract") || undefined)
       .then(async () => {
         const planId = params.get("plan");
-        if (!planId) return;
+        if (!planId || hostedDemo) return;
         const prepared = await api<TransactionPlan>(`plans/${planId}`);
         setSelected(prepared.contractId);
         setNetwork(prepared.network);
@@ -324,17 +324,23 @@ export function Workbench() {
               </button>
             ))}
           </nav>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="size-10 shrink-0 px-0 sm:h-8 sm:w-auto sm:px-3"
-            aria-label="Import contract"
-            title="Import contract"
-            onClick={() => setImportOpen(true)}
-          >
-            <Plus className="size-4" />
-            <span className="hidden sm:inline">Import contract</span>
-          </Button>
+          {hostedDemo ? (
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/docs/quickstart">Run locally</Link>
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="size-10 shrink-0 px-0 sm:h-8 sm:w-auto sm:px-3"
+              aria-label="Import contract"
+              title="Import contract"
+              onClick={() => setImportOpen(true)}
+            >
+              <Plus className="size-4" />
+              <span className="hidden sm:inline">Import contract</span>
+            </Button>
+          )}
         </div>
       </header>
       <main className="wb-main mx-auto min-w-0 max-w-[1800px]">
@@ -343,6 +349,19 @@ export function Workbench() {
           {Boolean(error) && (
             <div className="p-4 sm:p-6">
               <ErrorNotice error={error} />
+            </div>
+          )}
+          {hostedDemo && (
+            <div className="border-b border-border bg-muted/40 px-4 py-3 text-xs leading-5 text-muted-foreground sm:px-6">
+              Public preview · Reads and unsigned simulation use real Hedera
+              RPC.{" "}
+              <Link
+                href="/docs/quickstart"
+                className="font-medium text-foreground underline underline-offset-4"
+              >
+                Run locally
+              </Link>{" "}
+              for imports, assistant and wallet transactions.
             </div>
           )}
           {tab === "activity" ? (
@@ -449,75 +468,77 @@ export function Workbench() {
                     </details>
                   </div>
                 </div>
-                <DropdownMenu.Root>
-                  <DropdownMenu.Trigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      aria-label="Contract options"
-                    >
-                      <MoreHorizontal className="size-4" />
-                    </Button>
-                  </DropdownMenu.Trigger>
-                  <DropdownMenu.Portal>
-                    <DropdownMenu.Content
-                      align="end"
-                      sideOffset={8}
-                      className="z-50 min-w-48 rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
-                    >
-                      <DropdownMenu.Item
-                        disabled={refreshing}
-                        onSelect={async () => {
-                          setPlan(null);
-                          setRefreshing(true);
-                          setError(null);
-                          try {
-                            await api(`contracts/${selected}/refresh`, {});
-                            setCatalog(null);
-                            await load(selected);
-                          } catch (failure) {
-                            setError(failure);
-                          } finally {
-                            setRefreshing(false);
-                          }
-                        }}
-                        className="flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus:bg-accent data-[disabled]:opacity-50"
+                {!hostedDemo && (
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        aria-label="Contract options"
                       >
-                        <RefreshCw
-                          className={`size-4 ${refreshing ? "animate-spin motion-reduce:animate-none" : ""}`}
-                        />
-                        {refreshing ? "Refreshing ABI…" : "Refresh ABI"}
-                      </DropdownMenu.Item>
-                      <DropdownMenu.Separator className="my-1 h-px bg-border" />
-                      <DropdownMenu.Item
-                        onSelect={async () => {
-                          if (
-                            window.confirm(
-                              `Remove ${catalog.contract.name} from this local catalog?`,
-                            )
-                          ) {
+                        <MoreHorizontal className="size-4" />
+                      </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Portal>
+                      <DropdownMenu.Content
+                        align="end"
+                        sideOffset={8}
+                        className="z-50 min-w-48 rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
+                      >
+                        <DropdownMenu.Item
+                          disabled={refreshing}
+                          onSelect={async () => {
+                            setPlan(null);
+                            setRefreshing(true);
+                            setError(null);
                             try {
-                              await api(
-                                `contracts/${selected}?revision=${encodeURIComponent(catalog.contract.revision)}`,
-                                undefined,
-                                "DELETE",
-                              );
-                              setSelected("");
-                              setPlan(null);
-                              await load();
+                              await api(`contracts/${selected}/refresh`, {});
+                              setCatalog(null);
+                              await load(selected);
                             } catch (failure) {
                               setError(failure);
+                            } finally {
+                              setRefreshing(false);
                             }
-                          }
-                        }}
-                        className="flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-3 text-sm text-destructive outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus:bg-destructive/10"
-                      >
-                        <Trash2 className="size-4" />
-                        Remove contract
-                      </DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Portal>
-                </DropdownMenu.Root>
+                          }}
+                          className="flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus:bg-accent data-[disabled]:opacity-50"
+                        >
+                          <RefreshCw
+                            className={`size-4 ${refreshing ? "animate-spin motion-reduce:animate-none" : ""}`}
+                          />
+                          {refreshing ? "Refreshing ABI…" : "Refresh ABI"}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Separator className="my-1 h-px bg-border" />
+                        <DropdownMenu.Item
+                          onSelect={async () => {
+                            if (
+                              window.confirm(
+                                `Remove ${catalog.contract.name} from this local catalog?`,
+                              )
+                            ) {
+                              try {
+                                await api(
+                                  `contracts/${selected}?revision=${encodeURIComponent(catalog.contract.revision)}`,
+                                  undefined,
+                                  "DELETE",
+                                );
+                                setSelected("");
+                                setPlan(null);
+                                await load();
+                              } catch (failure) {
+                                setError(failure);
+                              }
+                            }
+                          }}
+                          className="flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-3 text-sm text-destructive outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus:bg-destructive/10"
+                        >
+                          <Trash2 className="size-4" />
+                          Remove contract
+                        </DropdownMenu.Item>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Portal>
+                  </DropdownMenu.Root>
+                )}
               </div>
               <Tabs
                 value={tab}
@@ -631,6 +652,7 @@ export function Workbench() {
                           contract={catalog.contract}
                           onReview={setPlan}
                           invalidate={() => setPlan(null)}
+                          hostedDemo={hostedDemo}
                         />
                       ) : (
                         <p className="text-sm text-muted-foreground">
@@ -659,6 +681,7 @@ export function Workbench() {
                     key={`${catalog.contract.id}:${catalog.contract.revision}`}
                     contract={catalog.contract}
                     initialToolId={toolId}
+                    hostedDemo={hostedDemo}
                   />
                 </TabsContent>
               </Tabs>
@@ -689,6 +712,7 @@ export function Workbench() {
               )}
               <Button
                 className="mt-4"
+                disabled={hostedDemo}
                 onClick={() => {
                   setImportOpen(true);
                 }}

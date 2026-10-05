@@ -12,6 +12,7 @@ artifacts/
 cache/
 coverage/
 .DS_Store
+.vercel/
 # Installed copies can contain private local catalogs and edited argument files.
 .agents/skills/hedera-contract-workbench/
 .claude/skills/hedera-contract-workbench/

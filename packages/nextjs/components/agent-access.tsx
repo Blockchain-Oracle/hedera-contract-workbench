@@ -30,9 +30,11 @@ function Command({ label, value }: { label: string; value: string }) {
 export function AgentAccess({
   contract,
   initialToolId,
+  hostedDemo = false,
 }: {
   contract: ContractRecord;
   initialToolId?: string;
+  hostedDemo?: boolean;
 }) {
   const [view, setView] = useState<SkillView | null>(null),
     [error, setError] = useState<unknown>(null),
@@ -118,6 +120,12 @@ export function AgentAccess({
           Install a skill, connect MCP, or copy a command for the current
           function.
         </p>
+        {hostedDemo && (
+          <p className="mt-3 text-xs leading-5 text-muted-foreground">
+            These commands run from your local clone. The hosted preview does
+            not expose a remote CLI or MCP server.
+          </p>
+        )}
         <p className="mt-3 text-xs text-muted-foreground">
           {view.tools.length} current tools · Hedera {view.contract.network} ·{" "}
           <span title={view.contract.revision}>

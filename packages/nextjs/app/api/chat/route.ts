@@ -3,11 +3,16 @@ import { streamText, isStepCount, convertToModelMessages } from "ai";
 import { chatModel, chatProviderOptions } from "@/lib/ai-provider";
 import { assert } from "@sh/core";
 import { assistantTools } from "@/lib/assistant-tools";
-import { runtime as engine, body, failure } from "@/lib/server";
+import { runtime as engine, hostedDemo, body, failure } from "@/lib/server";
 export const runtime = "nodejs";
 export const maxDuration = 120;
 export async function POST(request: NextRequest) {
   try {
+    assert(
+      !hostedDemo,
+      "PRECONDITION",
+      "Chat is available in your local template with your own provider configuration. See /docs/configuration.",
+    );
     const data = await body(request),
       configuration = engine.aiConfiguration();
     assert(

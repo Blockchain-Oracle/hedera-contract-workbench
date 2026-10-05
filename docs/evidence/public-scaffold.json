@@ -1,0 +1,37 @@
+{
+  "source": "public GitHub via create-scaffold-hbar@0.4.1",
+  "sourceCommit": "c45f441be1df025fa59495778c2d3cf4eb9e15a4",
+  "node": "24.19.0",
+  "npm": "10.9.3",
+  "ordinaryCi": {
+    "exit": 0,
+    "reportedPackages": 1212,
+    "reportedSeconds": 33
+  },
+  "checks": {
+    "dependencies": {
+      "exit": 0,
+      "seconds": 2.398
+    },
+    "lint": {
+      "exit": 0,
+      "seconds": 4.266
+    },
+    "typecheck": {
+      "exit": 0,
+      "seconds": 12.305
+    },
+    "tests": {
+      "exit": 0,
+      "seconds": 13.314
+    },
+    "local-cli-mcp": {
+      "exit": 0,
+      "seconds": 15.268
+    },
+    "build": {
+      "exit": 0,
+      "seconds": 26.262
+    }
+  }
+}

@@ -1,35 +1,18 @@
 import { Runtime, WorkbenchError, assert, errorEnvelope } from "@sh/core";
 import { NextResponse, type NextRequest } from "next/server";
+import { checkOrigin, isHostedDemo } from "./hosting";
+export const hostedDemo = isHostedDemo();
 const globalRuntime = globalThis as unknown as { workbenchRuntime?: Runtime };
 export const runtime =
   globalRuntime.workbenchRuntime instanceof Runtime
     ? globalRuntime.workbenchRuntime
     : (globalRuntime.workbenchRuntime = new Runtime());
 export function guard(request: NextRequest) {
-  const origin = request.headers.get("origin");
-  const host = request.headers.get("host") ?? "";
-  const configured = process.env.WORKBENCH_WEB_URL
-    ? new URL(process.env.WORKBENCH_WEB_URL)
-    : null;
-  const incoming = new URL(`${request.nextUrl.protocol}//${host}`);
-  assert(
-    ["localhost", "127.0.0.1", "[::1]"].includes(incoming.hostname) ||
-      incoming.host === configured?.host,
-    "PRECONDITION",
-    "This host is not configured for the workbench.",
-  );
-  const expectedOrigin =
-    incoming.host === configured?.host ? configured.origin : incoming.origin;
-  assert(
-    !origin || origin === expectedOrigin,
-    "PRECONDITION",
-    `Open the workbench on its configured origin before continuing. Expected ${expectedOrigin}; received ${origin}.`,
-  );
-  const fetchSite = request.headers.get("sec-fetch-site");
-  assert(
-    !fetchSite || fetchSite === "same-origin" || fetchSite === "none",
-    "PRECONDITION",
-    "Cross-site requests are not accepted.",
+  checkOrigin(
+    request.nextUrl.protocol,
+    request.headers.get("host") ?? "",
+    request.headers.get("origin"),
+    request.headers.get("sec-fetch-site"),
   );
 }
 export async function body(request: NextRequest): Promise<Record<string, any>> {

@@ -14,6 +14,7 @@
   },
   "packageManager": "npm@10.9.3",
   "scripts": {
+    "verify:hosting": "npm run build:runtime && tsx --tsconfig packages/nextjs/tsconfig.json scripts/verify-hosting.mts",
     "dev": "node scripts/dev.mjs",
     "build:runtime": "npm run build -w @sh/core && npm run build -w @sh/cli && npm run build -w @sh/mcp",
     "build": "node scripts/build.mjs",

@@ -5,10 +5,19 @@ import {
   assert,
   WorkbenchError,
   skillView,
+  shellCommand,
   type TransactionPlan,
   type SwapQuote,
 } from "@sh/core";
-import { runtime as engine, body, guard, success, failure } from "@/lib/server";
+import {
+  runtime as engine,
+  hostedDemo,
+  body,
+  guard,
+  success,
+  failure,
+} from "@/lib/server";
+import { checkDemoOperation } from "@/lib/hosting";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 type Context = { params: Promise<{ path: string[] }> };
@@ -17,11 +26,54 @@ async function handle(request: NextRequest, context: Context) {
     guard(request);
     const { path } = await context.params,
       query = request.nextUrl.searchParams;
+    checkDemoOperation(request.method, path, hostedDemo);
     const data = request.method === "POST" ? await body(request) : {};
     const selectedNetwork = () =>
       networkName(data.network ?? query.get("network") ?? "testnet");
     if (path[0] === "skills" && request.method === "GET") {
       const view = await skillView(engine, query.get("contract") ?? "");
+      if (hostedDemo) {
+        // Commands run in the developer's clone, never inside a Vercel function.
+        const local = (command: { argv: string[]; shell: string }) => {
+          const argv = command.argv.filter(
+            (_, index) => index !== 1 && index !== 2,
+          );
+          return { argv, shell: shellCommand(argv) };
+        };
+        view.workspace = ".";
+        view.skill.source = "./skills/hedera-contract-workbench";
+        view.skill.install = view.skill.install.map(({ agent }) => {
+          const argv = [
+            "npx",
+            "--yes",
+            "skills@1.7.0",
+            "add",
+            "Blockchain-Oracle/hedera-contract-workbench",
+            "--skill",
+            "hedera-contract-workbench",
+            "--agent",
+            agent,
+            "--copy",
+            "--yes",
+          ];
+          return { agent, argv, shell: shellCommand(argv) };
+        });
+        view.commands = Object.fromEntries(
+          Object.entries(view.commands).map(([key, value]) => [
+            key,
+            local(value),
+          ]),
+        ) as typeof view.commands;
+        view.tools = view.tools.map((tool) => ({
+          ...tool,
+          commands: Object.fromEntries(
+            Object.entries(tool.commands).map(([key, value]) => [
+              key,
+              local(value!),
+            ]),
+          ) as typeof tool.commands,
+        }));
+      }
       if (path[1] === "markdown")
         return new Response(view.markdown, {
           headers: {
@@ -43,8 +95,9 @@ async function handle(request: NextRequest, context: Context) {
           intervalMs: settings.receiptPollMs,
           budgetMs: settings.receiptPollBudgetMs,
         },
-        assistant: !!engine.aiConfiguration(),
-        transactions: await engine.store.transactions(),
+        hostedDemo,
+        assistant: !hostedDemo && !!engine.aiConfiguration(),
+        transactions: hostedDemo ? [] : await engine.store.transactions(),
       });
     }
     if (path[0] === "contracts") {

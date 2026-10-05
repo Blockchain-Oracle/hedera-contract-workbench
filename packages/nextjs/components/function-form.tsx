@@ -8,6 +8,7 @@ import type {
   TransactionPlan,
 } from "@sh/core";
 import { useAccount } from "wagmi";
+import Link from "next/link";
 import { argumentIssues, validateValue, parseHbar } from "@sh/core/validation";
 import { InputAssistance } from "./input-assistance";
 import { Loader2, Play, FileCheck, FlaskConical } from "lucide-react";
@@ -29,12 +30,14 @@ export function FunctionForm({
   tools,
   onReview,
   invalidate,
+  hostedDemo = false,
 }: {
   tool: ToolDefinition;
   contract: ContractRecord;
   tools: ToolDefinition[];
   onReview: (p: TransactionPlan) => void;
   invalidate: () => void;
+  hostedDemo?: boolean;
 }) {
   const { address } = useAccount();
   const [args, setArgs] = useState<Record<string, Json>>(() =>
@@ -90,6 +93,7 @@ export function FunctionForm({
     setContextErrors({});
   }
   async function run(action: "call" | "simulate" | "prepare") {
+    if (hostedDemo && action === "prepare") return;
     request.current.controller?.abort();
     setSubmitted(true);
     const problems: Record<string, string> = {};
@@ -351,7 +355,9 @@ export function FunctionForm({
               <div className="flex flex-wrap gap-2">
                 <Button
                   type="submit"
-                  disabled={!!pending}
+                  disabled={
+                    !!pending || (hostedDemo && tool.action === "prepare")
+                  }
                   className="h-10 min-w-40 flex-1 sm:flex-none"
                 >
                   {pending === "call" || pending === "prepare" ? (
@@ -391,8 +397,23 @@ export function FunctionForm({
               </div>
               {tool.action === "prepare" && (
                 <p className="text-xs text-muted-foreground">
-                  Review on {contract.network}; your browser wallet signs and
-                  submits.
+                  {hostedDemo ? (
+                    <>
+                      Unsigned simulation is available here.{" "}
+                      <Link
+                        href="/docs/quickstart"
+                        className="underline underline-offset-4"
+                      >
+                        Run locally
+                      </Link>{" "}
+                      to review and submit with your wallet.
+                    </>
+                  ) : (
+                    <>
+                      Review on {contract.network}; your browser wallet signs
+                      and submits.
+                    </>
+                  )}
                 </p>
               )}
             </form>

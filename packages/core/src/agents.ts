@@ -225,6 +225,7 @@ export async function exportSkill(
   const context = await agentContext(engine, id),
     files = await portableSkill(engine.store.root);
   const destination = resolve(
+    /* turbopackIgnore: true */
     output ??
       join(
         engine.store.root,
@@ -265,7 +266,10 @@ export async function exportSkill(
         "arguments",
       ]) {
         if (name === "arguments" && !context.tools.length) continue;
-        await rename(join(staging, name), join(destination, name));
+        await rename(
+          join(staging, name),
+          join(/* turbopackIgnore: true */ destination, name),
+        );
       }
     } catch (error) {
       await rm(destination, { recursive: true, force: true });

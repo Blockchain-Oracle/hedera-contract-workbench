@@ -13,7 +13,7 @@ Checked October 5, 2026. This document describes the source preview and outstand
 
 ## Evidence available
 
-[Latest acceptance record](reviews/2026-10-04-refero-contract-studio.md) and [machine results](evidence/refero-contract-studio/checks.json) record lint, all-workspace typecheck, 27 core tests plus one Solidity test, 28 actual CLI subprocess checks, core/CLI/MCP parity, three-host skill installation, live testnet NFT/mainnet router reads, live OpenAI inference and desktop/tablet/phone visual inspection. Builds need no RPC access or provider key. Earlier [fresh local-source scaffold evidence](evidence/external-scaffold.json) is distinct from a download of the public GitHub template.
+[Latest acceptance record](reviews/2026-10-04-refero-contract-studio.md) and [machine results](evidence/refero-contract-studio/checks.json) record lint, all-workspace typecheck, 27 core tests plus one Solidity test, 28 actual CLI subprocess checks, core/CLI/MCP parity, three-host skill installation, live testnet NFT/mainnet router reads, live OpenAI inference and desktop/tablet/phone visual inspection. Builds need no RPC access or provider key. The [public generator acceptance](evidence/public-scaffold.json) verifies public commit c45f441 through create-scaffold-hbar 0.4.1, ordinary npm ci, dependency checks, lint, typecheck, tests, CLI/MCP, build and production boot. Later hosted-preview changes have their own deployment acceptance. Earlier [fresh local-source evidence](evidence/external-scaffold.json) remains historical.
 
 ## Bounty requirements and deadline
 
@@ -23,7 +23,6 @@ The [official schedule](https://hedera.com/scaffold-hbar-template-bounty/) close
 
 ## Outstanding items
 
-- Verify fresh installation and boot through the public template after publication.
 - Complete a human-approved Hedera testnet contract transaction and retain its confirmed receipt plus an independently accessible Hashscan or mirror-node link. Existing reads, simulations and local Hardhat transactions do not meet this requirement.
 - Complete wallet rejection/account/network-change and receipt recovery acceptance in a real wallet session.
 - Record the complete wallet demonstration. The earlier read-path recording is partial and cannot be presented as a completed transaction video.
