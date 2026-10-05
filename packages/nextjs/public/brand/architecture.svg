@@ -1,0 +1,98 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="720"
+  height="460"
+  viewBox="0 0 720 460"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">One contract, one shared typed core</title>
+  <desc id="desc">
+    Deployed contract and ABI feed a shared typed core. That core serves browser
+    forms and chat, CLI commands and MCP tools. The user's browser wallet signs
+    transactions.
+  </desc>
+  <defs>
+    <marker
+      id="arrow"
+      viewBox="0 0 10 10"
+      refX="9"
+      refY="5"
+      markerWidth="6"
+      markerHeight="6"
+      orient="auto-start-reverse"
+    >
+      <path d="M0 0 10 5 0 10z" fill="#777b87" />
+    </marker>
+  </defs>
+  <rect width="720" height="460" rx="20" fill="#f5f6f8" />
+  <g fill="none" stroke="#777b87" stroke-width="1.5" marker-end="url(#arrow)">
+    <path d="M360 116v48" />
+    <path d="M360 246v34H136v40" />
+    <path d="M360 246v74" />
+    <path d="M360 246v34h224v40" />
+  </g>
+  <g font-family="Inter, Arial, sans-serif" text-anchor="middle" fill="#20232b">
+    <rect
+      x="181"
+      y="46"
+      width="358"
+      height="70"
+      rx="10"
+      fill="#fff"
+      stroke="#cbd0db"
+    />
+    <text x="360" y="89" font-size="24">Deployed contract + ABI</text>
+    <rect
+      x="181"
+      y="164"
+      width="358"
+      height="82"
+      rx="10"
+      fill="#fff"
+      stroke="#9a9eae"
+    />
+    <text x="360" y="197" font-size="24" font-weight="600">
+      Shared typed core
+    </text>
+    <text x="360" y="224" font-size="17" fill="#666b77">
+      Schemas · validation · execution
+    </text>
+    <rect
+      x="35"
+      y="320"
+      width="202"
+      height="74"
+      rx="10"
+      fill="#fff"
+      stroke="#cbd0db"
+    />
+    <rect
+      x="259"
+      y="320"
+      width="202"
+      height="74"
+      rx="10"
+      fill="#fff"
+      stroke="#cbd0db"
+    />
+    <rect
+      x="483"
+      y="320"
+      width="202"
+      height="74"
+      rx="10"
+      fill="#fff"
+      stroke="#cbd0db"
+    />
+    <text x="136" y="349" font-size="21">Browser</text>
+    <text x="136" y="375" font-size="17" fill="#666b77">Forms + chat</text>
+    <text x="360" y="349" font-size="21">CLI</text>
+    <text x="360" y="375" font-size="17" fill="#666b77">Typed commands</text>
+    <text x="584" y="349" font-size="21">MCP</text>
+    <text x="584" y="375" font-size="17" fill="#666b77">Agent tools</text>
+    <text x="360" y="433" font-size="17" fill="#666b77">
+      Transactions are signed in the user's browser wallet.
+    </text>
+  </g>
+</svg>

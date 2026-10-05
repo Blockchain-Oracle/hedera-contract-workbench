@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-05",
+  "scope": "documentation and its rendering",
+  "links": {
+    "canonical_documents": 11,
+    "relative_links_checked": 80,
+    "svg_valid": 2,
+    "errors": []
+  },
+  "cli_commands": [
+    {
+      "command": "contracts list",
+      "ok": true
+    },
+    {
+      "command": "tools list --contract saucerswap-testnet",
+      "ok": true
+    },
+    {
+      "command": "tools inspect read_factory_c5d171ab56a811f2",
+      "ok": true
+    },
+    {
+      "command": "tools call read_factory_c5d171ab56a811f2 --args-file -",
+      "ok": true,
+      "network": "testnet",
+      "value": "0x00000000000000000000000000000000000026E7"
+    },
+    {
+      "command": "skills show --contract saucerswap-testnet",
+      "ok": true
+    },
+    {
+      "command": "mcp config",
+      "ok": true
+    }
+  ],
+  "local_routes": [
+    {
+      "route": "/docs/quickstart",
+      "status": 200
+    },
+    {
+      "route": "/docs/overview",
+      "status": 200
+    },
+    {
+      "route": "/docs/cli",
+      "status": 200
+    },
+    {
+      "route": "/docs/agents",
+      "status": 200
+    },
+    {
+      "route": "/docs/architecture",
+      "status": 200
+    },
+    {
+      "route": "/docs/configuration",
+      "status": 200
+    },
+    {
+      "route": "/docs/support",
+      "status": 200
+    },
+    {
+      "route": "/docs/hosting",
+      "status": 200
+    },
+    {
+      "route": "/docs/submission",
+      "status": 200
+    },
+    {
+      "route": "/brand/readme-banner.svg",
+      "status": 200
+    },
+    {
+      "route": "/brand/architecture.svg",
+      "status": 200
+    }
+  ],
+  "supplied_router_import": {
+    "ok": true,
+    "network": "testnet",
+    "address": "0x0000000000000000000000000000000000004b40",
+    "provenance": "supplied",
+    "isolated_registry": true
+  },
+  "github_skill_install": {
+    "version": "1.7.0",
+    "agents": ["codex", "claude-code", "cursor"],
+    "copies_match_source": true
+  },
+  "next_agent_generation": {
+    "agents": "unchanged",
+    "claude": "skipped",
+    "claude_file_absent": true
+  },
+  "checks": {
+    "lint": true,
+    "all_workspace_typecheck": true,
+    "ordered_keyless_closed_rpc_build": true,
+    "final_next_build": true,
+    "deep_links": true,
+    "active_navigation": true,
+    "copy_feedback": true,
+    "fresh_tab_console_errors": 0
+  },
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 960,
+      "theme": "light",
+      "document_width": 1280
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "theme": "light/dark",
+      "document_width": 390
+    }
+  ],
+  "not_verified": [
+    "native clipboard paste",
+    "fresh-scaffold repetition in this pass",
+    "funded Hedera transaction",
+    "full real-wallet acceptance",
+    "late submission eligibility"
+  ]
+}

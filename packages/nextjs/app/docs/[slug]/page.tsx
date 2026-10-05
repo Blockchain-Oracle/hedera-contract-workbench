@@ -6,6 +6,23 @@ import { documentSource, documents, documentLink } from "@/lib/documentation";
 import { CopyButton } from "@/components/result";
 export const dynamic = "force-static";
 export const dynamicParams = false;
+
+function headingId(children: ReactNode): string {
+  const text = Children.toArray(children)
+    .map((child): string =>
+      typeof child === "string" || typeof child === "number"
+        ? String(child)
+        : isValidElement<{ children?: ReactNode }>(child)
+          ? headingId(child.props.children)
+          : "",
+    )
+    .join("");
+  return text
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s_-]/gu, "")
+    .replace(/\s/g, "-");
+}
+
 export function generateStaticParams() {
   return documents.map(({ slug }) => ({ slug }));
 }
@@ -33,6 +50,9 @@ export default async function Page({
       <Markdown
         remarkPlugins={[remarkGfm]}
         components={{
+          h1: ({ children }) => <h1 id={headingId(children)}>{children}</h1>,
+          h2: ({ children }) => <h2 id={headingId(children)}>{children}</h2>,
+          h3: ({ children }) => <h3 id={headingId(children)}>{children}</h3>,
           a: ({ href, children, ...props }) => (
             <a {...props} href={documentLink(doc.file, href ?? "")}>
               {children}
@@ -57,8 +77,18 @@ export default async function Page({
             );
           },
           table: ({ children }) => (
-            <div className="overflow-x-auto">
-              <table>{children}</table>
+            <div>
+              <div
+                className="overflow-x-auto"
+                role="region"
+                aria-label="Scrollable documentation table"
+                tabIndex={0}
+              >
+                <table>{children}</table>
+              </div>
+              <span className="block text-xs text-muted-foreground sm:hidden">
+                Swipe to see all columns →
+              </span>
             </div>
           ),
         }}

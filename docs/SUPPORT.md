@@ -1,19 +1,24 @@
 # Supported interfaces and ABI provenance
 
-| Capability                             | Testnet  | Mainnet  |
-| -------------------------------------- | -------- | -------- |
-| Generic supported EVM reads            | Yes      | Yes      |
-| Caller-specific simulation             | Yes      | Yes      |
-| Unsigned preparation                   | Yes      | Yes      |
-| Browser EVM-wallet approval/submission | Yes      | Yes      |
-| CLI/MCP/chat signing                   | No       | No       |
-| Native ED25519 wallet                  | Deferred | Deferred |
+| Capability                                       | Local testnet       | Local mainnet       | Public Vercel preview                       |
+| ------------------------------------------------ | ------------------- | ------------------- | ------------------------------------------- |
+| Generic supported EVM reads                      | Yes                 | Yes                 | Bundled contracts on both networks          |
+| Caller-specific simulation                       | Yes                 | Yes                 | Bundled contracts; existing caller required |
+| Contract import / refresh / removal              | Yes                 | Yes                 | Unavailable                                 |
+| Unsigned preparation and persistent journals     | Yes                 | Yes                 | Unavailable                                 |
+| Browser EVM-wallet approval/submission           | Implemented         | Implemented         | Unavailable                                 |
+| Optional provider chat                           | Configured provider | Configured provider | Disabled                                    |
+| CLI / local stdio MCP / portable skill           | Yes                 | Yes                 | Skill download and local setup instructions |
+| CLI/MCP/chat signing                             | No                  | No                  | No                                          |
+| Native ED25519 wallets / live voice / remote MCP | Deferred            | Deferred            | Deferred                                    |
+
+Implemented wallet support is distinct from acceptance: funded human-wallet execution and the full rejection/account/network-change workflow remain outstanding. See [release readiness](SUBMISSION.md). The preview has no hosted writable registry or multi-user isolation.
 
 Supported ABI values: bounded uint/int (8–256 bits), address, bool, string, bytes/bytes1–32, fixed/dynamic arrays and nested tuples. Decimal JSON integers preserve precision. Empty or duplicate labels receive positional keys. Unsupported functions are listed with a reason. Fallback/receive/events are not function tools; indexing and source deployment are outside first-release scope.
 
 Bundled ABI subsets are authored from public interface signatures, not copied application source. They expose the router methods used by this workbench and selected HTS token facade/ERC views; they are intentionally narrower than the complete contracts.
 
-The router's token address getter is `whbar()`, verified against [the official router source](https://github.com/saucerswaplabs/saucerswap-periphery/blob/606a00316c5526a8fb42c35a5692d8f8bdb97810/contracts/UniswapV2Router02.sol#L18) and live RPC on both networks. The earlier bundled `WETH()` signature was incorrect and is removed; ABI revisions change accordingly. `WHBAR()` in that source denotes the wrapper contract, a different address from the token used in the path. Getter assistance does not add wrapping or allowance operations.
+The router's token address getter is `whbar()`, verified against [the official router source](https://github.com/saucerswaplabs/saucerswap-periphery/blob/606a00316c5526a8fb42c35a5692d8f8bdb97810/contracts/UniswapV2Router02.sol#L18) and live RPC on both networks. `WHBAR()` in that source denotes the wrapper contract, a different address from the token used in the path. The native-HBAR swap path goes through the router; getter assistance does not add direct wrapping or allowance operations. [SaucerSwap integration advisory](https://docs.saucerswap.finance/developers/whbar/overview).
 
 | Example                         | Testnet ID  | Mainnet ID  |
 | ------------------------------- | ----------- | ----------- |
@@ -27,13 +32,13 @@ Association uses caller-scoped `isAssociated()` / `associate()` from [HRC-719](h
 
 Automatic ABI discovery uses [Sourcify](https://docs.sourcify.dev/docs/api/). Supplied interfaces are marked supplied and retain a hash/revision. A verified ABI is useful provenance, not proof of contract safety or semantic correctness. Proxies require the appropriate implementation ABI supplied/verified at the address; automatic proxy tracing is not advertised.
 
-Interface/output parity and live workflow evidence are recorded in DELIVERY.md. Do not treat implemented source as evidence of a completed on-chain transaction.
+Interface/output parity and live workflow evidence are recorded in [DELIVERY.md](DELIVERY.md). Do not treat implemented source as evidence of a completed on-chain transaction.
 
 ## Broader contract acceptance
 
 The same dispatcher imports every supported ABI; it does not classify contracts as tokens, NFTs, DAOs or DeFi. A supplied ABI must describe the deployed address correctly. Contract permissions, funding, association, proxy implementation and protocol semantics remain real prerequisites; ABI import cannot invent them.
 
-`npm run verify:generic` deploys three original verification fixtures on an isolated EVM and compares typed results, nested proposal preparation, NFT overload calldata, wrong-caller reverts, integer bounds and payable value across the actual adapters. These fixtures are test source under `packages/hardhat/test/fixtures`, not new application categories or production standard implementations. Independent ethers encoding checks unsigned calldata. The optional provider adapters are tested with controlled HTTP responses and actual core RPC reads; paid inference is not claimed.
+`npm run verify:generic` deploys three original verification fixtures on an isolated EVM and compares typed results, nested proposal preparation, NFT overload calldata, wrong-caller reverts, integer bounds and payable value across the actual adapters. These fixtures are test source under `packages/hardhat/test/fixtures`, not new application categories or production standard implementations. Independent ethers encoding checks unsigned calldata. Provider adapter tests use controlled HTTP responses and actual core RPC reads. Real OpenAI inference has separate [live acceptance](reviews/2026-10-04-live-assistant.md); controlled tests do not establish live Anthropic/Gemini inference.
 
 `npm run verify:generic-network` imports a current testnet NFT facade with the authored [ERC-721 interface subset](examples/erc721-read.abi.json) and validates name, symbol, total supply and owner reads across direct RPC, core, CLI, MCP and assistant tools. The network fixture may age or disappear; it is not a permanent bundled default or proof of full ERC-721/HTS compliance. See [live evidence](evidence/generic-network.json).
 

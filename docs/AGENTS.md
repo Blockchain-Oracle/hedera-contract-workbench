@@ -1,5 +1,9 @@
 # MCP and portable project skill
 
+Use the same contract tools from an agent without a model-provider key. The skill guides discovery and typed CLI use; MCP exposes the canonical catalog directly to compatible clients. Both prepare unsigned writes for browser wallet review.
+
+## Connect an MCP client
+
 Build with `npm run build:runtime`, then generate host configuration:
 
 ```sh
@@ -12,13 +16,23 @@ The server registers contract tools dynamically from the canonical catalog. Disc
 
 Import through `contracts_import` with network, deployed address, and optional ABI. Local registry changes update tool registrations and emit tool-list changes through the SDK. Hosts that cache catalogs should reconnect after changes or a stale-revision response. Remote MCP and hosted authentication are deferred.
 
-The [project skill](../skills/hedera-contract-workbench/SKILL.md) is portable Markdown following the Agent Skills format. Install it locally with the official [Vercel skills CLI](https://github.com/vercel-labs/skills/blob/main/README.md), which supports local paths, Git repositories and compatible agent IDs. Run from the project where your agent will use the skill:
+## Install the portable skill
+
+The [project skill](../skills/hedera-contract-workbench/SKILL.md) is portable Markdown following the Agent Skills format. The official [Vercel skills CLI](https://github.com/vercel-labs/skills/blob/main/README.md) supports local paths, Git repositories and compatible agent IDs. Run from the project where your agent will use the skill:
+
+```sh
+npx --yes skills@1.7.0 add Blockchain-Oracle/hedera-contract-workbench --skill hedera-contract-workbench --agent codex claude-code cursor --copy --yes
+```
+
+From a local workbench checkout:
 
 ```sh
 npx --yes skills@1.7.0 add ./skills/hedera-contract-workbench --agent codex claude-code cursor --copy --yes
 ```
 
-Use an absolute source path if installing into another project. Installation defaults to the current project. The official installer owns each agent's path mapping; `--global` explicitly changes scope to the user directory. Any supported agent ID can be supplied; the workbench's displayed examples are Codex, Claude Code and Cursor. This checkout is usable before publication. A GitHub installation source will be documented after the intended repository actually exists.
+Use an absolute source path if installing a local skill into another project. Installation defaults to the current project. The official installer owns each agent's path mapping; `--global` explicitly changes scope to the user directory. Any supported agent ID can be supplied; the workbench's exercised examples are Codex, Claude Code and Cursor. Installing the Markdown skill does not install or start the workbench runtime. Keep a local clone available, run commands from it, or export a skill bundle that records its workspace location.
+
+## Inspect or export the selected contract
 
 Inspect the selected contract, read the Markdown, or export a complete skill bundle:
 
@@ -34,7 +48,13 @@ Replace `CONTRACT_ID` with an actual alias from `contracts list`. `show` returns
 
 Fill intended arguments and replace `WALLET_ADDRESS` before executing write examples. Native value defaults to zero. Shape examples are not deployment advice, permission, or automatically chosen arguments. Large shapes retain their schemas but omit generated examples beyond a 4096-node bound. Run exported commands from the skill directory so relative argument paths resolve. `--json` uses the normal single-envelope protocol; `--markdown` prints the document and cannot be combined with `--json`.
 
-Open `/workbench?view=agents` for the browser **Agent access** view. It exposes the portable Markdown, agent installation examples, current full signatures, schemas and editable argument JSON. It loads only when opened, cancels abandoned requests, checks the selected revision and reloads when the contract changes or its ABI is refreshed. Displayed read/prepare commands come from core and bind that revision; the browser does not execute copied shell commands. The UI integration is read-only: `GET /api/workbench/skills?contract=CONTRACT_ID` returns Markdown, references and current commands/schemas in the normal envelope; `GET /api/workbench/skills/markdown?contract=CONTRACT_ID` downloads the portable Markdown. These require the same local origin checks as the rest of the workbench. [Integration notes](reviews/2026-10-04-skill-ui-handoff.md) record the shared API contract.
+## Use Agent access in the browser
+
+Open `/workbench?view=agents` for the browser **Agent access** view. Choose your agent, read/download SKILL.md and copy the installation command. Inspect a current full signature, schema and editable argument JSON before copying its execution command. Selecting another contract or refreshing its ABI reloads the catalog. Displayed read/prepare commands come from core and bind the revision; the browser does not execute copied shell commands.
+
+`GET /api/workbench/skills?contract=CONTRACT_ID` returns Markdown, references and current commands/schemas in the normal envelope; `GET /api/workbench/skills/markdown?contract=CONTRACT_ID` downloads portable Markdown. These read-only routes use the same origin checks as the other workbench APIs. The public preview's commands target a local clone; it does not provide hosted CLI execution. [Integration notes](reviews/2026-10-04-skill-ui-handoff.md) record the shared API contract.
+
+## Execute without guessing
 
 The skill does not hardcode contract functions. Its sequence stays constant: discover → inspect current schema → construct typed arguments → read or prepare → report real output / open wallet review. New contracts change the tool catalog rather than the skill.
 
@@ -42,4 +62,4 @@ The skill does not hardcode contract functions. Its sequence stays constant: dis
 
 Provider credentials are unnecessary for CLI and MCP. Tools do not sign. A user must approve the exact browser-wallet transaction; never ask for private-key export.
 
-The product home preserves the selected contract in its links and shares the same contract-scoped assistant. Current agent choices use licensed product marks; searchable full-signature pickers distinguish overloads. CLI and MCP preparations return `/workbench?plan=…` review URLs. Older `/?plan=…` URLs redirect; transaction-file upload is no longer part of the UI.
+CLI and MCP preparations return `/workbench?plan=…` review URLs. Open the returned URL while the local app is running; confirm the intended account and network before wallet approval. Report the real receipt when available. The root [AGENTS.md](../AGENTS.md) combines this workflow with repository contribution rules; a separate CLAUDE.md file is unnecessary.

@@ -38,6 +38,9 @@ export function documentLink(file: string, href: string, image = false) {
   const doc = documents.find((item) => item.file === resolved);
   const suffix = fragment ? `#${fragment}` : "";
   if (doc && !image) return `/docs/${doc.slug}${suffix}`;
+  if (image && resolved.startsWith("packages/nextjs/public/")) {
+    return "/" + resolved.slice("packages/nextjs/public/".length) + suffix;
+  }
   const repository = image
     ? "https://raw.githubusercontent.com/Blockchain-Oracle/hedera-contract-workbench/main/"
     : "https://github.com/Blockchain-Oracle/hedera-contract-workbench/blob/main/";

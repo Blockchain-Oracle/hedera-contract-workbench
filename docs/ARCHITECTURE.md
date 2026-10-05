@@ -1,25 +1,52 @@
-# Architecture
+# One contract, shared tools
 
-```mermaid
-flowchart TD
-  A[Deployed contract and ABI] --> B[Core typed catalog]
-  B --> C[Browser forms and assistant]
-  B --> D[CLI]
-  B --> E[MCP]
-  C --> F[Exact wallet review]
-  F --> G[Wallet submission and receipt]
-```
+The ABI becomes one validated catalog. Every interface uses the same core rather than independently encoding arguments or inventing function behavior. Generation is deterministic: it does not call a model or regenerate application source.
 
-Five npm workspaces: core, CLI, MCP, Next.js, Hardhat. Core depends on viem, abitype, Zod and Node adapters; it has no React, terminal, provider or MCP dependency. Interface adapters use the same dispatcher. ABI generation is deterministic and never calls a model or rewrites application source.
+![A deployed contract and ABI feed a shared typed core serving browser forms and chat, CLI commands and MCP tools](../packages/nextjs/public/brand/architecture.svg)
 
-The core catalog binds network, actual resolved address, provenance, ABI hash/revision, full signature, supported action, positional parameter tree and schemas. Integers are strings at JSON boundaries and BigInt internally. Viem owns ABI encoding/decoding and RPC. Tuples decode positionally before stable field names are restored, avoiding loss from duplicate labels.
+## Repository map
 
-Committed defaults live in core/bundled.ts plus workbench.config.json. Imports/tombstones are merged from ignored workbench.config.local.json. Exclusive locks serialize edits; atomic temporary-file rename protects the registry. Refresh checks the expected prior revision. Cached type trees are bounded; identical concurrent reads deduplicate; RPC work uses a semaphore and request timeout. Browser and assistant cancellation flows through AbortSignal to viem HTTP; MCP request cancellation also reaches the dispatcher. Independently cancellable reads use separate requests so cancelling one cannot abort another subscriber; ordinary identical concurrent reads deduplicate.
+| Workspace | Responsibility                                                                                | Main source                                               |
+| --------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| `core`    | Discovery, normalized parameter trees, codecs, registry, reads, simulation and unsigned plans | [packages/core/src](../packages/core/src)                 |
+| `cli`     | Guided commands, JSON envelopes, readiness and handoff                                        | [packages/cli/src/index.ts](../packages/cli/src/index.ts) |
+| `mcp`     | Dynamic registration, schema adaptation and dedicated stdio                                   | [packages/mcp/src/index.ts](../packages/mcp/src/index.ts) |
+| `nextjs`  | Forms, fixed assistant cards, wallet review, docs and demo                                    | [packages/nextjs](../packages/nextjs)                     |
+| `hardhat` | Original example, verification fixtures and optional deployment                               | [packages/hardhat](../packages/hardhat)                   |
 
-Transactions are unsigned five-minute plans binding chain, network, sender, recipient, full function signature, arguments, calldata, value, interface revision and expiry. The browser asks core to recompute and simulate, then requests wallet approval for those exact fields. Changes invalidate the review. Digests provide integrity consistency, not an authorization signature; the visible review and wallet are the authorization boundary.
+Core uses viem, abitype, Zod and Node adapters. It has no React, terminal, model-provider or MCP dependency. Adapters share validation and dispatch, so an imported ABI changes browser forms, CLI schemas, MCP tools and agent context together.
 
-Hashes are written immediately to browser recovery and local server journals. Receipt recovery checks matching from/to/calldata/value when a journal binds a plan. Mirror indexing is distinct from RPC confirmation. No uncertain transaction is automatically resubmitted.
+## Import and execute a read
 
-The optional assistant has only selected-contract tools. It can inspect/discover, perform reads and prepare writes under bounded execution. Its tool schemas come from core. It renders predefined components for real results/plans/errors; tool metadata cannot inject executable UI. Provider keys stay on the server.
+1. Resolve a supplied contract ID through the matching network's mirror contract metadata, or validate its EVM address. Confirm the deployment's network.
+2. Discover a verified ABI through Sourcify, or accept the supplied ABI/artifact with explicit provenance.
+3. Normalize parameter trees and generate full-signature tool identities, input/output schemas and form descriptions. Unsupported types receive a reason.
+4. Validate arguments with core, encode through viem, call the selected RPC and decode a structured result with network/address/revision context.
 
-Build order is shared libraries → adapters → locally pinned Solidity compiler → Next.js. Build must require no provider secret, wallet, deployment or network access. Dev builds first, reports readiness, runs library watchers and Next, then terminates child processes on shutdown.
+The catalog binds network, resolved address, provenance, ABI hash/revision, signature, supported action, positional tree and schemas. JSON integers are decimal strings; core uses BigInt internally. Tuples decode positionally before stable field names are restored, preserving unnamed or duplicate parameter labels.
+
+Ordinary reads omit a caller. Caller-specific reads and simulation use an explicitly supplied existing account. Getter suggestions describe compatible functions from the actual ABI; they do not run automatically or infer valid IDs from a count.
+
+## Prepare, review and recover a write
+
+An unsigned plan expires after five minutes by default and binds chain, sender, recipient, full signature, arguments, calldata, native value, ABI revision and expiry. The browser asks core to recompute and simulate those exact fields, then requests approval in the user's wallet. Account, chain or input changes invalidate the review. A plan digest checks consistency; it is not an authorization signature.
+
+CLI, MCP and assistant can prepare a plan, but only the browser wallet signs and submits. The returned hash is saved immediately in browser recovery storage and local server journals. Receipt recovery checks matching sender/recipient/calldata/value when a journal binds a plan. RPC confirmation and mirror indexing are separate states. Uncertain transactions are never automatically resent.
+
+## Local state and execution bounds
+
+Committed defaults live in `packages/core/src/bundled.ts` and `workbench.config.json`. Imports/removal records merge from ignored `workbench.config.local.json`. Exclusive locks serialize edits; atomic temporary-file rename protects the registry; refresh checks its expected prior revision. Plans, journals and caches live in ignored `.workbench/`.
+
+Type-tree caches are bounded. Identical ordinary concurrent reads deduplicate; a semaphore bounds RPC work and each request has a timeout. Browser, assistant and MCP cancellation reaches core execution. Independently cancellable callers use separate requests so abandoning one does not abort another caller. Receipt polling stops at a configured budget.
+
+## Optional assistant and portable agents
+
+The assistant sees only the selected contract's tools and uses bounded execution. Its tool schemas come from core. Fixed components render actual results, plans and errors; metadata cannot inject executable UI. Provider keys stay on the server. OpenAI, Anthropic and Gemini adapters share this contract, with live acceptance tracked per provider.
+
+The portable skill tells agents to discover and inspect current schemas before typed execution. Exported catalogs are snapshots, not a second source of truth. MCP dynamically updates registrations after imports/refreshes and emits tool-list changes; clients that cache schemas may need to reconnect. [Agent guide](AGENTS.md).
+
+## Local runtime and public preview
+
+The full template is a local single-owner application. Vercel's public preview exposes committed bundled catalogs, reads, unsigned simulation and skill instructions. It rejects registry changes, saved plans/journals, protocol preparation and chat before dispatch. It does not use a shared writable temporary registry. [Hosting boundary](HOSTING.md).
+
+Build order is shared libraries → CLI/MCP adapters → pinned local Solidity compilation → Next.js. Builds require no provider key, wallet, deployment or RPC access. `npm run dev` performs readiness checks, starts library watchers and Next.js, and terminates child processes on shutdown.

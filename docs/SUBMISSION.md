@@ -19,6 +19,18 @@ Checked October 5, 2026. This document describes the source preview and outstand
 
 The [official brief](https://hedera.com/blog/scaffold-hbar-template-bounty/) requires a public MIT repository, a valid root `template.json`, README and AGENTS instructions, successful fresh scaffolding/install/lint/build/boot, a Hedera service integration and a verifiable testnet transaction. It also requests the developer-experience survey and Harness spec/validators if Harness was used.
 
+| Requirement                                                   | Where to verify                                                                                                                      | Status                                   |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
+| Public MIT source and five-workspace monorepo                 | [Repository](https://github.com/Blockchain-Oracle/hedera-contract-workbench), [LICENSE](../LICENSE), [architecture](ARCHITECTURE.md) | Published                                |
+| Template capabilities/defaults                                | [template.json](../template.json)                                                                                                    | Generator exercised                      |
+| Setup README and AI-assisted-use AGENTS                       | [README](../README.md), [root AGENTS](../AGENTS.md), [quickstart](QUICKSTART.md), [agent guide](AGENTS.md)                           | Documented                               |
+| Fresh scaffold, ordinary install, lint, build and boot        | [Dated public-scaffold evidence](evidence/public-scaffold.json)                                                                      | Verified at its recorded source revision |
+| Hedera execution and real ecosystem examples                  | [Support and provenance](SUPPORT.md), [deployed read/simulation checks](evidence/public-preview/checks.json)                         | Reads/simulation verified                |
+| Funded testnet transaction with independent explorer evidence | Confirmed human-approved transaction and public Hashscan/mirror link                                                                 | Outstanding                              |
+| Demo video, survey and declarations                           | Entrant's completed submission materials                                                                                             | Outstanding                              |
+
+Documentation is generated from the same committed Markdown at [the public docs site](https://hedera-contract-workbench.vercel.app/docs). The [interactive demo](https://hedera-contract-workbench.vercel.app/demo) performs actual reads; it is not the required video. The entrant is preparing a new video separately.
+
 The [official schedule](https://hedera.com/scaffold-hbar-template-bounty/) closes submissions on October 4 at 11:59 PM Eastern, which is October 5 at 04:59 in Africa/Lagos. That scheduled deadline has passed. An accessible submission form does not establish that late entries are accepted; no extension has been verified.
 
 ## Outstanding items
@@ -29,4 +41,4 @@ The [official schedule](https://hedera.com/scaffold-hbar-template-bounty/) close
 - Have an unfamiliar developer follow the instructions, finish the developer-experience survey and review any form declarations personally.
 - Verify whether a late submission is accepted before representing it as an eligible entry.
 
-Personal contact details and payout account information belong in the entrant's form, not in this public repository. Never invent a transaction hash, deployed URL, survey response, team member or completion claim. Repository publication does not deploy a hosted service or submit the bounty.
+Personal contact details and payout account information belong in the entrant's form, not in this public repository. Never invent a transaction hash, deployed URL, survey response, team member or completion claim. The repository and read-only Vercel preview are published; the bounty form remains an unsubmitted draft. Publication does not establish transaction acceptance or submission eligibility.

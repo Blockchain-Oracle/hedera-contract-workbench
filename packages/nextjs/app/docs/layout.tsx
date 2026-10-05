@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PublicHeader } from "@/components/public-header";
+import { DocumentationNav } from "@/components/documentation-nav";
 import { documents } from "@/lib/documentation";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,22 +11,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link href="/docs" className="mb-4 block text-sm font-semibold">
             Documentation
           </Link>
-          <nav
-            aria-label="Documentation"
-            className="flex gap-2 overflow-x-auto pb-3 lg:sticky lg:top-8 lg:flex-col lg:overflow-visible"
-          >
-            {documents.map((doc) => (
-              <Link
-                key={doc.slug}
-                href={`/docs/${doc.slug}`}
-                className="shrink-0 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                {doc.title}
-              </Link>
-            ))}
-          </nav>
+          <DocumentationNav
+            documents={documents.map(({ slug, title }) => ({ slug, title }))}
+          />
         </aside>
-        <main className="min-w-0 max-w-[820px]">{children}</main>
+        <main className="min-w-0 max-w-[820px]">
+          {children}
+          <footer className="mt-12 flex flex-wrap gap-x-6 gap-y-3 border-t border-border pt-6 text-sm text-muted-foreground">
+            <a
+              href="https://github.com/Blockchain-Oracle/hedera-contract-workbench"
+              className="hover:text-foreground"
+            >
+              Source on GitHub
+            </a>
+            <Link href="/docs/quickstart" className="hover:text-foreground">
+              Run locally
+            </Link>
+            <Link href="/docs/support" className="hover:text-foreground">
+              Availability and limits
+            </Link>
+          </footer>
+        </main>
       </div>
     </div>
   );

@@ -89,6 +89,9 @@
   font-weight: 600;
   background: var(--muted);
 }
+.wb-document td code {
+  white-space: nowrap;
+}
 .wb-document img {
   width: 100%;
   height: auto;

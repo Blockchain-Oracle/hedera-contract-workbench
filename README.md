@@ -1,110 +1,139 @@
 # Contract Workbench
 
-A local Scaffold HBAR template for **already deployed Hedera EVM contracts**. Import a contract and its ABI once, then use the same typed catalog through browser forms, CLI, MCP, and an optional assistant. The browser wallet signs transactions on testnet and mainnet.
+[![Contract Workbench — your contract, every interface. Typed forms, CLI and agent tools for Hedera.](packages/nextjs/public/brand/readme-banner.svg)](https://hedera-contract-workbench.vercel.app)
 
-**Source preview:** deterministic reads, typed arguments, CLI/MCP and live OpenAI inference have recorded acceptance evidence. A human-controlled funded Hedera transaction, the complete wallet demonstration and the remaining release gates are still pending. See [delivery status](docs/DELIVERY.md) and [submission readiness](docs/SUBMISSION.md).
+**Bring a deployed Hedera EVM contract. Get typed forms, CLI commands and agent tools from its ABI.** Contract Workbench is a Scaffold HBAR template for developers exploring or integrating existing contracts. Import once and use the same validated catalog in the browser, terminal, MCP client or optional AI assistant. Your browser wallet reviews and signs transactions.
 
-[Public preview](https://hedera-contract-workbench.vercel.app) · [Documentation](https://hedera-contract-workbench.vercel.app/docs) · [Interactive demo](https://hedera-contract-workbench.vercel.app/demo)
+[**Try the public preview**](https://hedera-contract-workbench.vercel.app) · [**Run a real read**](https://hedera-contract-workbench.vercel.app/demo) · [**Read the guides**](https://hedera-contract-workbench.vercel.app/docs) · [**Architecture**](docs/ARCHITECTURE.md)
 
-The Vercel preview supports bundled reads and unsigned simulation. Import, optional chat and wallet transactions run in your local template; this public deployment does not share a writable developer registry. [Hosting boundary and setup](docs/HOSTING.md).
+The full template runs locally. The public preview offers bundled **reads and unsigned simulation** on testnet and mainnet; contract import, persistent state, optional chat and wallet transactions run in your own workspace. No wallet or API key is needed for your first read.
 
-![Contract Studio](docs/evidence/refero-contract-studio/functions-desktop-light.png)
+## Find your way
 
-## Quickstart
+| What you want to do                                                | Start here                                                                       |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| Run the app and read your first function                           | [Quickstart](docs/QUICKSTART.md)                                                 |
+| Connect another deployed contract                                  | [Import walkthrough](docs/QUICKSTART.md#bring-another-deployed-contract)         |
+| Run typed commands or automate a workflow                          | [CLI and JSON protocol](docs/CLI.md)                                             |
+| Give Codex, Claude Code, Cursor or an MCP client the current tools | [Agents and MCP](docs/AGENTS.md) · [project instructions](AGENTS.md)             |
+| Configure your wallet, provider or RPC                             | [Configuration and recovery](docs/CONFIGURATION.md)                              |
+| Understand supported types, networks and examples                  | [Support and ABI provenance](docs/SUPPORT.md)                                    |
+| Review recorded checks and remaining release gates                 | [Delivery record](docs/DELIVERY.md) · [submission readiness](docs/SUBMISSION.md) |
 
-Use Node 24 LTS and npm 10.9.3 (the pinned package manager). If your Node installation includes another npm version, use `npx --yes npm@10.9.3 install` for the installation step below. No wallet, secrets, or contract deployment are needed for the bundled testnet read.
+## Run your own workbench
+
+Use **Node 24 LTS**, **npm 10.9.3** and Git. Configure your own Git name and email before using the Scaffold HBAR generator. This command creates a complete project from the public template:
+
+```sh
+npx --yes create-scaffold-hbar@0.4.1 my-workbench --template Blockchain-Oracle/hedera-contract-workbench --frontend nextjs-app --solidity-framework hardhat --network testnet --package-manager npm --yes --skip-hedera-skills --skip-install
+cd my-workbench
+npx --yes npm@10.9.3 ci
+npm run dev
+```
+
+The generator is pinned to the version we verified. `--skip-hedera-skills` skips its separate marketplace installation; this template already includes its own portable contract skill. `--skip-install` lets you use ordinary pinned npm dependency resolution. The generator currently rewrites package-manager metadata to npm 10.0.0; the tested installation above uses 10.9.3.
+
+Prefer to clone the source directly?
 
 ```sh
 git clone https://github.com/Blockchain-Oracle/hedera-contract-workbench.git
 cd hedera-contract-workbench
-npm install
+npx --yes npm@10.9.3 ci
 npm run dev
 ```
 
-Open **http://127.0.0.1:3000** for the product home, then choose **Try the testnet example**. In `/workbench`, select `factory()` in the bundled testnet router and click **Run function**. Public RPC availability can affect reads; `doctor` reports endpoint failures.
+Open **http://127.0.0.1:3000**, choose **Try the testnet example**, select **factory()** and choose **Run function**. You should see an address returned by the actual testnet router. No contract deployment or environment file is required. If an endpoint is unavailable, run `npm run --silent workbench -- doctor --json` and follow its recovery message.
 
-The technical template identifier is `Blockchain-Oracle/hedera-contract-workbench`. Publication and fresh public-template verification are recorded separately in [the delivery tracker](docs/DELIVERY.md). No similarly named npm package is required.
+![The actual Contract Studio function workspace with arguments and results side by side](docs/evidence/refero-contract-studio/functions-desktop-light.png)
 
-The official generator can also create a new project from the public template:
+## Bring your contract
 
-```sh
-npx --yes create-scaffold-hbar@0.4.1 my-workbench --template Blockchain-Oracle/hedera-contract-workbench --frontend nextjs-app --solidity-framework hardhat --network testnet --package-manager npm --yes --skip-hedera-skills
-cd my-workbench
-npm run dev
-```
+Choose **Import contract** in your local app, select its deployment network, then enter its EVM address or Hedera contract ID. The importer tries verified ABI discovery through Sourcify. If discovery cannot supply an ABI, upload an ABI array or a Solidity artifact containing `abi`. Imports persist locally and survive restart.
 
-`--skip-hedera-skills` skips the generator's separate Hedera marketplace installation. This template's portable contract skill is included in the source; install it using the commands below when needed.
+Importing connects an existing deployment; it does not deploy source or move a contract between networks. A governance, NFT or DeFi ABI uses the same engine and interface. Its own functions replace the selected catalog; there is no contract categorization or permanent Swap screen.
 
-The home uses Hedera’s black, violet and azure palette with the official network logo shown separately from the product identity. A live catalog preview offers browser reads, current CLI commands and agent setup; optional chat remains below it. The workspace uses neutral light/charcoal surfaces, a compact header and contract toolbar, searchable functions and typed forms with a response pane. Accounts opens from the wallet control in the header; actual installed EVM wallets provide connection and signing. Imported supported ABIs inherit the same result cards and review drawers. [Approved design](docs/plans/2026-10-04-hedera-brand-direction.md) · [Rendered acceptance and limits](docs/reviews/2026-10-04-hedera-brand.md).
+Required arguments are validated before RPC. **Find a value** can read a compatible getter from that contract and let you apply an actual result. Check its meaning and units: a count does not enumerate valid IDs, and an address type does not identify an intended recipient. When no suitable getter exists, supply the value from an authoritative source. [Supported types and limits](docs/SUPPORT.md).
 
-Ordinary reads work with or without a connected wallet: they omit the caller by default. Expand **Read as another account** only for an intentional caller-scoped read. Connecting MetaMask does not create a Hedera account; that account must exist on the selected network for caller-scoped calls and transactions. [Hedera account creation](https://docs.hedera.com/learn/core-concepts/accounts/auto-account-creation).
+## Use the terminal
 
-Required arguments show inline errors before RPC. Nested tuples, array elements and integer bounds use the same validator as core execution. **Find a value** offers compatible getters from the selected ABI, reads only the chosen getter, and lets you explicitly apply a validated result with its source path, network and revision. Confirm its meaning and units; a returned count is not a list of existing IDs. Without a suitable getter, provide the value from an authoritative source. ABI types alone cannot infer recipients, routes or permissions.
-
-## Import your contract
-
-Use **Import contract** in the browser: select its deployment network and enter its EVM address or Hedera contract ID. Verified ABI discovery uses Sourcify. If no verified ABI is available, upload an ABI array or a Solidity artifact containing `abi`. Imports persist in `workbench.config.local.json`, outside version control. Importing does not deploy or copy a contract to another network.
+The CLI builds its runtime on first use. Human mode offers readable summaries; `--json` never prompts and emits one versioned envelope. These commands run the bundled testnet example:
 
 ```sh
-npm run --silent workbench -- contracts import --network testnet --address 0.0.19264 --abi docs/examples/router.abi.json --name 'My router'
 npm run --silent workbench -- contracts list --json
+npm run --silent workbench -- tools list --contract saucerswap-testnet --json
+npm run --silent workbench -- tools inspect read_factory_c5d171ab56a811f2 --json
+printf '{}' | npm run --silent workbench -- tools call read_factory_c5d171ab56a811f2 --args-file - --json
 ```
 
-## Use the CLI
+For other contracts, discover their actual tool IDs and inspect the current schema before calling. Full signatures distinguish overloads. All ABI integers are **decimal strings** in JSON; native `--value-hbar` is separate from arguments and accepts up to eight fractional digits. [Complete command reference](docs/CLI.md).
 
-The first CLI run builds the shared runtime if needed. Human output uses restrained colors and guided import prompts in an interactive terminal. Automation never prompts with `--json`; use `--yes` for removal.
+## Connect an agent
+
+Install the included portable skill with the official Vercel skills CLI. Run this in the project where your agent will use it:
 
 ```sh
-npm run --silent workbench -- doctor --json
-npm run --silent workbench -- tools list --contract saucerswap-testnet --json
-npm run --silent workbench -- tools inspect TOOL_ID --json
-printf '{}' | npm run --silent workbench -- tools call TOOL_ID --args-file - --json
+npx --yes skills@1.7.0 add Blockchain-Oracle/hedera-contract-workbench --skill hedera-contract-workbench --agent codex claude-code cursor --copy --yes
 ```
 
-Discover actual tool IDs; do not copy placeholder IDs. Full signatures distinguish overloads. ABI integers are **decimal strings** across JSON, tuples are objects with the advertised keys, and arrays retain their order. Native `--value-hbar` is separate from ABI integer arguments and permits 8 decimal places.
+For a local checkout, replace the GitHub source with `./skills/hedera-contract-workbench`. Open **Agent access** to read or download the Markdown, inspect typed argument examples and copy current commands. The skill always follows **discover → inspect → construct arguments → read or prepare → report or open wallet review**. A different contract changes the catalog, not the skill.
 
-CLI, MCP, and chat simulate and prepare unsigned plans. They do not hold signing keys or send transactions. A preparation result includes a wallet-review URL. Keep `npm run dev` running, open that URL, connect the specified account on the specified chain, and approve the exact transaction in your wallet. Plans expire after five minutes.
+```sh
+npm run --silent workbench -- skills show --contract saucerswap-testnet --json
+npm run --silent workbench -- mcp config --json
+```
 
-[CLI and machine protocol](docs/CLI.md) · [MCP and skill setup](docs/AGENTS.md) · [Architecture](docs/ARCHITECTURE.md)
+Copy the generated MCP host configuration into your client; it uses a dedicated stdio server with protocol-only stdout. CLI and MCP need no model key. [Agent installation, exports and host setup](docs/AGENTS.md).
 
-## Wallet transactions and protocol adapters
+## Review and sign a transaction
 
-Use an injected **EVM** wallet configured for Hedera testnet (296) or mainnet (295). The app can request a network switch. Both networks support reads, simulation, and wallet-approved transactions; testnet is selected by default.
+Use an injected EVM wallet, such as MetaMask, on **Hedera testnet (296)** or **mainnet (295)**. Testnet is the default. Ordinary reads omit a caller and work without a wallet; choose an explicit caller only for caller-scoped state.
 
-The workspace stays generic: there is no permanent Swap tab. A selected router exposes its swap functions from its ABI; another contract exposes its own functions. Read/Write list pills and transaction-file upload are removed. CLI, MCP and assistant preparations still open an exact wallet review at `/workbench?plan=…`; older root review links redirect there.
+Connecting MetaMask does not create a Hedera account. Caller-specific simulation and transactions need an existing account on the selected network, funding and any contract-specific prerequisites. [Wallet setup and sender errors](docs/CONFIGURATION.md#connect-a-wallet).
 
-SaucerSwap remains a bundled ABI example and an optional core/CLI protocol adapter, including quote, explicit slippage/deadline and caller-scoped HRC-719 association checks. These adapters do not add a swap interface to unrelated contracts. The router handles the native HBAR path. [SaucerSwap advisory](https://docs.saucerswap.finance/developers/whbar/overview), [HRC-719](https://github.com/hiero-ledger/hiero-improvement-proposals/blob/main/HIP/hip-719.md).
+CLI, MCP and assistant writes return an **unsigned plan** and a wallet-review URL. Keep the local app running, open that URL and review the chain, account, function, arguments and native value. Core recomputes and simulates the exact transaction before wallet approval. Plans expire after five minutes; account, network or input changes require renewed review.
 
-A returned transaction hash is saved immediately in browser recovery storage and the workspace journal. Receipt status and mirror indexing are separate. Pending status or a timeout never triggers automatic resubmission.
+The returned hash is saved immediately for receipt recovery. Pending confirmation and mirror indexing lag are different states; neither triggers automatic resubmission. [Transaction recovery](docs/CONFIGURATION.md#recover-from-errors).
 
 ## Optional assistant
 
-The home and workspace share a real contract-scoped composer. Without configuration it is disabled and offers provider-specific setup instructions. Copy `packages/nextjs/.env.example` to `.env.local` in that directory. Configure OpenAI, Anthropic or Gemini plus an explicit compatible model ID, then restart. Credentials remain server-side. Provider errors leave deterministic functions available. The assistant uses a fixed set of result components; model-generated code is never executed. Audio is excluded at the user's request.
+Configure **OpenAI, Anthropic or Gemini** with an explicit compatible model ID in ignored `packages/nextjs/.env.local`. The assistant is scoped to the selected contract and calls the same validated core tools. It displays fixed result, simulation and transaction cards; model-generated code never becomes executable UI. Provider failure leaves deterministic functions available. [Provider configuration](docs/CONFIGURATION.md#enable-the-assistant).
 
-## Give your agent the current contract tools
+## How the parts connect
 
-The same portable skill works after importing a different ABI. It discovers current schemas rather than hardcoding token functions. Install with the official Vercel skills CLI:
+[![A deployed contract and ABI feed one typed core, which serves browser forms and chat, CLI commands and MCP tools](packages/nextjs/public/brand/architecture.svg)](docs/ARCHITECTURE.md)
+
+ABI normalization and schema generation are deterministic. Core owns validation, network context, unit conversion, RPC execution, registry revisions and transaction-plan integrity. Browser, CLI, MCP and assistant adapters all use that dispatcher. Signing stays in the browser wallet.
+
+Hedera JSON-RPC and matching-network mirror metadata provide execution and identity resolution. Sourcify provides verified ABI discovery when available. SaucerSwap V1 supplies useful deployed examples on both networks and an optional core protocol adapter; it does not add swap behavior to unrelated contracts. [Integration details and ABI sources](docs/SUPPORT.md).
+
+| Path                                                                 | Responsibility                                                                        |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| [packages/core](packages/core)                                       | ABI trees, schemas, registry, reads, simulation, unsigned plans and protocol adapters |
+| [packages/cli](packages/cli)                                         | Guided commands, machine output and agent handoff                                     |
+| [packages/mcp](packages/mcp)                                         | Dynamic tools and local stdio transport                                               |
+| [packages/nextjs](packages/nextjs)                                   | Forms, optional chat, wallet review, documentation and demo                           |
+| [packages/hardhat](packages/hardhat)                                 | Original Solidity example and optional maintainer tasks                               |
+| [skills/hedera-contract-workbench](skills/hedera-contract-workbench) | Portable skill and argument/protocol references                                       |
+
+## Develop and verify
 
 ```sh
-npx --yes skills@1.7.0 add ./skills/hedera-contract-workbench --agent codex claude-code cursor --copy --yes
-npm run --silent workbench -- skills show --contract CONTRACT_ID --json
-npm run --silent workbench -- skills export --contract CONTRACT_ID --json
-```
-
-In the browser, open **Agent access** for the selected contract to read/download SKILL.md, copy a local installation command, inspect schemas and edit argument examples. Selecting another contract reloads its current tools. Use an actual contract alias from `contracts list`. `show` provides Markdown, typed argument examples and copyable commands. `export` bundles the portable skill with its current catalog and workspace location for another agent/project. Inspect again before execution and fill intended arguments. [Local installation and agent setup](docs/AGENTS.md).
-
-## Development
-
-```sh
-npm run build        # core → CLI/MCP → local Solidity compile → Next
 npm run lint
 npm run typecheck
 npm test
-npm run format
+npm run build
+npm run verify:local
+npm run verify:hosting
 ```
 
-Solidity compilation uses the pinned local solc package and needs no compiler download. The original `Observation.sol` example demonstrates tuple arguments/results, overloads, custom errors, and caller-scoped writes. Its optional maintainer deployment is documented separately; first launch uses existing protocol deployments.
+Builds use a pinned local Solidity compiler and require no wallet, RPC access or provider credentials. `verify:local` exercises actual CLI subprocesses and MCP equivalence against an isolated EVM; it does not submit a Hedera transaction. [Contributor and AI instructions](AGENTS.md) · [Architecture](docs/ARCHITECTURE.md) · [Optional hosting](docs/HOSTING.md).
 
-[Configuration and troubleshooting](docs/CONFIGURATION.md) · [ABI provenance and support matrix](docs/SUPPORT.md) · [Optional hosting](docs/HOSTING.md) · [Evidence and release checklist](docs/DELIVERY.md)
+## Availability and evidence
 
-MIT licensed. Scaffold HBAR conventions and compatible UI primitives are retained. Third-party source attribution is listed in [NOTICE](NOTICE.md).
+This is a **source preview** with fresh public-scaffold installation, build and boot evidence; typed ABI and CLI/MCP checks; real testnet/mainnet reads; live OpenAI inference; and desktop/phone inspection. A human-controlled funded Hedera transaction, complete wallet acceptance and the current video remain outstanding. An interactive `/demo` is not the required video or transaction evidence.
+
+[Public scaffold checks](docs/evidence/public-scaffold.json) · [Hosted preview checks](docs/evidence/public-preview/checks.json) · [Full delivery record](docs/DELIVERY.md) · [Release checklist](docs/SUBMISSION.md).
+
+Voice, remote MCP, hosted multi-user persistence, arbitrary source deployment and event indexing are outside this release. Mainnet transactions are supported locally, with explicit wallet approval; no automated real-fund acceptance is claimed.
+
+Maintained by **Abubakr Jimoh**. [MIT licensed](LICENSE); [third-party notices](NOTICE.md) identify assets with separate terms.
